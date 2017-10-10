@@ -1,0 +1,48 @@
+1.Gitのインストール
+
+・Git-2.14.1-32-bit.exeを実行しインストール
+(特別設定変更せずそのままインストール)
+
+2.TortoiseGitのインストール
+・TortoiseGit-2.5.0.0-32bit.msiを実行しインストール
+(特別設定変更せずそのままインストール)
+・First Start Wizardの所まできたら一端そのままにする。
+
+3.TortoiseGit日本語化
+・TortoiseGit-LanguagePack-2.5.0.0-32bit-ja.msiを実行しインストール
+(特別設定変更せずそのままインストール)
+
+4.TortoiseGit日本語化設定、暗号化設定
+・2.の続きを再開。
+⇒First Start Wizardの「Refresh」をクリック
+⇒日本語(日本)を選択 ⇒
+・ユーザー情報設定を設定
+⇒名前・メールを設定 ⇒
+・認証/資格情報ストアで暗号化鍵設定
+⇒Puttyで公開鍵・秘密鍵を作成をクリック
+⇒Generateをクリック後、マウスを動かし続ける
+⇒passphraseを設定(確認も入力)
+⇒save private keyを保存(TortoiseGitのフォルダでよい)
+⇒save public keyを保存(TortoiseGitのフォルダでよい)
+⇒終了(閉じる)
+
+
+
+
+=========================
+userID:
+java201710
+
+e-mail:
+wt@email.plala.or.jp
+
+password:
+java2017
+
+repository:
+java
+
+URL:
+https://github.com/java201710/java.git
+
+
