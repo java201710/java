@@ -2,7 +2,11 @@
 <%@ page import="model.User" %>
 <%@ page import="java.util.ArrayList" %>
 <%
+@SuppressWarnings("unchecked")
 ArrayList<User> userList = (ArrayList<User>) application.getAttribute("userList");
+// 直接呼ばれたら以下の処理がいる
+//if (userList == null)
+	//userList = new ArrayList<User>();
 %>
 <!DOCTYPE html>
 <html>

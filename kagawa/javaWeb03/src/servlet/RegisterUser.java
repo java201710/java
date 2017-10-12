@@ -17,6 +17,7 @@ import model.User;
 import model.UserListLogic;
 
 @WebServlet("/RegisterUser")
+@SuppressWarnings("unchecked")
 public class RegisterUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -54,12 +55,17 @@ public class RegisterUser extends HttpServlet {
 			//もし既存のuserListがなければ作成
 			if (userList == null)
 				userList = new ArrayList<User>();
+			//登録ユーザがあればuserListに追加
+			if (registerUser != null)
+				userList.add(registerUser);
+
 			//登録ユーザを追加したuserListをアプリケーションスコープに保存
-			userList.add(registerUser);
 			application.setAttribute("userList", userList);
 
 			// 不要となったセッションスコープ内のインスタンスを削除
 			session.removeAttribute("registerUser");
+			// 以下もいるかも
+			session.removeAttribute("isIDDuplication");
 
 			// 登録後のフォワード先を設定
 			forwardPath = "/WEB-INF/jsp/registerDone.jsp";
@@ -81,19 +87,43 @@ public class RegisterUser extends HttpServlet {
 		String name = request.getParameter("name");
 		String pass = request.getParameter("pass");
 
+		// フォワード先
+		String forwardPath = "/WEB-INF/jsp/registerConfirm.jsp";
+		// 登録するログインIDが既存のIDと重複しているかどうか
+		Boolean isIDDuplication = false;
+
+		if (id.equals("") || name.equals("") || pass.equals(""))
+			forwardPath = "/WEB-INF/jsp/registerError.jsp";
+		else {
+			// アプリケーションスコープを作成
+			ServletContext application = this.getServletContext();
+			// 既存のuserListを取得
+			ArrayList<User> userList = (ArrayList<User>) application.getAttribute("userList");
+			if (userList != null) {
+				// 既存のuserListのIDと同じであればエラー画面を返す
+				for (User user : userList) {
+					if (id.equals(user.getId())) {
+						forwardPath = "/WEB-INF/jsp/registerError.jsp";
+						isIDDuplication = true;
+						break;
+					}
+				}
+			}
+		}
+
 		// 登録するユーザーの情報を設定
 		//		User registerUser = new User(id, name, pass);
 		UserListLogic logic = new UserListLogic();
 		User registerUser = logic.add(id, name, pass);
 
-		// セッションスコープに登録ユーザーを保存
+		// セッションスコープに登録ユーザーとエラー種類を保存
 		HttpSession session = request.getSession();
 		session.setAttribute("registerUser", registerUser);
+		session.setAttribute("isIDDuplication", isIDDuplication);
 
 		// フォワード
 		RequestDispatcher dispatcher =
-				request.getRequestDispatcher
-						("/WEB-INF/jsp/registerConfirm.jsp");
+				request.getRequestDispatcher(forwardPath);
 		dispatcher.forward(request, response);
 	}
 }
