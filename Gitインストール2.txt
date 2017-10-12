@@ -46,3 +46,12 @@ URL:
 https://github.com/java201710/java.git
 
 
+
+
+.git/config
+ 
+[remote "origin"]
+  url = https://java201710:java2017@github.com/java201710/java.git
+
+
+
