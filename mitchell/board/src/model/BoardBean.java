@@ -5,13 +5,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BoardBean {
+	
+	//変数の宣言と初期値(Set variables)。
 	private int id;
-	private String name;
-	private String email;
-	private String comment;
-	private String dateTime;
+	private String name, email, comment, 
+		dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
 
+	//コンストラクタ(Constructors)
 	public BoardBean() {
+		this(-1, "", "", "");
 	}
 
 	public BoardBean(int id, String name, String email, String comment) {
@@ -29,12 +31,9 @@ public class BoardBean {
 			setEmail(email);
 		}
 		setComment(comment);
-
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		setDateTime(df.format(new Date(System.currentTimeMillis())));
-
 	}
 
+	// 「getter」と「setter」のメソッド(Getter and setter methods)。
 	public int getId() {
 		return id;
 	}
@@ -74,5 +73,4 @@ public class BoardBean {
 	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
 	}
-
 }
