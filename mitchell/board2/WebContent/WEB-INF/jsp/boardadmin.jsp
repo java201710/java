@@ -3,10 +3,12 @@
 
     <%@ page import="java.util.ArrayList"%>
     <%@ page import="model.BoardBean"%>
+     <%@ page import="model.BoardLogic"%>
 
     <%
 	ArrayList<BoardBean> boardList = (ArrayList<BoardBean>) application.getAttribute("boardList");
 	ArrayList<String> message = (ArrayList<String>) request.getAttribute("message");
+	BoardLogic bLogic = new BoardLogic();
 %>
 <!DOCTYPE html>
 <html>
@@ -24,11 +26,31 @@
 	</table>
 	<% } %>
 <a href="/board2/BoardDo">Return</a>
+<!-- Removed 17/10/16
 <form action="/board2/BoardDo" method="post">
 	管理者用:<input type="text" name="delid"><br>
 	<input type="hidden" name="action" value="del">
 	<input type="submit" value="送信">
 	</form>
+ -->
+ <% if (boardList != null) { %>
+<form action="/board2/BoardDo" method="post">
+ <%= bLogic.selectBox(boardList) %>
+
+
+ <!--  Moved to BoardLogic.java
+ <select name="delid">
+
+ 			<% for (BoardBean bBean : boardList) {%>
+ 			<option value = <%= bBean.getId() %> >No.<%= bBean.getId() %></option>
+ 		<% } %>
+
+</select>
+-->
+<input type="hidden" name="action" value="del">
+	<input type="submit" value="送信">
+	</form>
+<% } %>
 
 	<% if (boardList != null) {
 		ArrayList<BoardBean> reverseList = new ArrayList<BoardBean>();
@@ -36,6 +58,9 @@
 			reverseList.add(boardList.get(i));
 		}
 		%>
+		<%= bLogic.show(reverseList) %>
+
+		<!-- Removed as of 2017.10.16
 		<table border="1">
 			<% for (BoardBean bBean : reverseList) { %>
 			<tr><td>
@@ -47,6 +72,7 @@
 			<% } %>
 			</td></tr>
 		</table>
+		-->
 	<% } %>
 </body>
 </html>
