@@ -46,10 +46,13 @@ public class BoardDo extends HttpServlet {
 
 		/*
 		 * クリックしたボタンに応じて以下のステップを行う。 ２０１７年１０月１３日までに、３つのボタンがあて、各の値は：
-		 * 	(Identify which button was pressed. As of 2017/10/13, 3 buttons total with action values:)
-		 * 		"add" → 新しオブジェクトを作って、アプリケーションスコープの「boardList」にオブジェクトを入れる(Create a new member in application scope 'boardList')。
+		 * 	(Identify which button was pressed. As of 2017/10/16, 4 buttons total with action values:)
+		 * 		"add" → 新しオブジェクトを作って、アプリケーションスコープの「boardList」にオブジェクトを入れる(Create a new member in application 
+		 * 			scope 'boardList')。
 		 * 		"admin" → 掲示板管理画面のアドレスを渡す(Transfer to admin page)。
 		 * 		"del" → アプリケーションスコープの「boardList」から一つのオブジェクトを消す(Remove member from application scope 'boardList')。
+		 * 		"search" →　リクエストスコープに「name」と「comment」を設定して、掲示板メインの画面を示す(Re-open page with requestscope variables 
+		 * 			'name' and 'comment')。
 		 */
 		if (request.getParameter("action").equals("add")) {
 			// 変数の宣言と初期値(Set variables)。
@@ -94,11 +97,6 @@ public class BoardDo extends HttpServlet {
 			request.setAttribute("message", msg);
 			forwardPath = "/WEB-INF/jsp/boardadmin.jsp";
 		} else if (request.getParameter("action").equals("search")) {
-			System.out.println("hmm");
-
-
-
-			//Update For Request box 17/10/16
 			request.setAttribute("name", request.getParameter("name"));
 			request.setAttribute("comment", request.getParameter("comment"));
 			forwardPath = "/WEB-INF/jsp/boardMain.jsp";

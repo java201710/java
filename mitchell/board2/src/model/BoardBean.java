@@ -14,18 +14,8 @@ public class BoardBean {
 
 	public BoardBean(int id, String name, String email, String comment, String dateTime) {
 		setId(id);
-
-		//if (name.equals("")) {
-		//	setName("ゲスト");
-		//} else {
-			setName(name);
-		//}
-
-		//if (email.equals("")) {
-			//setEmail("なし");
-//		} else {
-			setEmail(email);
-//		}
+		setName(name);
+		setEmail(email);
 		setComment(comment);
 	}
 
