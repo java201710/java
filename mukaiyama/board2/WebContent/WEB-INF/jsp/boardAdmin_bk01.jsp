@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="model.BoardBean" %>
-<%@ page import="model.BoardLogic" %>
 <%@ page import="java.util.ArrayList" %>
 <%
 ArrayList<BoardBean> boardList = (ArrayList<BoardBean>)application.getAttribute("boardList");
@@ -11,7 +10,6 @@ ArrayList<String> message = (ArrayList<String>)request.getAttribute("message");
 if(message==null){
 	message = new ArrayList<String>();
 }
-BoardLogic boardLogic = new BoardLogic();
 %>
 <!DOCTYPE html>
 <html>
@@ -32,12 +30,21 @@ for(String msg:message){
 <div align="right"><a href="/board2/BoardDo">掲示板メインへ戻る</a></div>
 <hr/>
 <form action="/board2/BoardDo" method="post">
-投稿削除№：
-<%=boardLogic.selectBox(boardList) %>
+投稿削除№：<input type="text" name="delid">
 <input type="submit" value="送信">
 <input type="hidden" name="action" value="del">
 </form>
 <hr/>
-<%= boardLogic.show(boardList) %>
+<%
+for(int i=boardList.size()-1; i>=0; i--){
+	BoardBean b = boardList.get(i);
+	%>
+	<p>No.<%=b.getId() %>:<%=b.getName() %>  E-Mail:<%=b.getEmail() %></p>
+	<p>投稿日時:<%=b.getDateTime() %></p>
+	<p>コメント:<%=b.getComment() %></p>
+	<hr/>
+	<%
+}
+%>
 </body>
 </html>

@@ -125,6 +125,9 @@ public class BoardDo extends HttpServlet {
 			//送信ボタン（掲示板管理）用
 			// リクエストパラメータの取得
 			String delid = request.getParameter("delid");
+			if(delid == null){
+				delid = "";
+			}
 
 			//アプリケーションスコープに保存されている情報を取得
 			ServletContext application = this.getServletContext();

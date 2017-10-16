@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="model.BoardBean" %>
 <%@ page import="model.BoardLogic" %>
+<%@ page import="java.util.ArrayList" %>
 <%
 ArrayList<BoardBean> boardList = (ArrayList<BoardBean>)application.getAttribute("boardList");
 if(boardList==null){
@@ -17,10 +17,10 @@ BoardLogic boardLogic = new BoardLogic();
 <html>
 <head>
 <meta charset="UTF-8">
-<title>掲示板メイン</title>
+<title>ユーザー登録</title>
 </head>
 <body>
-<div align="center"><h1>掲示板メイン</h1>
+<div align="center"><h1>掲示板管理</h1>
 <%
 for(String msg:message){
 	%>
@@ -29,24 +29,14 @@ for(String msg:message){
 }
 %>
 </div>
+<div align="right"><a href="/board2/BoardDo">掲示板メインへ戻る</a></div>
 <hr/>
-<p>新規投稿</p>
 <form action="/board2/BoardDo" method="post">
-名前：<input type="text" name="name"><br>
-E-Mail：<input type="text" name="email"><br>
-コメント：<br>
-<textarea name="comment" rows="4" cols="40"></textarea><br>
-<input type="submit" value="新規投稿">
-<input type="hidden" name="action" value="add">
+投稿削除№：<input type="text" name="delid">
+<input type="submit" value="送信">
+<input type="hidden" name="action" value="del">
 </form>
 <hr/>
 <%= boardLogic.show(boardList) %>
-<div align="center">
-<form action="/board2/BoardDo" method="post">
-管理者用：<input type="password" name="adminpass">
-<input type="submit" value="送信">
-<input type="hidden" name="action" value="admin">
-</form>
-</div>
 </body>
 </html>
