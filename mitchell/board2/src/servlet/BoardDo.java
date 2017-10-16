@@ -64,7 +64,7 @@ public class BoardDo extends HttpServlet {
 			}
 
 			// 新しいオブジェクトを作って、オブジェクトの内容を確認する(Create a new object, and check the values of the object)。
-			bBean = new BoardBean(finalId + 1, name, email, comment);
+			bBean = new BoardBean(finalId + 1, name, email, comment, "");
 			msg = bLogic.add(bBean);
 			if (msg.get(0).indexOf("投稿") != -1) {
 				// 成功の場合(If successful)。
@@ -79,7 +79,7 @@ public class BoardDo extends HttpServlet {
 			String adminPass = request.getParameter("adminpass");
 
 			msg = bLogic.admin(adminPass);
-			if (msg.size() == 0) {
+			if (msg.get(0).equals("")) {
 				// 成功の場合(If successful)。
 				forwardPath = "/WEB-INF/jsp/boardadmin.jsp";
 			} else {
@@ -93,6 +93,15 @@ public class BoardDo extends HttpServlet {
 			msg = bLogic.del(delId, boardList);
 			request.setAttribute("message", msg);
 			forwardPath = "/WEB-INF/jsp/boardadmin.jsp";
+		} else if (request.getParameter("action").equals("search")) {
+			System.out.println("hmm");
+
+
+
+			//Update For Request box 17/10/16
+			request.setAttribute("name", request.getParameter("name"));
+			request.setAttribute("comment", request.getParameter("comment"));
+			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
 		}
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(forwardPath);

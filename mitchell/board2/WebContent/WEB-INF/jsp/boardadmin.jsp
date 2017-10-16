@@ -37,7 +37,6 @@
 <form action="/board2/BoardDo" method="post">
  <%= bLogic.selectBox(boardList) %>
 
-
  <!--  Moved to BoardLogic.java
  <select name="delid">
 
@@ -53,16 +52,12 @@
 <% } %>
 
 	<% if (boardList != null) {
-		ArrayList<BoardBean> reverseList = new ArrayList<BoardBean>();
-		for (int i = boardList.size()-1;i > -1; i--) {
-			reverseList.add(boardList.get(i));
-		}
 		%>
-		<%= bLogic.show(reverseList) %>
+		<%= bLogic.show(boardList) %>
 
 		<!-- Removed as of 2017.10.16
 		<table border="1">
-			<% for (BoardBean bBean : reverseList) { %>
+			<% for (BoardBean bBean : boardList) { %>
 			<tr><td>
 			<table>
 			<tr><td>No.<%= bBean.getId() %>：</td><td><%= bBean.getName() %></td><td>E-Mail：<%= bBean.getEmail() %></td></tr>

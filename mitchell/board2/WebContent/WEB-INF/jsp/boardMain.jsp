@@ -6,12 +6,25 @@
 <%
 	ArrayList<BoardBean> boardList = (ArrayList<BoardBean>) application.getAttribute("boardList");
 	ArrayList<String> message = (ArrayList<String>) request.getAttribute("message");
-	BoardLogic bLogic = new BoardLogic();
+		BoardLogic bLogic = new BoardLogic();
+
+	//Updated for request field 17/10/16
+	String name = (String) request.getAttribute("name");
+	if (name == null) {
+		name = "";
+	}
+	String comment = (String) request.getAttribute("comment");
+	if (comment == null) {
+		comment = "";
+	}
+
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
+
+
 <meta charset="UTF-8">
 <title>掲示板メイン</title>
 </head>
@@ -28,23 +41,32 @@
 <form action="/board2/BoardDo" method="post">
 	名前:<input type="text" name="name"><br>
 	E-Mail:<input type="text" name="email"><br>
-	コメント:<textarea rows="4" cols="50" name="comment"></textarea>
-	<!-- <input type="text" name="comment"><br>  -->
+	コメント:<textarea rows="4" cols="50" name="comment"></textarea><br>
+	<!-- Removed 17/10/16 replaced by textarea<input type="text" name="comment"><br>  -->
 	<input type="hidden" name="action" value="add">
 	<input type="submit" value="新規投稿">
 	</form>
 
+	<!-- New Request form (17/10/16) -->
+	<hr>
+	<form action="/board2/BoardDo" method="post">
+	名前:<input type="text" name="name"><br>
+	コメント:<textarea rows="4" cols="50" name="comment"></textarea><br>
+	<input type="hidden" name="action" value="search">
+	<input type="submit" value="検索">
+	</form>
+
 	<% if (boardList != null) {
-		ArrayList<BoardBean> reverseList = new ArrayList<BoardBean>();
-		for (int i = boardList.size()-1;i > -1; i--) {
-			reverseList.add(boardList.get(i));
-		}
 		%>
-		<%= bLogic.show(reverseList) %>
+
+		<!-- Edited to incorporate the new search feater 17/10/16
+		<%= bLogic.show(boardList) %>
+		-->
+		<%= bLogic.show(bLogic.search(name, comment, boardList)) %>
 
 		<!-- Removed as of 2017.10.16
 		<table border="1">
-			<% for (BoardBean bBean : reverseList) { %>
+			<% for (BoardBean bBean : boardList) { %>
 			<tr><td>
 			<table>
 			<tr><td>No.<%= bBean.getId() %>：</td><td><%= bBean.getName() %></td></tr>

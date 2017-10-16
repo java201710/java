@@ -1,6 +1,8 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BoardLogic {
 
@@ -13,8 +15,20 @@ public class BoardLogic {
 	}
 
 	//以下のメソッドは引数の値を確認する(The following methods confirm the contents of the variable passed)。
+	//Update 17/10/16 Put the date time in here.
 	public ArrayList<String> add(BoardBean bBean) {
+		if (bBean.getName().equals("")) {
+			bBean.setName("ゲスト");
+		}
+		if (bBean.getEmail().equals("")) {
+			bBean.setEmail("なし");
+		}
+
+
 		if (!bBean.getComment().equals("")) {
+			bBean.setComment(Common.sanitizing(bBean.getComment()));
+			String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+			bBean.setDateTime(dateTime);
 			msg.add("投稿しました。");
 		} else {
 			msg.add("コメントを入力してください。");
@@ -25,6 +39,8 @@ public class BoardLogic {
 	public ArrayList<String> admin(String adminPass) {
 		if (!adminPass.equals(this.adminPass)) {
 			msg.add("パスワードが違います。");
+		} else {
+			msg.add("");
 		}
 		return msg;
 	}
@@ -61,15 +77,20 @@ public class BoardLogic {
 		StringBuilder output = new StringBuilder();
 		String editedOutput;
 
+		ArrayList<BoardBean> reverseList = new ArrayList<BoardBean>();
+		for (int i = boardList.size()-1;i > -1; i--) {
+			reverseList.add(boardList.get(i));
+		}
+
 		output.append("<table width=100% border=\"0\">");
-		for (BoardBean bBean : boardList) {
+		for (BoardBean bBean : reverseList) {
 			output.append("<tr><td>");
 			output.append("<table width=100% border=\"0\">");
 
-			output.append("<tr><td>No." + bBean.getId() + "：" + bBean.getName() + "</td></tr>");
-			output.append("<tr><td>E-Mail：" + bBean.getEmail() + "</td></tr>");
-			output.append("<tr><td></td><td align=\"right\">投稿日時：" + bBean.getDateTime() + " </td></tr>");
-			output.append("<tr><td>コメント：</td><td>" + bBean.getComment() + "</td></tr>");
+			output.append("<tr><td width=1%  nowrap=\"nowrap\">No." + bBean.getId() + "：</td><td>" + bBean.getName() + "</td></tr>");
+			output.append("<tr><td width=1%  nowrap=\"nowrap\">E-Mail：</td><td>" + bBean.getEmail() + "</td></tr>");
+			output.append("<tr><td colspan=2 align=\"right\">投稿日時：" + bBean.getDateTime() + " </td></tr>");
+			output.append("<tr><td width=1%  nowrap=\"nowrap\" valign=\"top\">コメント：</td><td>" + bBean.getComment() + "</td></tr>");
 			output.append("</table>");
 			output.append("<hr>");
 		}
@@ -89,6 +110,29 @@ public class BoardLogic {
 		}
 		output.append("</select>");
 		return output.toString();
+	}
+
+	public ArrayList<BoardBean> search(String name, String comment, ArrayList<BoardBean> boardList) {
+		if (name.equals("") && comment.equals("")) {
+			return boardList;
+		} else {
+			ArrayList<BoardBean> searchList = new ArrayList<BoardBean>();
+
+			if (comment.equals("")) {
+				for (BoardBean bBean : boardList) {
+					if (bBean.getName().equals(name)) {
+						searchList.add(bBean);
+					}
+				}
+			} else {
+				for (BoardBean bBean : boardList) {
+					if (bBean.getComment().indexOf(comment) != -1) {
+						searchList.add(bBean);
+					}
+				}
+			}
+			return searchList;
+		}
 	}
 
 }

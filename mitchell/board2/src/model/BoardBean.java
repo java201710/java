@@ -1,34 +1,31 @@
 package model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class BoardBean {
 
 	//変数の宣言と初期値(Set variables)。
 	private int id;
-	private String name, email, comment,
-		dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+	private String name, email, comment, dateTime;
 
 	//コンストラクタ(Constructors)
 	public BoardBean() {
-		this(-1, "", "", "");
+		this(-1, "", "", "", "");
 	}
 
-	public BoardBean(int id, String name, String email, String comment) {
+	public BoardBean(int id, String name, String email, String comment, String dateTime) {
 		setId(id);
 
-		if (name.equals("")) {
-			setName("ゲスト");
-		} else {
+		//if (name.equals("")) {
+		//	setName("ゲスト");
+		//} else {
 			setName(name);
-		}
+		//}
 
-		if (email.equals("")) {
-			setEmail("なし");
-		} else {
+		//if (email.equals("")) {
+			//setEmail("なし");
+//		} else {
 			setEmail(email);
-		}
+//		}
 		setComment(comment);
 	}
 
