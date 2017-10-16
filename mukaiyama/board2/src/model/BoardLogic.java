@@ -77,6 +77,7 @@ public class BoardLogic {
 
 	//掲示板リスト画面表示用
 	public String show(ArrayList<BoardBean> boardList) {
+		Common c = new Common();
 		StringBuffer buf = new StringBuffer();
 
 		for (int i = boardList.size() - 1; i >= 0; i--) {
@@ -87,16 +88,16 @@ public class BoardLogic {
 			buf.append("<p>No.");
 			buf.append(b.getId());
 			buf.append("：　");
-			buf.append(b.getName());
+			buf.append(c.Sanitize(b.getName()));
 			buf.append("</br>");
 			buf.append("E-Mail：　");
-			buf.append(b.getEmail());
+			buf.append(c.Sanitize(b.getEmail()));
 			buf.append("<br>");
 			buf.append("投稿日時：　");
 			buf.append(b.getDateTime());
 			buf.append("<br>");
 			buf.append("コメント：<br>");
-			buf.append(b.getComment().replaceAll("\n", "<br>"));
+			buf.append(c.Sanitize(b.getComment()).replaceAll("\n", "<br>"));
 			buf.append("</p>");
 			buf.append("<hr/>");
 		}

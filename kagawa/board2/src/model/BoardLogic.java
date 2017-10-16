@@ -63,4 +63,36 @@ public class BoardLogic {
 
 		return messageList;
 	}
+
+	// 画面に表示する掲示板を格納
+	public String show(ArrayList<BoardBean> boardList) {
+
+		String result = "";
+		if (boardList != null) {
+			for (int i = boardList.size() - 1; i >= 0; i--) {
+				result = result
+						+ "-----------------------------------------------------------------------------------------------<br>";
+				result = result + "No." + boardList.get(i).getId() + "：" + boardList.get(i).getName() + "<br>";
+				result = result + "E-Mail：" + boardList.get(i).getEmail() + "<br>";
+				result = result + "投稿日時：" + boardList.get(i).getDateTime() + "<br>";
+				result = result + "コメント：" + boardList.get(i).getComment().replaceAll("\n","<br>") + "<br>";
+			}
+		}
+		return result;
+	}
+
+	// 投稿削除Noの選択肢を格納
+	public String selectBox(ArrayList<BoardBean> boardList) {
+
+		String result = "<select name='delid'>";
+
+		if(boardList != null){
+			for(int i = boardList.size() - 1; i >= 0; i--){
+				result = result + "<option>" + boardList.get(i).getId() + "</option>";
+			}
+		}
+		result = result + "</select>";
+
+		return result;
+	}
 }

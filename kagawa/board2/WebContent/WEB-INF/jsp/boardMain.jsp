@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="model.BoardBean" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="model.BoardLogic" %>
 <%
 @SuppressWarnings("unchecked")
 //既存のboarderListを取得
@@ -8,6 +9,8 @@ ArrayList<BoardBean> boardList = (ArrayList<BoardBean>) application.getAttribute
 @SuppressWarnings("unchecked")
 //messageを取得
 ArrayList<String> messageList = (ArrayList<String>) request.getAttribute("message");
+//ロジッククラスのインスタンス作成
+BoardLogic logic = new BoardLogic();
 %>
 <!DOCTYPE html>
 <html>
@@ -27,25 +30,13 @@ if(messageList != null){
 <p>-----------------------------------------------------------------------------------------------
 <p>新期投稿
 <form action="/board2/BoardDo" method="post">
-<p>　名前：<input type="text" name="name" ><br>
-<p>E-Mail：<input type="text" name="email" ><br>
-<p>コメント：<input type="text" name="comment" ><br>
+<p>　名前：<input type="text" name="name" >
+<p>E-Mail：<input type="text" name="email" >
+<p>コメント：<textarea name="comment"  rows="4" cols="40"></textarea>
 <input type = "hidden" name="action" value="add">
-<p style="text-align:center"><input type="submit" value="新規投稿"><br>
+<p style="text-align:center"><input type="submit" value="新規投稿">
 </form>
-<%
-if(boardList != null){
-	for(int i = boardList.size() - 1; i >= 0; i--){
-%>
-<p>-----------------------------------------------------------------------------------------------
-<p>No.<%= boardList.get(i).getId() %>：<%= boardList.get(i).getName() %><br>
-<p>E-Mail：<%= boardList.get(i).getEmail() %><br>
-<p style="text-align:center">投稿日時：<%= boardList.get(i).getDateTime() %><br>
-<p>コメント：<%= boardList.get(i).getComment() %><br>
-<%
-	}
-}
-%>
+<%= logic.show(boardList) %>
 <p>-----------------------------------------------------------------------------------------------
 <form style="text-align:center" action="/board2/BoardDo" method="post">
 管理者用：<input type="password" name="adminpass" >
