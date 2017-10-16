@@ -104,6 +104,8 @@ public class BoardDo extends HttpServlet {
 			// リクエストパラメータの取得
 			request.setCharacterEncoding("UTF-8");
 			String delid = request.getParameter("delid");
+			if (delid == null)
+				delid = "";
 			// 既存のboarderListを取得
 			ArrayList<BoardBean> boardList = (ArrayList<BoardBean>) application.getAttribute("boardList");
 			if (boardList == null)
