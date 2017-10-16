@@ -2,9 +2,11 @@
     pageEncoding="UTF-8"%>
     <%@ page import="java.util.ArrayList"%>
     <%@ page import="model.BoardBean"%>
+    <%@ page import="model.BoardLogic"%>
 <%
 	ArrayList<BoardBean> boardList = (ArrayList<BoardBean>) application.getAttribute("boardList");
 	ArrayList<String> message = (ArrayList<String>) request.getAttribute("message");
+	BoardLogic bLogic = new BoardLogic();
 %>
 
 <!DOCTYPE html>
@@ -26,7 +28,8 @@
 <form action="/board2/BoardDo" method="post">
 	名前:<input type="text" name="name"><br>
 	E-Mail:<input type="text" name="email"><br>
-	コメント:<input type="text" name="comment"><br>
+	コメント:<textarea rows="4" cols="50" name="comment"></textarea>
+	<!-- <input type="text" name="comment"><br>  -->
 	<input type="hidden" name="action" value="add">
 	<input type="submit" value="新規投稿">
 	</form>
@@ -37,6 +40,9 @@
 			reverseList.add(boardList.get(i));
 		}
 		%>
+		<%= bLogic.show(reverseList) %>
+
+		<!-- Removed as of 2017.10.16
 		<table border="1">
 			<% for (BoardBean bBean : reverseList) { %>
 			<tr><td>
@@ -49,6 +55,7 @@
 			<% } %>
 			</td></tr>
 		</table>
+		 -->
 	<% } %>
 	<form action="/board2/BoardDo" method="post">
 	管理者用:<input type="password" name="adminpass"><br>
