@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.BoardBean" %>
-<%@ page import="model.BoardLogic" %>
 <%
 ArrayList<BoardBean> boardList = (ArrayList<BoardBean>)application.getAttribute("boardList");
 if(boardList==null){
@@ -11,7 +10,6 @@ ArrayList<String> message = (ArrayList<String>)request.getAttribute("message");
 if(message==null){
 	message = new ArrayList<String>();
 }
-BoardLogic boardLogic = new BoardLogic();
 %>
 <!DOCTYPE html>
 <html>
@@ -34,13 +32,23 @@ for(String msg:message){
 <form action="/board2/BoardDo" method="post">
 名前：<input type="text" name="name"><br>
 E-Mail：<input type="text" name="email"><br>
-コメント：<br>
-<textarea name="comment" rows="4" cols="40"></textarea><br>
+コメント：<input type="text" name="comment"><br>
 <input type="submit" value="新規投稿">
 <input type="hidden" name="action" value="add">
 </form>
 <hr/>
-<%= boardLogic.show(boardList) %>
+<%
+for(int i=boardList.size()-1; i>=0; i--){
+	BoardBean b = boardList.get(i);
+	%>
+	<p>No.<%=b.getId() %>:<%=b.getName() %></p>
+	<p>E-Mail:<%=b.getEmail() %></p>
+	<p>投稿日時:<%=b.getDateTime() %></p>
+	<p>コメント:<%=b.getComment() %></p>
+	<hr/>
+	<%
+}
+%>
 <div align="center">
 <form action="/board2/BoardDo" method="post">
 管理者用：<input type="password" name="adminpass">
