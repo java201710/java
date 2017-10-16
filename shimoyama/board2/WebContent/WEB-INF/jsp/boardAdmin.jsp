@@ -27,15 +27,8 @@ if(message != null){
 <hr>
 <form action="/board2/BoardDo" method="post">
 <input type="hidden" name="action" value="del">
-投稿削除No:<select name="delid">
-<%
-for (BoardBean c : boardList) {
-%>
-    <option value="<%=c.getId()%>"><%=c.getId()%></option>
-<%
-}
-%>
-</select>
+投稿削除No:<hr>
+<%= boardLogic.selectBox(boardList) %>
 <input type="submit" value="送信">
 </form>
 <hr>

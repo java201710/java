@@ -29,7 +29,7 @@ if(message != null){
 <input type="hidden" name="action" value="add">
 　　名前：<input type="text" name="name"><br>
 　e-mail：<input type="text" name="email"><br>
- コメント:<input type="text" name="comment"><br>
+ コメント:<TEXTAREA name="comment" cols="40" rows="6" ></TEXTAREA><br>
 <Div Align="right"><input type="submit" value="新規投稿"></Div>
 </form>
 <hr>

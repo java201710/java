@@ -22,8 +22,6 @@ public class BoardLogic {
 		if (board.getComment().equals("")) {
 			message.add("コメントを入力してください。");
 		} else {
-			String comment = board.getComment();
-			board.setComment(comment.replaceAll("\n", "<br>"));
 			message.add("投稿しました。");
 		}
 		Date now = new Date();
@@ -78,11 +76,24 @@ public class BoardLogic {
 
 				showList += "　　　E-mail: " + boardList.get(i).getEmail() + "<br>";
 				showList += "<Div Align=\"right\">投稿日時: " + boardList.get(i).getDateTime() + "</Div><br>";
-				showList += "コメント: " + boardList.get(i).getComment() + "<br><hr>";
+				showList += "コメント: " + boardList.get(i).getComment().replaceAll("\n", "<br>") + "<br><hr>";
 			}
 		}
 		return showList;
 
 	}
 
+	public String selectBox(ArrayList<BoardBean> boardList) {
+
+		String showList = "<select name=\"delid\">";
+		if (boardList != null) {
+			for (int i = boardList.size() - 1; i >= 0; i--) {
+				showList += "<option value=\"" + boardList.get(i).getId() +"\">" + boardList.get(i).getId() + "</option>";
+			}
+			showList +="</select>";
+		}
+
+		return showList;
+
+	}
 }
