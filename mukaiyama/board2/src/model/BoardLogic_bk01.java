@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-public class BoardLogic {
+public class BoardLogic_bk01 {
 	private static String adminPass = "root00"; //管理用パスワード
 
 	//新規投稿ボタン用
@@ -122,43 +122,5 @@ public class BoardLogic {
 		buf.append("</select>");
 
 		return buf.toString();
-	}
-
-
-	//検索ボタン用
-	public ArrayList<BoardBean> search(String name, String comment, ArrayList<BoardBean> boardList) {
-		if(name.equals("")&&comment.equals("")){
-			return boardList;
-		}else{
-			ArrayList<BoardBean> returnList = new ArrayList<BoardBean>();	//戻り値用リスト
-			String blName;
-			String blComment;
-
-			for(BoardBean b:boardList){
-				blName = b.getName();
-				blComment = b.getComment();
-
-				//<<条件チェック>>
-				//引数.name≠""
-				if(!name.equals("")){
-					if(!name.equals(blName)){
-						//引数.nameと完全一致？→NG時
-						continue;	//読み飛ばす
-					}
-				}
-				//引数comment≠""
-				if(!comment.equals("")){
-					if(blComment.matches(".*" + comment + ".*")==false){
-						//引数.commentと部分一致？→NG時
-						continue;	//読み飛ばす
-					}
-				}
-
-				//戻り値用リストに追加
-				returnList.add(b);
-			}
-
-			return returnList;
-		}
 	}
 }
