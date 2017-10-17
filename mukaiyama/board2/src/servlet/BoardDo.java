@@ -154,6 +154,19 @@ public class BoardDo extends HttpServlet {
 			// フォワード先を設定
 			forwardPath = "/WEB-INF/jsp/boardAdmin.jsp";
 
+		} else if(action.equals("search")) {
+			//検索ボタン用
+			// リクエストパラメータの取得
+			String name = request.getParameter("name");
+			String comment = request.getParameter("comment");
+
+			//リクエストスコープへのセット
+			request.setAttribute("name", name);
+			request.setAttribute("comment", comment);
+
+			// フォワード先を設定→掲示板メインへ
+			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
+
 		} else {
 
 		}
