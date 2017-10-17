@@ -1,0 +1,49 @@
+<BoardLogic.java>
+・searchメソッド（新規作成）
+　引数：	String name, String comment, ArrayList<BoardBean> boardList
+　戻り値：	ArrayList<BoardBean>
+
+　処理内容：
+　　引数.name="" and 引数.comment="" の場合
+　　　1）引数.boardListを戻り値で戻す
+
+　　引数.name<>"" or 引数.comment<>"" の場合
+　　　1）戻り値用のArrayList<BoardBean>を宣言（以降、戻りリストと記載）
+　　　2）引数.boardListの要素のうち、以下の対象外の条件に合致しない要素を戻りリストにADDする
+　　　　　　ADD対象外（読み飛ばす）条件
+　　　　　　　2-1）引数.name<>"" の場合 → 引数.name<>要素.name
+　　　　　　　2-2）引数.comment<>"" の場合 → 要素.commentに引数.commentが含まれない
+
+
+<BoardDo.java>
+・doPostメソッドにリクエストパラメータ"action"="search"のケースを追加
+・"action"="search"の処理内容
+　1）リクエストパラメータ "name" , "value" を受け取る
+　2）リクエストパラメータ "name" , "value" をセットする
+　3）boardMain.jspへ処理を渡す
+
+
+<boardMain.jsp>
+・新規投稿フォーム（修正）
+　1）注意書きの追加
+	コメントの右側に注意書き「※必須入力」
+
+・検索用フォーム（新規投稿フォームの下に追加）
+　1）項目
+　　	入力項目 	textボックス name="name"　注意書き「※完全一致」
+　　	入力項目 	textボックス text name="comment"　注意書き「※部分一致」
+　　	ボタン 		submit value="検索"
+　　	非表示項目 	hidden name=action,value=search
+
+・リクエストスコープから値の受け取り（処理追加）
+　1）name,valueを受け取る（※nullを受け取った場合、""に置き換え）
+　2）検索用フォームのname,valueにセット
+
+・show()メソッド呼出（修正）
+　1）引数を変更
+　　　改修前：boardList
+　　　改修後：BoardLogic.searchメソッド
+　2）searchメソッドの引数
+　　　name   　　←検索用フォーム.name
+　　　comment　　←検索用フォーム.comment
+　　　boardList　←アプリケーションスコープから取得したboardList
