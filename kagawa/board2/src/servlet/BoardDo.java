@@ -1,9 +1,7 @@
 package servlet;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -42,6 +40,7 @@ public class BoardDo extends HttpServlet {
 
 		// サーブレットクラスの動作を決定する「action」の値を
 		// リクエストパラメータから取得
+		request.setCharacterEncoding("UTF-8");
 		String action = request.getParameter("action");
 
 		// フォワード先
@@ -55,7 +54,6 @@ public class BoardDo extends HttpServlet {
 
 		if (action.equals("add")) {
 			// リクエストパラメータの取得
-			request.setCharacterEncoding("UTF-8");
 			//		int id = Integer.parseInt(request.getParameter("id"));
 			String name = request.getParameter("name");
 			String email = request.getParameter("email");
@@ -69,12 +67,8 @@ public class BoardDo extends HttpServlet {
 				finalId = 0;
 			// 投稿Noを決定
 			int id = finalId + 1;
-			// 投稿日時を取得
-			Date now = new Date();
-			SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String dateTime = f.format(now);
 			// BoardBeanインスタンス作成
-			BoardBean board = new BoardBean(id, name, email, comment, dateTime);
+			BoardBean board = new BoardBean(id, name, email, comment, "");
 			// ロジッククラスのメソッドを実行
 			messageList = logic.add(board);
 			if (messageList.get(0).equals("投稿しました。")) {
@@ -91,7 +85,6 @@ public class BoardDo extends HttpServlet {
 		}
 		else if (action.equals("admin")) {
 			// リクエストパラメータの取得
-			request.setCharacterEncoding("UTF-8");
 			String password = request.getParameter("adminpass");
 
 			// ロジッククラスのメソッドを実行
@@ -102,7 +95,6 @@ public class BoardDo extends HttpServlet {
 		}
 		else if (action.equals("del")) {
 			// リクエストパラメータの取得
-			request.setCharacterEncoding("UTF-8");
 			String delid = request.getParameter("delid");
 			if (delid == null)
 				delid = "";
@@ -129,6 +121,17 @@ public class BoardDo extends HttpServlet {
 			}
 
 			forwardPath = "/WEB-INF/jsp/boardAdmin.jsp";
+		}
+		else if (action.equals("search")) {
+			// リクエストパラメータの取得
+			String name = request.getParameter("name");
+			String comment = request.getParameter("comment");
+
+			// リクエストスコープに保存
+			request.setAttribute("name", name);
+			request.setAttribute("comment", comment);
+
+			//messageList.add("");
 		}
 
 		// リクエストスコープに保存

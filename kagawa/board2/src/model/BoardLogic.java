@@ -1,6 +1,8 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class BoardLogic {
@@ -19,6 +21,12 @@ public class BoardLogic {
 			//emailが未入力の場合、「なし」と置き換える
 			if (board.getEmail().equals(""))
 				board.setEmail("なし");
+
+			// 投稿日時を取得
+			Date now = new Date();
+			SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String dateTime = f.format(now);
+			board.setDateTime(dateTime);
 			messageList.add("投稿しました。");
 		}
 
@@ -75,7 +83,7 @@ public class BoardLogic {
 				result = result + "No." + boardList.get(i).getId() + "：" + boardList.get(i).getName() + "<br>";
 				result = result + "E-Mail：" + boardList.get(i).getEmail() + "<br>";
 				result = result + "投稿日時：" + boardList.get(i).getDateTime() + "<br>";
-				result = result + "コメント：" + boardList.get(i).getComment().replaceAll("\n","<br>") + "<br>";
+				result = result + "コメント：" + boardList.get(i).getComment().replaceAll("\n", "<br>") + "<br>";
 			}
 		}
 		return result;
@@ -86,13 +94,45 @@ public class BoardLogic {
 
 		String result = "<select name='delid'>";
 
-		if(boardList != null){
-			for(int i = boardList.size() - 1; i >= 0; i--){
+		if (boardList != null) {
+			for (int i = boardList.size() - 1; i >= 0; i--) {
 				result = result + "<option>" + boardList.get(i).getId() + "</option>";
 			}
 		}
 		result = result + "</select>";
 
 		return result;
+	}
+
+	// 検索結果後の掲示板を返す
+	public ArrayList<BoardBean> search(String name, String comment, ArrayList<BoardBean> boardList) {
+
+		ArrayList<BoardBean> boardSearchResultList = new ArrayList<BoardBean>();
+		// 名前とコメント両方入力なしの場合、全ての掲示板を返す
+		if ((name == "" && comment == "") || boardList == null)
+			return boardList;
+		// 名前入力なしで、コメント入力ありの場合
+		else if (name == "") {
+			for (BoardBean board : boardList) {
+				if (board.getComment().matches(".*" + comment + ".*"))
+					boardSearchResultList.add(board);
+			}
+		}
+		// 名前入力ありで、コメント入力なしの場合
+		else if (comment == "") {
+			for (BoardBean board : boardList) {
+				if (board.getName().equals(name))
+					boardSearchResultList.add(board);
+			}
+		}
+		// 名前とコメント両方入力ありの場合
+		else {
+			for (BoardBean board : boardList) {
+				if (board.getName().equals(name) && board.getComment().matches(".*" + comment + ".*"))
+					boardSearchResultList.add(board);
+			}
+		}
+
+		return boardSearchResultList;
 	}
 }
