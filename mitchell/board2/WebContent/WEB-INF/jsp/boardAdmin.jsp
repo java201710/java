@@ -54,14 +54,14 @@ table#msgtable {
 		}
 	%>
 	<a href="/board2/BoardDo">Return</a>
-	
+
 	<form action="/board2/BoardDo" method="post">
 		<%=bLogic.selectBox(boardList)%>
 
 		<input type="hidden" name="action" value="del"> <input
 			type="submit" value="送信">
 	</form>
-	
+
 	<%=bLogic.show(boardList)%>
 </body>
 </html>

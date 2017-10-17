@@ -29,6 +29,8 @@ public class BoardDo extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		request.setCharacterEncoding("UTF-8");
+
 		// 変数の宣言と初期値(Set variables)。
 		ServletContext application = this.getServletContext();
 		ArrayList<BoardBean> boardList = (ArrayList<BoardBean>) application.getAttribute("boardList");
@@ -47,11 +49,11 @@ public class BoardDo extends HttpServlet {
 		/*
 		 * クリックしたボタンに応じて以下のステップを行う。 ２０１７年１０月１３日までに、３つのボタンがあて、各の値は：
 		 * 	(Identify which button was pressed. As of 2017/10/16, 4 buttons total with action values:)
-		 * 		"add" → 新しオブジェクトを作って、アプリケーションスコープの「boardList」にオブジェクトを入れる(Create a new member in application 
+		 * 		"add" → 新しオブジェクトを作って、アプリケーションスコープの「boardList」にオブジェクトを入れる(Create a new member in application
 		 * 			scope 'boardList')。
 		 * 		"admin" → 掲示板管理画面のアドレスを渡す(Transfer to admin page)。
 		 * 		"del" → アプリケーションスコープの「boardList」から一つのオブジェクトを消す(Remove member from application scope 'boardList')。
-		 * 		"search" →　リクエストスコープに「name」と「comment」を設定して、掲示板メインの画面を示す(Re-open page with requestscope variables 
+		 * 		"search" → リクエストスコープに「name」と「comment」を設定して、掲示板メインの画面を示す(Re-open page with requestscope variables
 		 * 			'name' and 'comment')。
 		 */
 		if (request.getParameter("action").equals("add")) {
@@ -84,7 +86,7 @@ public class BoardDo extends HttpServlet {
 			msg = bLogic.admin(adminPass);
 			if (msg.get(0).equals("")) {
 				// 成功の場合(If successful)。
-				forwardPath = "/WEB-INF/jsp/boardadmin.jsp";
+				forwardPath = "/WEB-INF/jsp/boardAdmin.jsp";
 			} else {
 				request.setAttribute("message", msg);
 				forwardPath = "/WEB-INF/jsp/boardMain.jsp";
@@ -95,7 +97,7 @@ public class BoardDo extends HttpServlet {
 
 			msg = bLogic.del(delId, boardList);
 			request.setAttribute("message", msg);
-			forwardPath = "/WEB-INF/jsp/boardadmin.jsp";
+			forwardPath = "/WEB-INF/jsp/boardAdmin.jsp";
 		} else if (request.getParameter("action").equals("search")) {
 			request.setAttribute("name", request.getParameter("name"));
 			request.setAttribute("comment", request.getParameter("comment"));

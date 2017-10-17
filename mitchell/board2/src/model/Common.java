@@ -10,7 +10,7 @@ public class Common {
 			checkString = checkString.replace(">", "&gt;");
 			checkString = checkString.replace("\"", "&quot;");
 			checkString = checkString.replace("\'", "&#39;");
-			
+
 			checkString = checkString.replace("\n", "<br>");
 		}
 		return checkString;

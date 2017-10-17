@@ -64,7 +64,7 @@ table#msgtable {
 		<%
 			}
 		%>
-		
+
 	</table>
 	<%
 		}
@@ -81,7 +81,7 @@ table#msgtable {
 				<td align="right">E-Mail：</td><td><input type="text" name="email"></td>
 			</tr>
 			<tr>
-				<td align="right">コメント：</td><td><textarea rows="4" cols="50" name="comment"></textarea></td>
+				<td align="right">コメント：</td><td><textarea rows="4" cols="50" name="comment"></textarea></td><td>※必須入力</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="right"><input type="submit" value="新規投稿"></td>
@@ -93,19 +93,16 @@ table#msgtable {
 		<input type="hidden" name="action" value="search">
 		<table>
 			<tr>
-				<td align="right">名前:</td><td><input type="text" name="name"></td>
+				<td align="right">名前:</td><td><input type="text" name="name" value=<%= name %>></td><td>※完全一致</td>
 			</tr>
 			<tr>
-				<td align="right">コメント:</td><td><input type="text" name="comment"></td>
-				<!-- Shoudl this be a text area?
-					<textarea rows="4" cols="50" name="comment"></textarea>
-				 -->
+				<td align="right">コメント:</td><td><input type="text" name="comment" value=<%= comment  %>></td><td>※部分一致</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="right"><input type="submit" value="検索"></td>
 			</tr>
 		</table>
-			
+
 	</form>
 	<hr>
 
