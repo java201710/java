@@ -37,23 +37,69 @@ BoardLogic.java
 
 10/18改修内容
 
-DaoLogic.java
-	表示・検索メソッド作成：findBoard
-		・引数：String name、String comment
+DaoLogic.java(dao　パッケージ)
+	Connection変数作成クラス変数（クラス変数）：conn　※private
+		・初期値：null
+
+	取得メソッド作成：findBoard
+		・引数：String
 		・戻り値：ArrayList<BoardBean>
 
-	追加メソッド作成：addBoard
-		・引数：BoardBean board
+	更新メソッド作成：updateBoard
+		・引数：String
 		・戻り値：Boolean
 
-	削除メソッド作成：delBoard
+	DBに接続するメソッド作成：startDB　※private
+		・引数：なし
+		・戻り値：なし	
+
+	DBから切断するメソッド作成：endDB　※private
+		・引数：なし
+		・戻り値：Boolean
+
+boadDo.java
+	アプリケーションスコープ利用箇所を削除
+
+boardMain.jsp
+	アプリケーションスコープ利用箇所を削除
+
+	掲示板表示処理修正
+		・logic.show(logic.search(name,comment,boardList))
+		→logic.show(name,comment)
+
+boardAdmin.jsp
+	アプリケーションスコープ利用箇所を削除
+
+	掲示板表示処理修正
+		・logic.show(boardList)
+		→logic.show()
+
+	投稿削除ナンバーの選択肢修正
+		・logic.selectBox(boardList)
+		→logic.selectBox()
+
+BoardLogic.java
+	searchメソッド不要
+
+	showメソッド修正
+		・引数：String name、String comment
+		・SQL文作成
+		・DaoLogicのfindBoardにSQL文を渡し、boardListを取得
+
+	showメソッド追加
+		・引数：なし
+		・処理：show("","");
+
+	addメソッド修正
+		・SQL文作成
+		・DaoLogicのfindUpdateにSQL文を渡し、結果を取得（結果によってメッセージを変える）
+
+	delメソッド修正
 		・引数：int
-		・戻り値：Boolean
+		・SQL文作成
+		・DaoLogicのfindUpdateにSQL文を渡し、結果を取得（結果によってメッセージを変える）
 
-	DBに接続するメソッド作成：startDB(private)	
-
-	DBから切断するメソッド作成：endDB(private)
-
-
-
-
+	selectBoxメソッド修正
+		・引数：なし
+		・SQL文作成
+		・DaoLogicのfindBoardにSQL文を渡し、boardListを取得
