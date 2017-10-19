@@ -17,6 +17,7 @@ public class BoardBean {
 		setName(name);
 		setEmail(email);
 		setComment(comment);
+		setDateTime(dateTime);
 	}
 
 	// 「getter」と「setter」のメソッド(Getter and setter methods)。
