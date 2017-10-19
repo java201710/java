@@ -75,6 +75,8 @@ public class BoardLogic {
 		boolean normalEnd = false; //異常終了
 
 		//入力内容チェック
+		if (!(id== null)) {
+
 		Pattern pattern = Pattern.compile("^[0-9]*$");
 		if (pattern.matcher(id).matches()) {
 			int intId = Integer.parseInt(id);
@@ -94,6 +96,7 @@ public class BoardLogic {
 			if(Dao.updateBoard(sql)==true){
 				message.add("投稿を削除しました。");
 			}
+		}
 			//20171019 add end mukaiyama
 //20171019 update start mukaiyama
 //		}
