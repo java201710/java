@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <%
 	//変数定義aaaaaaaa
+	//mukaiyama
 	Connection conn = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
