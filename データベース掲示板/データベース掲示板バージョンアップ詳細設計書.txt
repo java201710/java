@@ -35,7 +35,7 @@ BoardLogic.java
 				・boardListがnullの場合（名前とコメントの入力有無問わず）：ArrayList<BoardBean>オブジェクトをインスタンスせず、そのまま引数のboardListを戻り値として返す
 
 
-10/18改修内容
+10/18・19改修内容
 
 DaoLogic.java(dao　パッケージ)
 	Connection変数作成クラス変数（クラス変数）：conn　※private
@@ -59,6 +59,12 @@ DaoLogic.java(dao　パッケージ)
 
 boadDo.java
 	アプリケーションスコープ利用箇所を削除
+	
+	(追加：ミッチェル：2017.10.19）
+	actionは「add」の場合：
+		・Beanのインスタンスをする時、new BoardBean(id, name, email, comment, "");
+		→new BoardBean(0, name, email, comment, "");
+	（追加）
 
 boardMain.jsp
 	アプリケーションスコープ利用箇所を削除
