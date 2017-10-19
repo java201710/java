@@ -11,7 +11,7 @@
 
 	request.setCharacterEncoding("UTF-8");
 
-	//DB接続情報を設定する
+	//DB接続情報を設定する-TestMukaiyama
 	String path = "jdbc:mysql://localhost/boarddb"; //接続パス
 	String id = "root"; //ログインID
 	String pw = "root00"; //ログインパスワード
