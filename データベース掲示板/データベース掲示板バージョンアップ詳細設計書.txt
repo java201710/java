@@ -35,7 +35,7 @@ BoardLogic.java
 				・boardListがnullの場合（名前とコメントの入力有無問わず）：ArrayList<BoardBean>オブジェクトをインスタンスせず、そのまま引数のboardListを戻り値として返す
 
 
-10/18改修内容
+10/18・19改修内容
 
 DaoLogic.java(dao　パッケージ)
 	Connection変数作成クラス変数（クラス変数）：conn　※private
