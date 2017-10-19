@@ -54,9 +54,9 @@ table#msgtable {
 	<%
 		}
 	%>
-	<a href="/board2/BoardDo">Return</a>
+	<a href="/boardDB/BoardDo">Return</a>
 
-	<form action="/board2/BoardDo" method="post">
+	<form action="/boardDB/BoardDo" method="post">
 		<%=bLogic.selectBox()%>
 
 		<input type="hidden" name="action" value="del"> <input

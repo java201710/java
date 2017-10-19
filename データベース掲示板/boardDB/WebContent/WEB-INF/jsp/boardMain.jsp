@@ -72,7 +72,7 @@ table#msgtable {
 	%>
 	<p><b>新規投稿</b></p>
 
-	<form action="/board2/BoardDo" method="post">
+	<form action="/boardDB/BoardDo" method="post">
 		<input type="hidden" name="action" value="add">
 		<table>
 			<tr>
@@ -90,7 +90,7 @@ table#msgtable {
 		</table>
 	</form>
 	<hr>
-	<form action="/board2/BoardDo" method="post">
+	<form action="/boardDB/BoardDo" method="post">
 		<input type="hidden" name="action" value="search">
 		<table>
 			<tr>
@@ -107,7 +107,7 @@ table#msgtable {
 	</form>
 	<hr>
 	<%=bLogic.show()%>
-	<form action="/board2/BoardDo" method="post">
+	<form action="/boardDB/BoardDo" method="post">
 	<input type="hidden" name="action" value="admin">
 		<table id="admincontrol">
 			<tr>
