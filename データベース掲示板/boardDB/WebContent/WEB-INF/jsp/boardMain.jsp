@@ -4,7 +4,7 @@
 <%@ page import="model.BoardBean"%>
 <%@ page import="model.BoardLogic"%>
 <%
-	ArrayList<BoardBean> boardList = (ArrayList<BoardBean>) application.getAttribute("boardList");
+	//ArrayList<BoardBean> boardList = (ArrayList<BoardBean>) application.getAttribute("boardList");
 	ArrayList<String> message = (ArrayList<String>) request.getAttribute("message");
 	BoardLogic bLogic = new BoardLogic();
 
@@ -106,14 +106,7 @@ table#msgtable {
 
 	</form>
 	<hr>
-
-	<%
-		if (boardList != null) {
-	%>
-	<%=bLogic.show(bLogic.search(name, comment, boardList))%>
-	<%
-		}
-	%>
+	<%=bLogic.show(bLogic.search(name, comment))%>
 	<form action="/board2/BoardDo" method="post">
 	<input type="hidden" name="action" value="admin">
 		<table id="admincontrol">

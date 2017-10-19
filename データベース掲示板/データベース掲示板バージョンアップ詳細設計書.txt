@@ -59,6 +59,12 @@ DaoLogic.java(dao　パッケージ)
 
 boadDo.java
 	アプリケーションスコープ利用箇所を削除
+	
+	(追加：ミッチェル：2017.10.19）
+	actionは「add」の場合：
+		・Beanのインスタンスをする時、new BoardBean(id, name, email, comment, "");
+		→new BoardBean(0, name, email, comment, "");
+	（追加）
 
 boardMain.jsp
 	アプリケーションスコープ利用箇所を削除
@@ -77,6 +83,11 @@ boardAdmin.jsp
 	投稿削除ナンバーの選択肢修正
 		・logic.selectBox(boardList)
 		→logic.selectBox()
+
+		(追加：ミッチェル：2017.10.19）
+		・logic.show(boardList)
+		→logic.show()
+		（追加）
 
 BoardLogic.java
 	searchメソッド不要
