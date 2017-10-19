@@ -106,7 +106,7 @@ table#msgtable {
 
 	</form>
 	<hr>
-	<%=bLogic.show(bLogic.search(name, comment))%>
+	<%=bLogic.show()%>
 	<form action="/board2/BoardDo" method="post">
 	<input type="hidden" name="action" value="admin">
 		<table id="admincontrol">
