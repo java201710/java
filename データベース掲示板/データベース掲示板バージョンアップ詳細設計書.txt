@@ -84,11 +84,6 @@ boardAdmin.jsp
 		・logic.selectBox(boardList)
 		→logic.selectBox()
 
-		(追加：ミッチェル：2017.10.19）
-		・logic.show(boardList)
-		→logic.show()
-		（追加）
-
 BoardLogic.java
 	searchメソッド不要
 
