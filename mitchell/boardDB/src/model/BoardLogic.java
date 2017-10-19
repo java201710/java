@@ -73,30 +73,28 @@ public class BoardLogic {
 	public ArrayList<String> del(String id) {
 		ArrayList<String> message = new ArrayList<String>();
 		boolean normalEnd = false; //異常終了
-
+		if(id!=null && id.equals("")){
 		//入力内容チェック
-		if (!(id== null)) {
-
 		Pattern pattern = Pattern.compile("^[0-9]*$");
-		if (pattern.matcher(id).matches()) {
-			int intId = Integer.parseInt(id);
-			//20171019 delete start mukaiyama
-//			for (BoardBean b : boardList) {
-//
-//				if (b.getId() == intId) {
-//					normalEnd = true;
-//					message.add("投稿を削除しました。");
-//					break;
-//				}
-//			}
-			//20171019 delete end mukaiyama
-			//20171019 add start mukaiyama
-			String sql = "DELETE FROM board_db WHERE id = " + id;
-			DaoLogic Dao = new DaoLogic();
-			if(Dao.updateBoard(sql)==true){
-				message.add("投稿を削除しました。");
+			if (pattern.matcher(id).matches()) {
+				int intId = Integer.parseInt(id);
+				//20171019 delete start mukaiyama
+	//			for (BoardBean b : boardList) {
+	//
+	//				if (b.getId() == intId) {
+	//					normalEnd = true;
+	//					message.add("投稿を削除しました。");
+	//					break;
+	//				}
+	//			}
+				//20171019 delete end mukaiyama
+				//20171019 add start mukaiyama
+				String sql = "DELETE FROM board_db WHERE id = " + id;
+				DaoLogic Dao = new DaoLogic();
+				if(Dao.updateBoard(sql)==true){
+					message.add("投稿を削除しました。");
+				}
 			}
-		}
 			//20171019 add end mukaiyama
 //20171019 update start mukaiyama
 //		}
