@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <%
 	//変数定義aaaaaaaa
-	//Mitchell
 	Connection conn = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
