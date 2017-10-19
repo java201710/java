@@ -57,7 +57,6 @@ table#msgtable {
 	<a href="/boardDB/BoardDo">Return</a>
 
 	<form action="/boardDB/BoardDo" method="post">
-
 		<%=bLogic.selectBox()%>
 
 		<input type="hidden" name="action" value="del"> <input
