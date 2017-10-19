@@ -11,11 +11,8 @@
 
 	request.setCharacterEncoding("UTF-8");
 
-<<<<<<< HEAD
-	//DB接続情報を設定する-Testaaaaaa
-=======
-	//DB接続情報を設定する-Test shimo
->>>>>>> a5959bd1a2a3b95da01d1d116ffe6604dad45b35
+
+	//DB接続情報を設定する-Testaaaaaa shimo
 	String path = "jdbc:mysql://localhost/boarddb"; //接続パス
 	String id = "root"; //ログインID
 	String pw = "root00"; //ログインパスワード
