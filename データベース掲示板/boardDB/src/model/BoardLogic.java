@@ -43,8 +43,8 @@ public class BoardLogic {
 						+ boardBean.getComment()
 						+ "','" + boardBean.getDateTime()
 						+ "')";
-			DaoLogic Dao = new DaoLogic();
-			if(Dao.updateBoard(sql)==true){
+			DaoLogic Dao = new DaoLogic;
+			if(Dao.UpdateBoard(sql)==true){
 				message.add("投稿しました。");
 			}
 			//20171019 update end mukaiyama
@@ -90,8 +90,8 @@ public class BoardLogic {
 			//20171019 delete end mukaiyama
 			//20171019 add start mukaiyama
 			String sql = "DELETE FROM board_db WHERE id = " + id;
-			DaoLogic Dao = new DaoLogic();
-			if(Dao.updateBoard(sql)==true){
+			DaoLogic Dao = new DaoLogic;
+			if(Dao.UpdateBoard(sql)==true){
 				message.add("投稿を削除しました。");
 			}
 			//20171019 add end mukaiyama
@@ -138,7 +138,7 @@ public class BoardLogic {
 				sql.append("%'");
 			}
 		}
-		DaoLogic Dao = new DaoLogic();
+		DaoLogic Dao = new DaoLogic;
 		ArrayList<BoardBean> boardList = Dao.findBoard(sql.toString());
 		//20171019 add end mukaiyama
 
@@ -150,16 +150,16 @@ public class BoardLogic {
 			buf.append("<p>No.");
 			buf.append(b.getId());
 			buf.append("：　");
-			buf.append(c.sanitizing(b.getName()));
+			buf.append(c.Sanitize(b.getName()));
 			buf.append("</br>");
 			buf.append("E-Mail：　");
-			buf.append(c.sanitizing(b.getEmail()));
+			buf.append(c.Sanitize(b.getEmail()));
 			buf.append("<br>");
 			buf.append("投稿日時：　");
 			buf.append(b.getDateTime());
 			buf.append("<br>");
 			buf.append("コメント：<br>");
-			buf.append(c.sanitizing(b.getComment()).replaceAll("\n", "<br>"));
+			buf.append(c.Sanitize(b.getComment()).replaceAll("\n", "<br>"));
 			buf.append("</p>");
 			buf.append("<hr/>");
 		}
@@ -181,7 +181,7 @@ public class BoardLogic {
 		StringBuffer buf = new StringBuffer();
 
 		//20171019 add start mukaiyama
-		DaoLogic Dao = new DaoLogic();
+		DaoLogic Dao = new DaoLogic;
 		ArrayList<BoardBean> boardList = Dao.findBoard("SELECT * FROM board_db");
 		//20171019 add end mukaiyama
 
