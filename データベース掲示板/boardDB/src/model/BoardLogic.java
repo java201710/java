@@ -33,7 +33,7 @@ public class BoardLogic {
 			SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			boardBean.setDateTime(f.format(now)); //投稿日時
 
-			//20171017 update start mukaiyama
+			//20171019 update start mukaiyama
 			String sql = "INSERT INTO board_db(name,email,comment,dateTime) " +
 					"values('"
 						+ boardBean.getName()
@@ -47,7 +47,7 @@ public class BoardLogic {
 			if(Dao.updateBoard(sql)==true){
 				message.add("投稿しました。");
 			}
-			//20171017 update end mukaiyama
+			//20171019 update end mukaiyama
 		}
 
 		return message;
