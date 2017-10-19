@@ -41,6 +41,12 @@ DaoLogic.java(dao　パッケージ)
 	Connection変数作成クラス変数（クラス変数）：conn　※private
 		・初期値：null
 
+	PreparedStatement変数作成クラス変数（クラス変数）：ps　※private
+		・初期値：null
+
+	ResultSet変数作成クラス変数（クラス変数）：rs　※private
+		・初期値：null
+
 	取得メソッド作成：findBoard
 		・引数：String
 		・戻り値：ArrayList<BoardBean>
