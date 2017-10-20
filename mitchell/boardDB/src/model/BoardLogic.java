@@ -13,6 +13,7 @@ public class BoardLogic {
 	//新規投稿ボタン用
 	public ArrayList<String> add(BoardBean boardBean) {
 		ArrayList<String> message = new ArrayList<String>();
+Common c = new Common();
 		boolean normalEnd = true; //正常終了
 
 		//入力内容チェック
@@ -25,10 +26,10 @@ public class BoardLogic {
 		if (normalEnd == true) {
 			if (boardBean.getName() == null || boardBean.getName().length() == 0) {
 				boardBean.setName("ゲスト"); //名前
-			}
+				}
 			if (boardBean.getEmail() == null || boardBean.getEmail().length() == 0) {
 				boardBean.setEmail("なし"); //E-Mail
-			}
+				}
 			Date now = new Date();
 			SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			boardBean.setDateTime(f.format(now)); //投稿日時
@@ -36,13 +37,14 @@ public class BoardLogic {
 			//20171019 update start mukaiyama
 			String sql = "INSERT INTO board_db(name,email,comment,dateTime) " +
 					"values('"
-						+ boardBean.getName()
++ c.sqlSanitizing(boardBean.getName())
 						+ "','"
-						+ boardBean.getEmail()
++ c.sqlSanitizing(boardBean.getEmail())
 						+ "','"
-						+ boardBean.getComment()
++ c.sqlSanitizing(boardBean.getComment())
 						+ "','" + boardBean.getDateTime()
 						+ "')";
+
 			DaoLogic Dao = new DaoLogic();
 			if(Dao.updateBoard(sql)==true){
 				message.add("投稿しました。");
@@ -73,7 +75,7 @@ public class BoardLogic {
 	public ArrayList<String> del(String id) {
 		ArrayList<String> message = new ArrayList<String>();
 		boolean normalEnd = false; //異常終了
-		if(id!=null && id.equals("")){
+		if(id!=null && !id.equals("")){
 		//入力内容チェック
 		Pattern pattern = Pattern.compile("^[0-9]*$");
 			if (pattern.matcher(id).matches()) {
@@ -118,27 +120,28 @@ public class BoardLogic {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT * FROM board_db");
 		if(!name.equals("")||!comment.equals("")){
-			sql.append("WHERE ");
+			sql.append(" WHERE ");
 			if(comment.equals("")){
 				//名前≠"" and コメント＝""
 				sql.append("name = '");
-				sql.append(name);
+sql.append(c.sqlSanitizing(name));
 				sql.append("'");
 			}else if(name.equals("")){
 				//名前＝"" and コメント≠""
 				sql.append("comment LIKE '%");
-				sql.append(comment);
+sql.append(c.sqlSanitizing(comment));
 				sql.append("%'");
 			}else{
 				//名前≠"" and コメント≠""
 				sql.append("name = '");
-				sql.append(name);
+sql.append(c.sqlSanitizing(name));
 				sql.append("' AND ");
 				sql.append("comment LIKE '%");
-				sql.append(comment);
+sql.append(c.sqlSanitizing(comment));
 				sql.append("%'");
 			}
 		}
+System.out.println(sql);
 		DaoLogic Dao = new DaoLogic();
 		ArrayList<BoardBean> boardList = Dao.findBoard(sql.toString());
 		//20171019 add end mukaiyama
@@ -151,10 +154,12 @@ public class BoardLogic {
 			buf.append("<p>No.");
 			buf.append(b.getId());
 			buf.append("：　");
-			buf.append(c.sanitizing(b.getName()));
+//			buf.append(c.sanitizing(b.getName()));
+			buf.append(b.getName());
 			buf.append("</br>");
 			buf.append("E-Mail：　");
-			buf.append(c.sanitizing(b.getEmail()));
+//			buf.append(c.sanitizing(b.getEmail()));
+			buf.append(b.getEmail());
 			buf.append("<br>");
 			buf.append("投稿日時：　");
 			buf.append(b.getDateTime());
