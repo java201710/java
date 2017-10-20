@@ -9,10 +9,21 @@ public class Common {
 			checkString = checkString.replace("<", "&lt;");
 			checkString = checkString.replace(">", "&gt;");
 			checkString = checkString.replace("\"", "&quot;");
-			checkString = checkString.replace("\'", "&#39;");
+			checkString = checkString.replace("'", "&#39;");
 
 			checkString = checkString.replace("\n", "<br>");
 		}
 		return checkString;
 	}
+
+	public static String sqlSanitizing(String checkString) {
+		checkString = checkString.replace("&amp;", "&");
+		checkString = checkString.replace("&lt;", "<");
+		checkString = checkString.replace("&gt;", ">");
+		checkString = checkString.replace("&quot;", "\"");
+		checkString = checkString.replace("%", "\\%");
+		checkString = checkString.replace("'", "''");
+		return checkString;
+	}
+
 }
