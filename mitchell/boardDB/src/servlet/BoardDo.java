@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.BoardBean;
 import model.BoardLogic;
+import model.Common;
 
 @WebServlet("/BoardDo")
 public class BoardDo extends HttpServlet {
@@ -51,6 +52,7 @@ public class BoardDo extends HttpServlet {
 			BoardBean bBean;
 
 			bBean = new BoardBean(0, name, email, comment, "");
+System.out.println("BoardDo " + bBean.getComment());
 			msg = bLogic.add(bBean);
 
 			request.setAttribute("message", msg);
@@ -75,8 +77,9 @@ public class BoardDo extends HttpServlet {
 			request.setAttribute("message", msg);
 			forwardPath = "/WEB-INF/jsp/boardAdmin.jsp";
 		} else if (request.getParameter("action").equals("search")) {
-			request.setAttribute("name", request.getParameter("name"));
-			request.setAttribute("comment", request.getParameter("comment"));
+			Common c = new Common();
+			request.setAttribute("name", c.sanitizing(request.getParameter("name")));
+			request.setAttribute("comment", c.sanitizing(request.getParameter("comment")));
 			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
 		}
 
