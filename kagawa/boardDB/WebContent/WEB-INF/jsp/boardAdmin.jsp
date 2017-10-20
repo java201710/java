@@ -10,7 +10,7 @@
 	ArrayList<String> message = (ArrayList<String>) request.getAttribute("message");
 	BoardLogic bLogic = new BoardLogic();
 %>
-<!-- ミッチェル -->
+
 <!DOCTYPE html>
 <html>
 <head>
