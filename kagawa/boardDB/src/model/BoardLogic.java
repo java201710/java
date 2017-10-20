@@ -14,6 +14,7 @@ public class BoardLogic {
 	public ArrayList<String> add(BoardBean boardBean) {
 		ArrayList<String> message = new ArrayList<String>();
 		boolean normalEnd = true; //正常終了
+		Common c = new Common();
 
 		//入力内容チェック
 		if (boardBean.getComment() == null || boardBean.getComment().length() == 0) {
@@ -36,14 +37,15 @@ public class BoardLogic {
 			//20171019 update start mukaiyama
 			String sql = "INSERT INTO board_db(name,email,comment,dateTime) " +
 					"values('"
-						+ boardBean.getName()
+						+ c.sanitizing(boardBean.getName())
 						+ "','"
-						+ boardBean.getEmail()
+						+ c.sanitizing(boardBean.getEmail())
 						+ "','"
-						+ boardBean.getComment()
+						+ c.sanitizing(boardBean.getComment())
 						+ "','" + boardBean.getDateTime()
 						+ "')";
 			DaoLogic Dao = new DaoLogic();
+			System.out.println(sql);
 			if(Dao.updateBoard(sql)==true){
 				message.add("投稿しました。");
 			}
@@ -140,6 +142,7 @@ public class BoardLogic {
 			}
 		}
 		DaoLogic Dao = new DaoLogic();
+		System.out.println(sql);
 		ArrayList<BoardBean> boardList = Dao.findBoard(sql.toString());
 		//20171019 add end mukaiyama
 
@@ -151,16 +154,16 @@ public class BoardLogic {
 			buf.append("<p>No.");
 			buf.append(b.getId());
 			buf.append("：　");
-			buf.append(c.sanitizing(b.getName()));
+			buf.append(b.getName());
 			buf.append("</br>");
 			buf.append("E-Mail：　");
-			buf.append(c.sanitizing(b.getEmail()));
+			buf.append(b.getEmail());
 			buf.append("<br>");
 			buf.append("投稿日時：　");
 			buf.append(b.getDateTime());
 			buf.append("<br>");
 			buf.append("コメント：<br>");
-			buf.append(c.sanitizing(b.getComment()).replaceAll("\n", "<br>"));
+			buf.append(b.getComment().replaceAll("\n", "<br>"));
 			buf.append("</p>");
 			buf.append("<hr/>");
 		}

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.BoardBean;
 import model.BoardLogic;
@@ -94,16 +95,24 @@ public class BoardDo extends HttpServlet {
 			}
 			*/
 
-			String name = request.getParameter("name"), email = request.getParameter("email"), comment = request
-					.getParameter("comment");
+			HttpSession session = request.getSession();
+			String ac = (String) session.getAttribute("action");
 
-			BoardBean bBean;
+			if (ac != "add_ng") {
+				String name = request.getParameter("name"), email = request.getParameter("email"), comment = request
+						.getParameter("comment");
 
-			bBean = new BoardBean(0, name, email, comment, "");
-			msg = bLogic.add(bBean);
+				BoardBean bBean;
 
-			request.setAttribute("message", msg);
+				bBean = new BoardBean(0, name, email, comment, "");
+				msg = bLogic.add(bBean);
+
+				request.setAttribute("message", msg);
+
+				session.setAttribute("action", "add_ng");
+			}
 			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
+
 		} else if (request.getParameter("action").equals("admin")) {
 			// 変数の宣言と初期値(Set variables)。
 			String adminPass = request.getParameter("adminpass");
