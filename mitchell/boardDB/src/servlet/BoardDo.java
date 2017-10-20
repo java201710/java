@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import model.BoardBean;
 import model.BoardLogic;
 
-//ミッチェル
 @WebServlet("/BoardDo")
 public class BoardDo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -28,28 +27,7 @@ public class BoardDo extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		request.setCharacterEncoding("UTF-8");
-
-		/* 「application」を使わないようにする為 。2017.19.10
-		 *
-		 *
-		// 変数の宣言と初期値(Set variables)。
-		ServletContext application = this.getServletContext();
-		ArrayList<BoardBean> boardList = (ArrayList<BoardBean>) application.getAttribute("boardList");
-
-		BoardLogic bLogic = new BoardLogic();
-		ArrayList<String> msg;
-
-		String forwardPath = null;
-
-		// 'boardList'はnullかどうか確認する。もしnullなら、これを作って、アプリケーションスコープに設置する
-		// 		(Check if the boardList is null. If so, create a new ArrayList and add to the application scope)。
-		if (boardList == null) {
-			boardList = new ArrayList<BoardBean>();
-			application.setAttribute("boardList", boardList);
-		}
-		*/
 
 		// 変数の宣言と初期値(Set variables)。
 		BoardLogic bLogic = new BoardLogic();
@@ -68,35 +46,8 @@ public class BoardDo extends HttpServlet {
 		 */
 		if (request.getParameter("action").equals("add")) {
 			// 変数の宣言と初期値(Set variables)。
-			/* 「application」を使わないようにする為。 2017.19.10
-			 *
-			 *
-			Integer finalId = (Integer) application.getAttribute("finalId");
-			if (finalId == null) {
-				finalId = 0;
-			}
-
 			String name = request.getParameter("name"), email = request.getParameter("email"), comment = request
 					.getParameter("comment");
-
-			BoardBean bBean;
-
-			// 新しいオブジェクトを作って、オブジェクトの内容を確認する(Create a new object, and check the values of the object)。
-			bBean = new BoardBean(finalId + 1, name, email, comment, "");
-			msg = bLogic.add(bBean);
-
-			if (msg.get(0).indexOf("投稿") != -1) {
-				// 成功の場合(If successful)。
-
-				finalId += 1;
-				application.setAttribute("finalId", finalId);
-				boardList.add(bBean);
-			}
-			*/
-
-			String name = request.getParameter("name"), email = request.getParameter("email"), comment = request
-					.getParameter("comment");
-
 			BoardBean bBean;
 
 			bBean = new BoardBean(0, name, email, comment, "");
@@ -120,11 +71,6 @@ public class BoardDo extends HttpServlet {
 			// 変数の宣言と初期値(Set variables)。
 			String delId = request.getParameter("delid");
 
-			/*呼び方が変わる。2017.19.10
-			 *
-			 *
-			msg = bLogic.del(delId, boardList);
-			*/
 			msg = bLogic.del(delId);
 			request.setAttribute("message", msg);
 			forwardPath = "/WEB-INF/jsp/boardAdmin.jsp";

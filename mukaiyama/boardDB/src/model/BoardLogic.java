@@ -73,7 +73,7 @@ public class BoardLogic {
 	public ArrayList<String> del(String id) {
 		ArrayList<String> message = new ArrayList<String>();
 		boolean normalEnd = false; //異常終了
-		if(id!=null && id.equals("")){
+		if(id!=null && !id.equals("")){
 		//入力内容チェック
 		Pattern pattern = Pattern.compile("^[0-9]*$");
 			if (pattern.matcher(id).matches()) {
@@ -118,7 +118,7 @@ public class BoardLogic {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT * FROM board_db");
 		if(!name.equals("")||!comment.equals("")){
-			sql.append("WHERE ");
+			sql.append(" WHERE ");
 			if(comment.equals("")){
 				//名前≠"" and コメント＝""
 				sql.append("name = '");
