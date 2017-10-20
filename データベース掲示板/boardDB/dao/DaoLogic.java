@@ -66,7 +66,7 @@ public class DaoLogic {
 				String name = rs.getString("name");
 				String email = rs.getString("email");
 				String comment = rs.getString("comment");
-				String dateTime = rs.getString("dateTime");
+				String dateTime = rs.getDate("dateTime").toString() + " " + rs.getTime("dateTime").toString();
 				BoardBean board = new BoardBean(id, name, email, comment, dateTime);
 				boardList.add(board);
 			}
