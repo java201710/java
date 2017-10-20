@@ -49,6 +49,11 @@ table#msgtable {
 <title>掲示板メイン</title>
 </head>
 <body>
+
+
+<input type="reset" value="Reset" onClick="window.location.reload()">
+
+
 	<h1>掲示板メイン</h1>
 	<hr>
 	<p>

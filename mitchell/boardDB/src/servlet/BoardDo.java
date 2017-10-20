@@ -21,6 +21,10 @@ public class BoardDo extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		if (request.getParameter("reset").equals("Reset")) {
+			System.out.println("Worked");
+		}
+
 		// 掲示板画面のアドレスを渡す(Pass the address to the main page)。
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/boardMain.jsp");
 		dispatcher.forward(request, response);
