@@ -18,7 +18,6 @@
 	}
 %>
 
-<!-- ミッチェル -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -106,7 +105,7 @@ table#msgtable {
 
 	</form>
 	<hr>
-	<%=bLogic.show()%>
+	<%=bLogic.show(name, comment)%>
 	<form action="/boardDB/BoardDo" method="post">
 	<input type="hidden" name="action" value="admin">
 		<table id="admincontrol">
