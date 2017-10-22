@@ -1,0 +1,6 @@
+CREATE TABLE board_db(id INT NOT NULL AUTO_INCREMENT,name VARCHAR(12),email VARCHAR(20),comment VARCHAR(100) NOT NULL,dateTime DATETIME,PRIMARY KEY(id));
+
+INSERT INTO board_db values(1,'test01','111@aaa.jp','hello','20171018115200');
+
+
+INSERT INTO board_db values(2,'test02','222@aaa.jp','hello2','20171018115300'),(3,'test03','333@aaa.jp','hello3','20171018115400'),(4,'test04','444@aaa.jp','hello4','20171018115500');

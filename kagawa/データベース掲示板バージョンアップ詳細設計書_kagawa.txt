@@ -3,7 +3,10 @@
 boardMain.jsp
 	名前とコメントをリクエストスコープから取得
 		・取得した結果nullの場合、空文字""に置換
-	新規フォーム作成
+		・検索用フォームのname, commentにセット
+	注意書きの追加
+		・コメントの右側に注意書き「※必須入力」
+	新規で検索フォーム作成
 		・名前（input type = "text" name="name")　※完全一致
 		・コメント（input type = "text" name="comment")　※部分一致
 		・検索（input type="submit"）※隠しパラメータ name="action" value="search"
@@ -14,15 +17,19 @@ boardMain.jsp
 boadDo.java
 	検索ボタンクリック時の挙動作成
 		doPost()メソッド内action=searchのとき
-			・リクエストスコープからnameとcommentを取得
+			・リクエストパラメータからnameとcommentを取得
+			・リクエストスコープに取得したnameとcommentを格納
 			・boardMain.jspに転送
 
 BoardLogic.java
 	searchメソッド作成
-		・引数：名前、コメント、掲示板リスト
-		・戻り値：掲示板リスト
+		・引数：String name、String comment、ArrayList<BoardBean> boardList
+		・戻り値：ArrayList<BoardBean>
 		・処理概要：引数で渡された掲示板リストのうち、以下の条件に合致する掲示板リストを戻り値として返す
-			・名前とコメント両方入力ありの場合（空文字でない）：名前に完全一致かつコメントに部分一致する掲示板
-			・名前入力あり、コメント入力なしの場合：名前に完全一致する掲示板
-			・名前入力なし、コメント入力ありの場合：コメントに部分一致する掲示板
-			・名前とコメント両方入力なしの場合：全ての掲示板
+			・新しく掲示板リストArrayList<BoardBean>オブジェクトをインスタンスし、以下の条件に合致する掲示板リストを格納する
+				条件
+				・名前とコメント両方入力ありの場合（空文字""でない）：名前に完全一致かつコメントに部分一致する掲示板
+				・名前入力あり、コメント入力なしの場合：名前に完全一致する掲示板
+				・名前入力なし、コメント入力ありの場合：コメントに部分一致する掲示板
+				・名前とコメント両方入力なしの場合：全ての掲示板　※この場合ArrayList<BoardBean>オブジェクトをインスタンスせず、そのまま引数のboardListを戻り値として返す）
+				・boardListがnullの場合（名前とコメントの入力有無問わず）：ArrayList<BoardBean>オブジェクトをインスタンスせず、そのまま引数のboardListを戻り値として返す

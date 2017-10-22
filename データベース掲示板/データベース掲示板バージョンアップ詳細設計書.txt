@@ -1,0 +1,117 @@
+10/16改修内容
+
+boardMain.jsp
+	名前とコメントをリクエストスコープから取得
+		・取得した結果nullの場合、空文字""に置換
+		・検索用フォームのname, commentにセット
+	注意書きの追加
+		・コメントの右側に注意書き「※必須入力」
+	新規で検索フォーム作成
+		・名前（input type = "text" name="name")　※完全一致
+		・コメント（input type = "text" name="comment")　※部分一致
+		・検索（input type="submit"）※隠しパラメータ name="action" value="search"
+		・名前とコメントは検索表示後に入力内容が引き継がれる（他のボタンクリック後は引き継がれない）
+	掲示板の表示部分を変更
+		・show(search(name,comment,boardList))
+		
+boadDo.java
+	検索ボタンクリック時の挙動作成
+		doPost()メソッド内action=searchのとき
+			・リクエストパラメータからnameとcommentを取得
+			・リクエストスコープに取得したnameとcommentを格納
+			・boardMain.jspに転送
+
+BoardLogic.java
+	searchメソッド作成
+		・引数：String name、String comment、ArrayList<BoardBean> boardList
+		・戻り値：ArrayList<BoardBean>
+		・処理概要：引数で渡された掲示板リストのうち、以下の条件に合致する掲示板リストを戻り値として返す
+			・新しく掲示板リストArrayList<BoardBean>オブジェクトをインスタンスし、以下の条件に合致する掲示板リストを格納する
+				条件
+				・名前とコメント両方入力ありの場合（空文字""でない）：名前に完全一致かつコメントに部分一致する掲示板
+				・名前入力あり、コメント入力なしの場合：名前に完全一致する掲示板
+				・名前入力なし、コメント入力ありの場合：コメントに部分一致する掲示板
+				・名前とコメント両方入力なしの場合：全ての掲示板　※この場合ArrayList<BoardBean>オブジェクトをインスタンスせず、そのまま引数のboardListを戻り値として返す）
+				・boardListがnullの場合（名前とコメントの入力有無問わず）：ArrayList<BoardBean>オブジェクトをインスタンスせず、そのまま引数のboardListを戻り値として返す
+
+
+10/18・19改修内容
+
+DaoLogic.java(dao　パッケージ)
+	Connection変数作成クラス変数（クラス変数）：conn　※private
+		・初期値：null
+
+	PreparedStatement変数作成クラス変数（クラス変数）：ps　※private
+		・初期値：null
+
+	ResultSet変数作成クラス変数（クラス変数）：rs　※private
+		・初期値：null
+
+	取得メソッド作成：findBoard
+		・引数：String
+		・戻り値：ArrayList<BoardBean>
+
+	更新メソッド作成：updateBoard
+		・引数：String
+		・戻り値：Boolean
+
+	DBに接続するメソッド作成：startDB　※private
+		・引数：なし
+		・戻り値：なし	
+
+	DBから切断するメソッド作成：endDB　※private
+		・引数：なし
+		・戻り値：Boolean
+
+boadDo.java
+	アプリケーションスコープ利用箇所を削除
+	
+	(追加：ミッチェル：2017.10.19）
+	actionは「add」の場合：
+		・Beanのインスタンスをする時、new BoardBean(id, name, email, comment, "");
+		→new BoardBean(0, name, email, comment, "");
+	（追加）
+
+boardMain.jsp
+	アプリケーションスコープ利用箇所を削除
+
+	掲示板表示処理修正
+		・logic.show(logic.search(name,comment,boardList))
+		→logic.show(name,comment)
+
+boardAdmin.jsp
+	アプリケーションスコープ利用箇所を削除
+
+	掲示板表示処理修正
+		・logic.show(boardList)
+		→logic.show()
+
+	投稿削除ナンバーの選択肢修正
+		・logic.selectBox(boardList)
+		→logic.selectBox()
+
+BoardLogic.java
+	searchメソッド不要
+
+	showメソッド修正
+		・引数：String name、String comment
+		・SQL文作成
+		・DaoLogicのfindBoardにSQL文を渡し、boardListを取得
+
+	showメソッド追加
+		・引数：なし
+		・処理：show("","");
+
+	addメソッド修正
+		・SQL文作成
+		・DaoLogicのfindUpdateにSQL文を渡し、結果を取得（結果によってメッセージを変える）
+
+	delメソッド修正
+		・引数：int
+		・SQL文作成
+		・DaoLogicのfindUpdateにSQL文を渡し、結果を取得（結果によってメッセージを変える）
+
+	selectBoxメソッド修正
+		・引数：なし
+		・SQL文作成
+		・DaoLogicのfindBoardにSQL文を渡し、boardListを取得

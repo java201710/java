@@ -67,16 +67,17 @@ public class BoardLogic {
 	}
 
 	public String show(ArrayList<BoardBean> boardList) {
+		Common c =new Common();
 
 		String showList = "";
 		if (boardList != null) {
 			for (int i = boardList.size() - 1; i >= 0; i--) {
 
-				showList += "No." + boardList.get(i).getId() + ": " + boardList.get(i).getName();
+				showList += "No." + boardList.get(i).getId() + ": " + c.sanitizing(boardList.get(i).getName());
 
-				showList += "　　　E-mail: " + boardList.get(i).getEmail() + "<br>";
+				showList += "　　　E-mail: " + c.sanitizing(boardList.get(i).getEmail()) + "<br>";
 				showList += "<Div Align=\"right\">投稿日時: " + boardList.get(i).getDateTime() + "</Div><br>";
-				showList += "コメント: " + boardList.get(i).getComment().replaceAll("\n", "<br>") + "<br><hr>";
+				showList += "コメント: " + c.sanitizing(boardList.get(i).getComment().replaceAll("\n", "<br>")) + "<br><hr>";
 			}
 		}
 		return showList;
