@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.BoardBean;
 import model.BoardLogic;
@@ -22,6 +23,16 @@ public class BoardDo extends HttpServlet {
 			throws ServletException, IOException {
 
 		// 掲示板画面のアドレスを渡す(Pass the address to the main page)。
+		request.setAttribute("message", request.getSession().getAttribute("msg"));
+		request.getSession().removeAttribute("msg");
+				
+		if (request.getSession().getAttribute("attributeToRemove") != null) {
+			ArrayList<String> attributeList = (ArrayList<String>) request.getSession().getAttribute("attributeToRemove");
+			for (String s : attributeList) {
+				request.setAttribute(s, request.getSession().getAttribute(s));
+			}
+		}
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/boardMain.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -35,6 +46,13 @@ public class BoardDo extends HttpServlet {
 		ServletContext application = this.getServletContext();
 		ArrayList<BoardBean> boardList = (ArrayList<BoardBean>) application.getAttribute("boardList");
 		ArrayList<String> msg;
+//		ArrayList<String> attributeToRemove = new ArrayList<String>();
+		ArrayList<String> attributeToRemove = (ArrayList<String>) request.getSession().getAttribute("attributeToRemove");
+		if (attributeToRemove != null) {
+			removeTempAttributes(request, attributeToRemove);
+		}
+		attributeToRemove = new ArrayList<String>();
+		
 		BoardLogic bLogic = new BoardLogic();
 
 		String forwardPath = null;
@@ -77,8 +95,9 @@ public class BoardDo extends HttpServlet {
 				application.setAttribute("finalId", finalId);
 				boardList.add(bBean);
 			}
-			request.setAttribute("message", msg);
-			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
+			
+			request.getSession().setAttribute("msg", msg);
+			response.sendRedirect("/board2/BoardDoRedirect");
 		} else if (request.getParameter("action").equals("admin")) {
 			// 変数の宣言と初期値(Set variables)。
 			String adminPass = request.getParameter("adminpass");
@@ -86,26 +105,64 @@ public class BoardDo extends HttpServlet {
 			msg = bLogic.admin(adminPass);
 			if (msg.get(0).equals("")) {
 				// 成功の場合(If successful)。
-				forwardPath = "/WEB-INF/jsp/boardAdmin.jsp";
+				//Update 2017.10.22 Replaced by redirect process below::
+//				forwardPath = "/WEB-INF/jsp/boardAdmin.jsp";
+				
+				request.getSession().setAttribute("msg", msg);
+				System.out.println(request.getSession().getAttribute("msg"));
+				response.sendRedirect("/board2/BoardDoRedirect");
 			} else {
-				request.setAttribute("message", msg);
-				forwardPath = "/WEB-INF/jsp/boardMain.jsp";
+				//Update 2017.10.22 Replaced by redirect process below::
+//				request.setAttribute("message", msg);
+//				forwardPath = "/WEB-INF/jsp/boardMain.jsp";
+				
+				request.getSession().setAttribute("msg", msg);
+				response.sendRedirect("/board2/BoardDoRedirect");
 			}
 		} else if (request.getParameter("action").equals("del")) {
 			// 変数の宣言と初期値(Set variables)。
 			String delId = request.getParameter("delid");
-
+			
 			msg = bLogic.del(delId, boardList);
-			request.setAttribute("message", msg);
-			forwardPath = "/WEB-INF/jsp/boardAdmin.jsp";
+			
+			//Update 2017.10.22 Replaced by redirect process below::
+//			request.setAttribute("message", msg);
+//			forwardPath = "/WEB-INF/jsp/boardAdmin.jsp";
+			
+			request.getSession().setAttribute("msg", msg);
+			request.getSession().setAttribute("admin", "admin");
+			response.sendRedirect("/board2/BoardDoRedirect");
 		} else if (request.getParameter("action").equals("search")) {
-			request.setAttribute("name", request.getParameter("name"));
-			request.setAttribute("comment", request.getParameter("comment"));
-			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
+			
+//			request.setAttribute("name", request.getParameter("name"));
+//			request.setAttribute("comment", request.getParameter("comment"));
+//			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
+			
+			attributeToRemove.add("name");
+			attributeToRemove.add("comment");
+			addTempAttributes(request, attributeToRemove);
+			
+			response.sendRedirect("/board2/BoardDoRedirect");
 		}
-
-		RequestDispatcher dispatcher = request.getRequestDispatcher(forwardPath);
-		dispatcher.forward(request, response);
+		
+		if (forwardPath != null) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher(forwardPath);
+			dispatcher.forward(request, response);
+		}
+	}
+	
+	private void addTempAttributes(HttpServletRequest request, ArrayList<String> attributeList) {
+		for (String s : attributeList) {
+			request.getSession().setAttribute(s, request.getParameter(s));
+		}
+		request.getSession().setAttribute("attributeToRemove", attributeList);
+	}
+	
+	private void removeTempAttributes(HttpServletRequest request, ArrayList<String> attributeList) {
+		for (String s : attributeList) {
+			request.getSession().removeAttribute(s);
+		}
+		request.getSession().removeAttribute("attributeToRemove");
 	}
 
 }

@@ -16,6 +16,11 @@
 	if (comment == null) {
 		comment = "";
 	}
+	
+	if (request.getAttribute("logout") != null) {
+	if ((Integer) request.getAttribute("logout") == 1) {
+		request.getSession().removeAttribute("admin");
+	}}
 %>
 
 <!DOCTYPE html>
