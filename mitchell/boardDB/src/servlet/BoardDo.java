@@ -21,8 +21,15 @@ public class BoardDo extends HttpServlet {
 			throws ServletException, IOException {
 
 		// 掲示板画面のアドレスを渡す(Pass the address to the main page)。
-//		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/boardMain.jsp");
-//		dispatcher.forward(request, response);
+		request.setAttribute("message", request.getSession().getAttribute("msg"));
+		request.getSession().removeAttribute("msg");
+
+		if (request.getSession().getAttribute("paramArrayList") != null) {
+			ArrayList<String> test = (ArrayList<String>) request.getSession().getAttribute("paramArrayList");
+			for (String s : test) {
+				request.setAttribute(s, request.getSession().getAttribute(s));
+			}
+		}
 
 		request.getRequestDispatcher("/WEB-INF/jsp/boardMain.jsp").forward(request, response);
 	}
@@ -33,7 +40,7 @@ public class BoardDo extends HttpServlet {
 
 		// 変数の宣言と初期値(Set variables)。
 		BoardLogic bLogic = new BoardLogic();
-		ArrayList<String> msg;
+		ArrayList<String> msg = null;
 		String forwardPath = null;
 
 		/*
@@ -54,11 +61,6 @@ public class BoardDo extends HttpServlet {
 
 			bBean = new BoardBean(0, name, email, comment, "");
 			msg = bLogic.add(bBean);
-
-//			request.setAttribute("message", msg);
-//			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
-
-			response.sendRedirect("/boardDB/BoardDoRedirect");
 
 		} else if (request.getParameter("action").equals("admin")) {
 			// 変数の宣言と初期値(Set variables)。
@@ -81,13 +83,40 @@ public class BoardDo extends HttpServlet {
 			forwardPath = "/WEB-INF/jsp/boardAdmin.jsp";
 		} else if (request.getParameter("action").equals("search")) {
 			Common c = new Common();
-			request.setAttribute("name", c.sanitizing(request.getParameter("name")));
-			request.setAttribute("comment", c.sanitizing(request.getParameter("comment")));
-			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
+
+			request.getSession().setAttribute("name", c.sanitizing(request.getParameter("name")));
+			request.getSession().setAttribute("comment", c.sanitizing(request.getParameter("comment")));
+			ArrayList<String> test = new ArrayList<String>();
+			test.add("name");
+			test.add("comment");
+
+
+			//request.setAttribute("name", c.sanitizing(request.getParameter("name")));
+			//request.setAttribute("comment", c.sanitizing(request.getParameter("comment")));
+//			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
 		}
 
-//		RequestDispatcher dispatcher = request.getRequestDispatcher(forwardPath);
-//		dispatcher.forward(request, response);
+//		if (msg != null) {
+			request.getSession().setAttribute("msg", msg);
+			response.sendRedirect("/boardDB/BoardDoRedirect");
+//		} else {
+//			request.getRequestDispatcher(forwardPath).forward(request, response);
+//		}
+	}
+
+	private void paramAdd(HttpServletRequest request, ArrayList<String> tempList) {
+		for (String s : tempList) {
+			request.getSession().setAttribute(s, s);
+			System.out.println("2 " + request.getSession().getAttribute(s));
+		}
+		request.getSession().setAttribute("paramArrayList", tempList);
+	}
+
+	private void paramRemove(HttpServletRequest request, ArrayList<String> tempList) {
+		for (String s : tempList) {
+			request.getSession().removeAttribute(s);
+		}
+		request.getSession().removeAttribute("paramArrayList");
 	}
 
 }
