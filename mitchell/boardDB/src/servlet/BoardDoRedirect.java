@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,18 +14,19 @@ import model.BoardBean;
 import model.BoardLogic;
 import model.Common;
 
-@WebServlet("/BoardDo")
-public class BoardDo extends HttpServlet {
+@WebServlet("/BoardDoRedirect")
+public class BoardDoRedirect extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+
 		// 掲示板画面のアドレスを渡す(Pass the address to the main page)。
+		request.getRequestDispatcher("/WEB-INF/jsp/boardMain.jsp").forward(request, response);
+
 //		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/boardMain.jsp");
 //		dispatcher.forward(request, response);
-
-		request.getRequestDispatcher("/WEB-INF/jsp/boardMain.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -53,13 +55,11 @@ public class BoardDo extends HttpServlet {
 			BoardBean bBean;
 
 			bBean = new BoardBean(0, name, email, comment, "");
+System.out.println("BoardDo " + bBean.getComment());
 			msg = bLogic.add(bBean);
 
-//			request.setAttribute("message", msg);
-//			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
-
-			response.sendRedirect("/boardDB/BoardDoRedirect");
-
+			request.setAttribute("message", msg);
+			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
 		} else if (request.getParameter("action").equals("admin")) {
 			// 変数の宣言と初期値(Set variables)。
 			String adminPass = request.getParameter("adminpass");
@@ -86,8 +86,8 @@ public class BoardDo extends HttpServlet {
 			forwardPath = "/WEB-INF/jsp/boardMain.jsp";
 		}
 
-//		RequestDispatcher dispatcher = request.getRequestDispatcher(forwardPath);
-//		dispatcher.forward(request, response);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(forwardPath);
+		dispatcher.forward(request, response);
 	}
 
 }
