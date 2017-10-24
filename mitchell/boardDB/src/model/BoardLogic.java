@@ -141,7 +141,6 @@ sql.append(c.sqlSanitizing(comment));
 				sql.append("%'");
 			}
 		}
-System.out.println(sql);
 		DaoLogic Dao = new DaoLogic();
 		ArrayList<BoardBean> boardList = Dao.findBoard(sql.toString());
 		//20171019 add end mukaiyama
