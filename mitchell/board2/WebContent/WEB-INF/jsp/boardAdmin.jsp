@@ -53,7 +53,7 @@ table#msgtable {
 	<%
 		}
 	%>
-	<a href="/board2/BoardDo">Return</a>
+	<a href="/board2/BoardDo?logout=1">Return</a>
 
 	<form action="/board2/BoardDo" method="post">
 		<%=bLogic.selectBox(boardList)%>
