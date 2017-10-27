@@ -4,8 +4,16 @@
 <%@ page import="employee.model.EmployeeSystemLogic"%>
 <%
 	String employeeName = (String) session.getAttribute("employeeName");
-	String message = (String) request.getAttribute("message");
+	//int adminFlag = Integer.parseInt(((String) session.getAttribute("adminFlag")));
+	byte adminFlag = (Byte) session.getAttribute("adminFlag");
+
+
+
+	ArrayList<String> message = (ArrayList<String>) request.getAttribute("message");
 	EmployeeSystemLogic eSysLogic = new EmployeeSystemLogic();
+
+
+
 	ArrayList<String> baseList = eSysLogic.baseList;
 	ArrayList<String> departmentList = eSysLogic.departmentList;
 	ArrayList<String> divisionList = eSysLogic.divisionList;
@@ -24,13 +32,27 @@
 		<tr>
 			<td align="left">社員情報管理</td>
 			<%
-			if (message != null) { %>
-				<td align="center"><%=message %></td>
+			if (message != null) {
+				for (String s : message) {
+				%>
+
+				<td align="center"><%=s %></td>
+				<%
+				}
+				%>
 			<%
 			}
 			%>
-			<td align="right">ユーザー：<%= employeeName %>　さん<br><a href="/EmployeeControl/EmployeeSystem?logout=1">ログアウト</a></td>
-		</tr>	
+			<td align="right">ユーザー：<% if (adminFlag == 1) {
+											%>
+											<font color="blue"><%= employeeName %></font>
+										<% } else { %>
+											<%= employeeName %>
+										<%
+										}
+										%>さん<br><a href="/EmployeeControl/EmployeeSystem?logout=1">ログアウト</a>
+			</td>
+		</tr>
 	</table>
 	<table border=1 width=100%>
 	<tr>
@@ -42,11 +64,18 @@
 				<td align="center"><hr></td>
 			</tr>
 			<tr>
-				<td align="left"><a href="">個人情報</a></td>
+				<td align="left"><a href="">
+								<a href="/EmployeeControl/EmployeeSystem?page=viewuser&selectedUser=
+								<%= (String) session.getAttribute("employeeId") %>">個人情報</a></td>
 			</tr>
-			<tr>
-				<td align="left"><a href="">新規登録</a></td>
-			</tr>
+				<% if (adminFlag == 1) {
+					%>
+					<tr>
+						<td align="left"><a href="">新規登録</a></td>
+					</tr>
+				<%
+				}
+				%>
 		</table></td>
 		<td align="center"><form action="/EmployeeControl/EmployeeSystem" method="post">
 			<input type="hidden" name="action" value="search">
@@ -54,10 +83,10 @@
 				<tr>
 					<td colspan="8" align="left">検索するには</td>
 				</tr>
-				<tr>	
+				<tr>
 					<td>拠点：</td><td><!-- <select name="baseName"><option value=0>--</option></select> --><%= eSysLogic.createSelectBox("baseName", baseList) %></td>
-					<td>部署：</td><td><!-- <select name="departmentName"><option value=0>--</option></select> --><%= eSysLogic.createSelectBox("departmentName", departmentList) %></td>		
-					<td>課：</td><td><!-- <select name="divisionName"><option value=0>--</option></select> --><%= eSysLogic.createSelectBox("divisionName", divisionList) %></td>		
+					<td>部署：</td><td><!-- <select name="departmentName"><option value=0>--</option></select> --><%= eSysLogic.createSelectBox("departmentName", departmentList) %></td>
+					<td>課：</td><td><!-- <select name="divisionName"><option value=0>--</option></select> --><%= eSysLogic.createSelectBox("divisionName", divisionList) %></td>
 					<td>役職：</td><td><!-- <select name="positionName"><option value=0>--</option></select> --><%= eSysLogic.createSelectBox("PositionName", positionList) %></td>
 				</tr>
 					<td>入社年月：</td><td colspan="3"><select name="fromDate"><option value=0>--</option></select></td>
@@ -77,7 +106,7 @@
 	</table>
 	<br>
 	社員情報
-	
+
 	<div style="height: 500px; overflow-y: scroll; overflow-x: scroll">
 	<table border=1 width=100%>
 		<tr>

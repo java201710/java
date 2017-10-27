@@ -21,7 +21,7 @@ public class EmployeeSystemLogic {
 	    add("支店システム部");
 	    add("支店営業部");
 	    add("仙台");
-	}};	
+	}};
 	public ArrayList<String> divisionList = new ArrayList<String>() {{
 	    add("推進企画課");
 	    add("事業企画課");
@@ -42,13 +42,13 @@ public class EmployeeSystemLogic {
 	    add("契約社員");
 	    add("派遣社員・パート");
 	}};
-	
+
 	public EmployeeSystemLogic() {
 	}
-	
+
 	public String createSelectBox(String idName, ArrayList<String> list) {
 		StringBuilder output = new StringBuilder();
-		
+
 		int i = 0;
 		output.append("<select name=\"" + idName + "\">");
 		output.append("<option value = " + i + ">--</option>");
@@ -58,6 +58,22 @@ public class EmployeeSystemLogic {
 			i++;
 		}
 		output.append("</select>");
+		return output.toString();
+	}
+
+	public EmployeeBean findEmployee (String employeeId) {
+		//Should be involving the DAO
+		EmployeeBean eBean = new EmployeeBean(employeeId);
+
+		return eBean;
+	}
+
+	public String viewUser (EmployeeBean eBean) {
+		//TODO: DAO Business
+		StringBuilder output = new StringBuilder();
+
+		output.append("<p>This is the user... " + eBean.getEmployeeId() + "</p>");
+
 		return output.toString();
 	}
 }
