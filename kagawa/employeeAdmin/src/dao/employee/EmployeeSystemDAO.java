@@ -7,13 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.BoardBean;
+import employee.model.EmployeeBean;
 
-public class DaoLogic {
+//作成：2017/10/27 香川 雄一
+public class EmployeeSystemDAO {
 
 	//DB接続情報を設定する
 	private final String DRIVER = "com.mysql.jdbc.Driver";
-	private final String PATH = "jdbc:mysql://localhost/boarddb"; //接続パス
+	private final String PATH = "jdbc:mysql://localhost/employee_admin"; //接続パス
 	private final String ID = "root"; //ログインID
 	private final String PW = "root00"; //ログインパスワード
 
@@ -52,9 +53,9 @@ public class DaoLogic {
 	}
 
 	// 取得メソッド
-	public ArrayList<BoardBean> findBoard(String sql) {
-		// 戻り値の掲示板リスト
-		ArrayList<BoardBean> boardList = new ArrayList<BoardBean>();
+	public ArrayList<EmployeeBean> findEmployee(String sql) {
+		// 戻り値の社員情報リスト
+		ArrayList<EmployeeBean> employeeList = new ArrayList<EmployeeBean>();
 
 		try {
 			startDB();
@@ -67,7 +68,7 @@ public class DaoLogic {
 				String email = rs.getString("email");
 				String comment = rs.getString("comment");
 				String dateTime = rs.getString("dateTime");
-				BoardBean board = new BoardBean(id, name, email, comment, dateTime);
+				EmployeeBean board = new EmployeeBean(id, name, email, comment, dateTime);
 				boardList.add(board);
 			}
 		} catch (Exception e) {
@@ -75,16 +76,15 @@ public class DaoLogic {
 			e.printStackTrace(); //エラー内容をコンソールに出力する
 			return null;
 		} finally {
-			// DBから切断する（失敗した場合は戻り値null）
-			if (!endDB())
-				return null;
+			// DBから切断する
+			endDB();
 		}
 
 		return boardList;
 	}
 
 	// 更新メソッド
-	public Boolean updateBoard(String sql) {
+	public int updateEmployee(String sql) {
 
 		try {
 			startDB();

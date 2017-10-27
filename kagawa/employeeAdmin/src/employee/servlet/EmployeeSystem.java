@@ -1,4 +1,4 @@
-package servlet;
+package employee.servlet;
 
 import java.io.IOException;
 
@@ -14,14 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/EmployeeSystem")
 //作成：2017/10/26 向山 憲之
 public class EmployeeSystem extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public EmployeeSystem() {
-        super();
-        // TODO Auto-generated constructor stub
     }
 
     //メソッド名：doGet
