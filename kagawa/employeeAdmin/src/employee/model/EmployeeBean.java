@@ -1,4 +1,4 @@
-package model;
+package employee.model;
 //作成：2017/10/26 向山 憲之
 public class EmployeeBean {
 
@@ -16,7 +16,10 @@ public class EmployeeBean {
 	String publicCellphoneNumber;	//業務携帯番号
 	byte adminFlag;	//管理者フラグ
 
-//拠点マスタ	base
+public EmployeeBean() {
+	}
+
+	//拠点マスタ	base
 	String baseName;	//拠点名
 
 //部署マスタ	department
