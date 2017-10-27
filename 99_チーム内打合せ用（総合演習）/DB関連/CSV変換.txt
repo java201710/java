@@ -1,0 +1,10 @@
+
+LOAD DATA INFILE "c:/employee.csv" INTO TABLE employee FIELDS TERMINATED BY ',';
+
+LOAD DATA INFILE "c:/base.csv" INTO TABLE base FIELDS TERMINATED BY ',';
+
+LOAD DATA INFILE "c:/department.csv" INTO TABLE department FIELDS TERMINATED BY ',';
+
+LOAD DATA INFILE "c:/division.csv" INTO TABLE division FIELDS TERMINATED BY ',';
+
+LOAD DATA INFILE "c:/position_table.csv" INTO TABLE position_table FIELDS TERMINATED BY ',';
