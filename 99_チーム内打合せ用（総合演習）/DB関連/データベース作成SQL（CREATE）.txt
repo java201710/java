@@ -48,3 +48,31 @@ positionCode VARCHAR(1) NOT NULL,
 positionName VARCHAR(20) NOT NULL,
 PRIMARY KEY(positionCode)
 );
+
+
+
+・ビュー表作成(ビュー表名：employee_view)
+CREATE VIEW employee_view as
+SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,
+B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,
+DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,
+E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode;
+
+
+
+
+
+・全テーブル結合表
+SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,
+B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,
+DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,
+E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode;
+
