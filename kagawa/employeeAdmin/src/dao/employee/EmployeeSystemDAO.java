@@ -63,13 +63,27 @@ public class EmployeeSystemDAO {
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				String email = rs.getString("email");
-				String comment = rs.getString("comment");
-				String dateTime = rs.getString("dateTime");
-				EmployeeBean board = new EmployeeBean(id, name, email, comment, dateTime);
-				boardList.add(board);
+				EmployeeBean employee = new EmployeeBean();
+				employee.setEmployeeId(rs.getInt("employeeId"));
+				employee.setPassword(rs.getString("password"));
+				employee.setEmployeeName(rs.getString("employeeName"));
+				employee.setKana(rs.getString("kana"));
+				employee.setGender(rs.getString("gender"));
+				employee.setDepartmentCode(rs.getString("departmentCode"));
+				employee.setDivisionCode(rs.getString("divisionCode"));
+				employee.setPositionCode(rs.getString("positionCode"));
+				employee.setPositionMemo(rs.getString("positionMemo"));
+				employee.setNaisenNumber(rs.getString("naisenNumber"));
+				employee.setPublicCellphoneNumber(rs.getString("publicCellphoneNumber"));
+				employee.setAdminFlag(rs.getByte("adminFlag"));
+				employee.setBaseCode(rs.getString("baseCode"));
+				employee.setBaseName(rs.getString("baseName"));
+				employee.setDepartmentName(rs.getString("departmentName"));
+				employee.setDivisionName(rs.getString("divisionName"));
+				employee.setPositionName(rs.getString("positionName"));
+				employee.setFromDate(rs.getInt("fromDate"));
+				employee.setToDate(rs.getInt("toDate"));
+				employeeList.add(employee);
 			}
 		} catch (Exception e) {
 			//例外発生時の処理
@@ -80,26 +94,28 @@ public class EmployeeSystemDAO {
 			endDB();
 		}
 
-		return boardList;
+		return employeeList;
 	}
 
 	// 更新メソッド
 	public int updateEmployee(String sql) {
 
+		int result;
+
 		try {
 			startDB();
 			ps = conn.prepareStatement(sql);
-			ps.executeUpdate();
+			result = ps.executeUpdate();
 
 		} catch (Exception e) {
 			//例外発生時の処理
 			e.printStackTrace(); //エラー内容をコンソールに出力する
-			return false;
+			return -1;
 		} finally {
 			// DBから切断する
 			endDB();
 		}
 
-		return true;
+		return result;
 	}
 }
