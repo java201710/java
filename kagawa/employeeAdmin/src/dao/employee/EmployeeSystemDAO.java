@@ -68,8 +68,8 @@ public class EmployeeSystemDAO {
 				String email = rs.getString("email");
 				String comment = rs.getString("comment");
 				String dateTime = rs.getString("dateTime");
-				EmployeeBean board = new EmployeeBean(id, name, email, comment, dateTime);
-				boardList.add(board);
+				EmployeeBean employee = new EmployeeBean();
+				employeeList.add(employee);
 			}
 		} catch (Exception e) {
 			//例外発生時の処理
@@ -80,26 +80,28 @@ public class EmployeeSystemDAO {
 			endDB();
 		}
 
-		return boardList;
+		return employeeList;
 	}
 
 	// 更新メソッド
 	public int updateEmployee(String sql) {
 
+		int result;
+
 		try {
 			startDB();
 			ps = conn.prepareStatement(sql);
-			ps.executeUpdate();
+			result = ps.executeUpdate();
 
 		} catch (Exception e) {
 			//例外発生時の処理
 			e.printStackTrace(); //エラー内容をコンソールに出力する
-			return false;
+			return -1;
 		} finally {
 			// DBから切断する
 			endDB();
 		}
 
-		return true;
+		return result;
 	}
 }
