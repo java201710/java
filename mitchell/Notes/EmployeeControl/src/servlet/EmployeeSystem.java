@@ -43,11 +43,12 @@ public class EmployeeSystem extends HttpServlet {
 				if ((String) request.getParameter("page") != null) {
 					if (((String) request.getParameter("page")).equals("viewuser")) {
 						//TODO: there is no error check here
-						EmployeeBean eBean = new EmployeeBean((String) request.getParameter("selectedUser"));
+						EmployeeBean eBean = new EmployeeBean(Integer.parseInt((String) request.getParameter("selectedUser")));
 						message = eSysLogic.viewUser(eBean);
 
 						setSessionAttribute(session, "selectedUserBean", eBean);
-						setSessionAttribute(session, "message", message);
+						//setSessionAttribute(session, "message", message);
+						request.setAttribute("message", message);
 						forward = "/WEB-INF/employee/employeeViewer.jsp";
 					} else {
 						//TODO:
@@ -73,10 +74,7 @@ public class EmployeeSystem extends HttpServlet {
 		EmployeeSystemLogic eSysLogic = new EmployeeSystemLogic();
 
 		if (request.getParameter("action").equals("login")) {
-			EmployeeBean eBean = eSysLogic.findEmployee((String) request.getParameter("employeeId"));
-
-			//Testing for now
-			eBean.setEmployeeName("ミッチェル");
+			EmployeeBean eBean = eSysLogic.findEmployee(Integer.parseInt(request.getParameter("employeeId")));
 
 			setSessionAttribute(session, "employeeId", eBean.getEmployeeId());
 			setSessionAttribute(session, "employeeName", eBean.getEmployeeName());
@@ -86,6 +84,32 @@ public class EmployeeSystem extends HttpServlet {
 	}
 
 	//TODO:: Cant I just look at the object and then cast it instead of trying to make all of these seperate methods?
+//	private void setSessionAttribute(HttpSession session, String attributeName, Object attributeValue) {
+//		ArrayList<String> sessionAttributes = (ArrayList<String>) session.getAttribute("sessionAttributes");
+//		if (sessionAttributes == null) {
+//			sessionAttributes = new ArrayList<String>();
+//		}
+//
+//		session.setAttribute(attributeName, attributeValue);
+//		sessionAttributes.add(attributeName);
+//		session.setAttribute("sessionAttributes", sessionAttributes);
+//	}
+
+
+
+
+
+	private void setSessionAttribute(HttpSession session, String attributeName, int attributeValue) {
+		ArrayList<String> sessionAttributes = (ArrayList<String>) session.getAttribute("sessionAttributes");
+		if (sessionAttributes == null) {
+			sessionAttributes = new ArrayList<String>();
+		}
+
+		session.setAttribute(attributeName, attributeValue);
+		sessionAttributes.add(attributeName);
+		session.setAttribute("sessionAttributes", sessionAttributes);
+	}
+
 
 	private void setSessionAttribute(HttpSession session, String attributeName, String attributeValue) {
 		ArrayList<String> sessionAttributes = (ArrayList<String>) session.getAttribute("sessionAttributes");

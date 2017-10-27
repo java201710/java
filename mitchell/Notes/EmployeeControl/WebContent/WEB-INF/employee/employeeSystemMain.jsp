@@ -4,8 +4,8 @@
 <%@ page import="employee.model.EmployeeSystemLogic"%>
 <%
 	String employeeName = (String) session.getAttribute("employeeName");
-	//int adminFlag = Integer.parseInt(((String) session.getAttribute("adminFlag")));
 	byte adminFlag = (Byte) session.getAttribute("adminFlag");
+	int employeeId = (Integer) session.getAttribute("employeeId");
 
 
 
@@ -66,12 +66,12 @@
 			<tr>
 				<td align="left"><a href="">
 								<a href="/EmployeeControl/EmployeeSystem?page=viewuser&selectedUser=
-								<%= (String) session.getAttribute("employeeId") %>">個人情報</a></td>
+								<%= employeeId %>">個人情報</a></td>
 			</tr>
 				<% if (adminFlag == 1) {
 					%>
 					<tr>
-						<td align="left"><a href="">新規登録</a></td>
+						<td align="left"><a href="/EmployeeControl/EmployeeSystem?page=registerUser">新規登録</a></td>
 					</tr>
 				<%
 				}

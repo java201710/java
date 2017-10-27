@@ -61,7 +61,7 @@ public class EmployeeSystemLogic {
 		return output.toString();
 	}
 
-	public EmployeeBean findEmployee (String employeeId) {
+	public EmployeeBean findEmployee (int employeeId) {
 		//Should be involving the DAO
 		EmployeeBean eBean = new EmployeeBean(employeeId);
 
@@ -72,8 +72,42 @@ public class EmployeeSystemLogic {
 		//TODO: DAO Business
 		StringBuilder output = new StringBuilder();
 
-		output.append("<p>This is the user... " + eBean.getEmployeeId() + "</p>");
-
+		output.append("<table><tr>" +
+				"				<td>社員ＩＤ：</td><td>" + eBean.getEmployeeId() + "</td><td align=\"center\">写真：</td><td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td>名前：</td><td>" + eBean.getEmployeeName() + "</td><td rowspan=\"10\">" +
+				"					<table border=1 width=300 height=400><tr><td align=\"center\"><img src=\"\"/></td></tr></table>" +
+				"				</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td>ふりがな：</td><td>" + eBean.getKana() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td>性別：</td><td>" + eBean.getGender() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td>拠点：</td><td>" + eBean.getBaseName() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td>部署：</td><td>" + eBean.getDepartmentName() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td>課：</td><td>" + eBean.getDivisionName() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td>役職：</td><td>" + eBean.getPositionName() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td>役職詳細：</td><td>" + eBean.getPositionMemo() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td>内線：</td><td>" + eBean.getNaisenNumber() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td>業務携帯番号：</td><td>" + eBean.getPublicCellphoneNumber() + "</td>" +
+				"			</tr>" +
+				"		</table>");
 		return output.toString();
 	}
 }

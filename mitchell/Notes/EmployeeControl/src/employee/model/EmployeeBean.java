@@ -3,53 +3,36 @@ package employee.model;
 import java.io.Serializable;
 
 public class EmployeeBean implements Serializable {
-	private String employeeId;
-	private String password;
-	private String employeeName;
-	private String baseName;
-	private String departmentName;
-	private String divisionName;
-	private String positionName;
-	private String naisenNumber;
-	private String publicCellphoneNumber;
-
+	private int employeeId;
+	private String password = "temp";
+	private String employeeName = "ミッチェル";
+	private String kana = "temp";
+	private String baseName = "temp";
+	private String departmentName = "temp";
+	private String divisionName = "temp";
+	private String positionName = "temp";
+	private String positionMemo = "temp";
+	private String naisenNumber = "temp";
+	private String publicCellphoneNumber = "temp";
 	private byte adminFlag = 1;
+	private String gender = "男";
 
 	//private int fromDate;
 	//private into toDate;
 
 	public EmployeeBean() {
-		this("0");
+		this(0);
 	}
 
-	public EmployeeBean(String employeeId) {
-		this(employeeId, "");
-	}
-
-	public EmployeeBean(String employeeId, String employeeName) {
-		this(employeeId, employeeName,"","","","","","", "");
-	}
-
-	public EmployeeBean(String employeeId, String password, String employeeName, String baseName,
-			String departmentName, String divisionName, String positionName, String naisenNumber,
-			String publicCellphoneNumber) {
-
+	public EmployeeBean(int employeeId) {
 		setEmployeeId(employeeId);
-		setPassword(password);
-		setEmployeeName(employeeName);
-		setBaseName(baseName);
-		setDepartmentName(departmentName);
-		setDivisionName(divisionName);
-		setPositionName(positionName);
-		setNaisenNumber(naisenNumber);
-		setPublicCellphoneNumber(publicCellphoneNumber);
 	}
 
-	public String getEmployeeId() {
+	public int getEmployeeId() {
 		return employeeId;
 	}
 
-	public void setEmployeeId(String employeeId) {
+	public void setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;
 	}
 
@@ -65,6 +48,14 @@ public class EmployeeBean implements Serializable {
 
 	public void setEmployeeName(String employeeName) {
 		this.employeeName = employeeName;
+	}
+
+	public String getKana() {
+		return kana;
+	}
+
+	public void setKana(String kana) {
+		this.kana = kana;
 	}
 
 	public String getBaseName() {
@@ -121,6 +112,22 @@ public class EmployeeBean implements Serializable {
 
 	public void setAdminFlag(byte adminFlag) {
 		this.adminFlag = adminFlag;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getPositionMemo() {
+		return positionMemo;
+	}
+
+	public void setPositionMemo(String positionMemo) {
+		this.positionMemo = positionMemo;
 	}
 
 }
