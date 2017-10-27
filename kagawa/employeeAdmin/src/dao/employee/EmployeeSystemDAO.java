@@ -63,12 +63,26 @@ public class EmployeeSystemDAO {
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				String email = rs.getString("email");
-				String comment = rs.getString("comment");
-				String dateTime = rs.getString("dateTime");
 				EmployeeBean employee = new EmployeeBean();
+				employee.setEmployeeId(rs.getInt("employeeId"));
+				employee.setPassword(rs.getString("password"));
+				employee.setEmployeeName(rs.getString("employeeName"));
+				employee.setKana(rs.getString("kana"));
+				employee.setGender(rs.getString("gender"));
+				employee.setDepartmentCode(rs.getString("departmentCode"));
+				employee.setDivisionCode(rs.getString("divisionCode"));
+				employee.setPositionCode(rs.getString("positionCode"));
+				employee.setPositionMemo(rs.getString("positionMemo"));
+				employee.setNaisenNumber(rs.getString("naisenNumber"));
+				employee.setPublicCellphoneNumber(rs.getString("publicCellphoneNumber"));
+				employee.setAdminFlag(rs.getByte("adminFlag"));
+				employee.setBaseCode(rs.getString("baseCode"));
+				employee.setBaseName(rs.getString("baseName"));
+				employee.setDepartmentName(rs.getString("departmentName"));
+				employee.setDivisionName(rs.getString("divisionName"));
+				employee.setPositionName(rs.getString("positionName"));
+				employee.setFromDate(rs.getInt("fromDate"));
+				employee.setToDate(rs.getInt("toDate"));
 				employeeList.add(employee);
 			}
 		} catch (Exception e) {
