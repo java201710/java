@@ -43,7 +43,7 @@ PRIMARY KEY(divisionCode)
 );
 
 ・役職マスタ
-CREATE TABLE position(
+CREATE TABLE position_table(
 positionCode VARCHAR(1) NOT NULL,
 positionName VARCHAR(20) NOT NULL,
 PRIMARY KEY(positionCode)
