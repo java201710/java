@@ -2,12 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%
 	/*
-	*メイズ・ミッチェル　（更新日時：２０１７年１０月２８日）
-	*（未入力）
+	* 社員情報管理の社員情報詳細画面
+	*	（更新日時：２０１７年１０月２９日）
+	*	<-- メイズ・ミッチェル -->　
 	*/
-
-	//引数の初期化
-	byte adminFlag = (Byte) session.getAttribute("adminFlag");
+	
+	//変数
+	byte login_adminFlag = (Byte) session.getAttribute("login_adminFlag");
 	String html = (String) request.getAttribute("html");
 	
 	if (html == null) {
@@ -21,6 +22,15 @@
 span#header {
 	font-weight: bold;
 	font-size: 25px;
+}
+table#dataframe {
+	 width: 600px;
+}
+
+table#pictureframe {
+	border: 1px solid black;
+	width: 300px;
+	height: 400px;
 }
 
 td#rowheader {
@@ -40,20 +50,13 @@ td#pictureheader {
 	<span id="header">社員情報詳細</span>
 	<br>
 	<br>
-	<%=html%>
-	<hr>
+	<%= html %>
 	<table>
 		<tr>
-			<%
-				if (adminFlag == 1) {
-			%>
-			<td><a
-				href="/employeeAdmin/EmployeeSystem?page=updateUser&lastpage=viewUser">修正</a></td>
-			<td><a
-				href="/employeeAdmin/EmployeeSystem?page=deleteUser&lastpage=viewUser">削除</a></td>
-			<%
-				}
-			%>
+			<% if (login_adminFlag == 1) { %>
+			<td><a href="/employeeAdmin/EmployeeSystem?page=updateUser&lastpage=viewUser">修正</a></td>
+			<td><a href="/employeeAdmin/EmployeeSystem?page=deleteUser&lastpage=viewUser">削除</a></td>
+			<% } %>
 			<td><a href="/employeeAdmin/EmployeeSystem">戻る</a></td>
 		</tr>
 	</table>
