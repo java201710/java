@@ -1,32 +1,41 @@
 package employee.model;
 
-import java.io.Serializable;
+//作成：2017/10/26 向山 憲之
+public class EmployeeBean {
 
-public class EmployeeBean implements Serializable {
-	private int employeeId;
-	private String password = "temp";
-	private String employeeName = "ミッチェル";
-	private String kana = "temp";
-	private String baseName = "temp";
-	private String departmentName = "temp";
-	private String divisionName = "temp";
-	private String positionName = "temp";
-	private String positionMemo = "temp";
-	private String naisenNumber = "temp";
-	private String publicCellphoneNumber = "temp";
-	private byte adminFlag = 1;
-	private String gender = "男";
-
-	//private int fromDate;
-	//private into toDate;
+	//社員情報テーブル	employee
+	int employeeId; //社員ID
+	String password; //パスワード
+	String employeeName; //名前
+	String kana; //ふりがな
+	String gender; //性別
+	String departmentCode; //部署コード
+	String divisionCode; //課コード
+	String positionCode; //役職コード
+	String positionMemo; //役職詳細
+	String naisenNumber; //内線番号
+	String publicCellphoneNumber; //業務携帯番号
+	byte adminFlag; //管理者フラグ
 
 	public EmployeeBean() {
-		this(0);
 	}
 
-	public EmployeeBean(int employeeId) {
-		setEmployeeId(employeeId);
-	}
+	//拠点マスタ	base
+	String baseCode; //拠点コード
+	String baseName; //拠点名
+
+	//部署マスタ	department
+	String departmentName; //部署名
+
+	//課マスタ	division
+	String divisionName; //課名
+
+	//役職マスタ	position
+	String positionName; //役職名
+
+	//その他
+	int fromDate; //入社年月（開始）
+	int toDate; //入社年月（終了）
 
 	public int getEmployeeId() {
 		return employeeId;
@@ -39,9 +48,11 @@ public class EmployeeBean implements Serializable {
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getEmployeeName() {
 		return employeeName;
 	}
@@ -58,36 +69,44 @@ public class EmployeeBean implements Serializable {
 		this.kana = kana;
 	}
 
-	public String getBaseName() {
-		return baseName;
+	public String getGender() {
+		return gender;
 	}
 
-	public void setBaseName(String baseName) {
-		this.baseName = baseName;
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
-	public String getDepartmentName() {
-		return departmentName;
+	public String getDepartmentCode() {
+		return departmentCode;
 	}
 
-	public void setDepartmentName(String departmentName) {
-		this.departmentName = departmentName;
+	public void setDepartmentCode(String departmentCode) {
+		this.departmentCode = departmentCode;
 	}
 
-	public String getDivisionName() {
-		return divisionName;
+	public String getDivisionCode() {
+		return divisionCode;
 	}
 
-	public void setDivisionName(String divisionName) {
-		this.divisionName = divisionName;
+	public void setDivisionCode(String divisionCode) {
+		this.divisionCode = divisionCode;
 	}
 
-	public String getPositionName() {
-		return positionName;
+	public String getPositionCode() {
+		return positionCode;
 	}
 
-	public void setPositionName(String positionName) {
-		this.positionName = positionName;
+	public void setPositionCode(String positionCode) {
+		this.positionCode = positionCode;
+	}
+
+	public String getPositionMemo() {
+		return positionMemo;
+	}
+
+	public void setPositionMemo(String positionMemo) {
+		this.positionMemo = positionMemo;
 	}
 
 	public String getNaisenNumber() {
@@ -114,20 +133,59 @@ public class EmployeeBean implements Serializable {
 		this.adminFlag = adminFlag;
 	}
 
-	public String getGender() {
-		return gender;
+	public String getBaseName() {
+		return baseName;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setBaseName(String baseName) {
+		this.baseName = baseName;
 	}
 
-	public String getPositionMemo() {
-		return positionMemo;
+	public String getDepartmentName() {
+		return departmentName;
 	}
 
-	public void setPositionMemo(String positionMemo) {
-		this.positionMemo = positionMemo;
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 
+	public String getBaseCode() {
+		return baseCode;
+	}
+
+	public void setBaseCode(String baseCode) {
+		this.baseCode = baseCode;
+	}
+
+	public String getDivisionName() {
+		return divisionName;
+	}
+
+	public void setDivisionName(String divisionName) {
+		this.divisionName = divisionName;
+	}
+
+	public String getPositionName() {
+		return positionName;
+	}
+
+	public void setPositionName(String positionName) {
+		this.positionName = positionName;
+	}
+
+	public int getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(int fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public int getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(int toDate) {
+		this.toDate = toDate;
+	}
 }

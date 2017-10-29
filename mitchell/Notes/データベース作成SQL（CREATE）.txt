@@ -1,0 +1,151 @@
+﻿Eƒf[ƒ^ƒx[ƒXì¬
+CREATE DATABASE employee_admin;
+
+
+EŽÐˆõî•ñƒe[ƒuƒ‹
+CREATE TABLE employee(
+employeeId INT NOT NULL,
+password VARCHAR(20) NOT NULL,
+employeeName VARCHAR(30) NOT NULL,
+kana VARCHAR(50),
+gender VARCHAR(1) NOT NULL,
+departmentCode VARCHAR(3) NOT NULL,
+divisionCode VARCHAR(2),
+positionCode VARCHAR(1),
+positionMemo VARCHAR(20),
+naisenNumber VARCHAR(10),
+publicCellphoneNumber VARCHAR(13),
+adminFlag TINYINT(1) DEFAULT 0,
+registrationDateTime DATETIME NOT NULL,
+PRIMARY KEY(employeeId)
+);
+
+E‹’“_ƒ}ƒXƒ^
+CREATE TABLE base(
+baseCode VARCHAR(1) NOT NULL,
+baseName VARCHAR(10) NOT NULL,
+PRIMARY KEY(baseCode)
+);
+
+E•”ƒ}ƒXƒ^
+CREATE TABLE department(
+departmentCode VARCHAR(3) NOT NULL,
+departmentName VARCHAR(20) NOT NULL,
+baseCode VARCHAR(1) NOT NULL,
+PRIMARY KEY(departmentCode)
+);
+
+E‰Ûƒ}ƒXƒ^
+CREATE TABLE division(
+divisionCode VARCHAR(2) NOT NULL,
+divisionName VARCHAR(20) NOT NULL,
+PRIMARY KEY(divisionCode)
+);
+
+E–ðEƒ}ƒXƒ^
+CREATE TABLE position_table(
+positionCode VARCHAR(1) NOT NULL,
+positionName VARCHAR(20) NOT NULL,
+PRIMARY KEY(positionCode)
+);
+
+
+
+Eƒrƒ…[•\ì¬(ƒrƒ…[•\–¼Femployee_view)
+CREATE VIEW employee_view as
+SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,
+B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,
+DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,
+E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode;
+
+
+
+
+
+E‘Sƒe[ƒuƒ‹Œ‹‡•\
+SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,
+B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,
+DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,
+E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode;
+
+//Testing
+SELECT E.employeeId
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode;
+
+SHOW COLUMNS FROM [table name]
+
+SELECT E.employeeId
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode
+WHERE employeeID = 199104101;
+
+SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,
+B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,
+DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,
+E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode
+WHERE employeeID = 199104101;
+
+
+<a href=\"/EmployeeControl/EmployeeSystem?page=updateUser&lastpage&selectedUser=" + b.getEmployeeId() + "\">修正</a>
+
+SELECT E.employeeId ,E.registrationDateTime
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode
+WHERE employeeID = 199104101 OR employeeID = 199104102 ORDER BY registrationDateTime ASC;
+
+SELECT E.employeeId ,B.baseCode ,B.baseName
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode
+ORDER BY baseCode ASC;
+
+
+SELECT E.employeeId ,B.baseName
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode WHERE baseName = "本社\r";
+
+<<-- Checking for new lines in the data... -->>
+SELECT E.employeeId ,B.baseName
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode
+WHERE baseName REGEXP "\r";
+
+<<-- Using contains, instead -->>
+SELECT E.employeeId ,B.baseName
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode
+WHERE baseName LIKE "%本社%";
+
+<<-- ID is greater than or less then -->>
+SELECT E.employeeId
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode
+WHERE employeeID > 199104*1000 AND employeeID < 199204*1000+999;
