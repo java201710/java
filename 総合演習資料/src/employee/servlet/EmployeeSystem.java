@@ -408,7 +408,7 @@ public class EmployeeSystem extends HttpServlet {
 		}
 		String toDate = request.getParameter("toDate");
 		if(toDate==null || toDate.equals("")){
-			toDate = "999999";
+			toDate = "0";
 		}
 		String employeeName = request.getParameter("employeeName");
 		String kana = request.getParameter("kana");
