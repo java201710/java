@@ -1,4 +1,4 @@
-package employee.model;
+﻿package employee.model;
 
 import java.util.ArrayList;
 
@@ -6,20 +6,129 @@ import dao.employee.EmployeeSystemDAO;
 
 public class EmployeeSystemLogic {
 
-	public ArrayList<String> register(EmployeeBean EmployeeBean) {
+	//作成：2017/10/27 香川 雄一
+	public ArrayList<String> register(EmployeeBean employeeBean) {
+		ArrayList<String> messageList = new ArrayList<String>();
+		Common c = new Common();
 
-		return null;
+		StringBuffer sql_select = new StringBuffer();
+		sql_select.append("SELECT * FROM employee WHERE employeeId = ");
+		sql_select.append(employeeBean.employeeId);
+		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
+		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
+
+		if (employeeList.size() != 0) {
+			messageList.add("e008:社員IDが重複しています");
+		}
+		else {
+
+			Date now = new Date();
+			SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			String sql_insert = "INSERT INTO employee(employeeId,password,employeeName,kana,gender,departmentCode,"
+					+ ",divisionCode,positionCode,positionMemo,naisenNumber,publicCellphoneNumber,adminFlag,"
+					+ "registrationDateTime values('" +
+					+employeeBean.getEmployeeId()
+					+ "','"
+					+ c.sqlSanitizing(employeeBean.getPassword())
+					+ "','"
+					+ c.sqlSanitizing(employeeBean.getEmployeeName())
+					+ "','"
+					+ c.sqlSanitizing(employeeBean.getKana())
+					+ "','"
+					+ c.sqlSanitizing(employeeBean.getGender())
+					+ "','"
+					+ c.sqlSanitizing(employeeBean.getDepartmentCode())
+					+ "','"
+					+ c.sqlSanitizing(employeeBean.getDivisionCode())
+					+ "','"
+					+ c.sqlSanitizing(employeeBean.getPositionCode())
+					+ "','"
+					+ c.sqlSanitizing(employeeBean.getPositionMemo())
+					+ "','"
+					+ c.sqlSanitizing(employeeBean.getNaisenNumber())
+					+ "','"
+					+ c.sqlSanitizing(employeeBean.getPublicCellphoneNumber())
+					+ "','"
+					+ employeeBean.getAdminFlag()
+					+ "','"
+					+ f.format(now)
+					+ "')";
+
+			if (Dao.updateEmployee(sql_insert) > 0)
+				messageList.add("登録できました");
+			else
+				messageList.add("e009:データベースでエラーが発生しています");
+
+		}
+
+		return messageList;
 	}
 
-	public ArrayList<String> update(EmployeeBean EmployeeBean) {
+	//作成：2017/10/27 香川 雄一
+	public ArrayList<String> update(EmployeeBean employeeBean) {
 
-		return null;
+		ArrayList<String> messageList = new ArrayList<String>();
+		Common c = new Common();
+		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
+
+		String sql_update = "UPDATE employee SET password='"
+				+ c.sqlSanitizing(employeeBean.getPassword())
+				+ "',employeeName='"
+				+ c.sqlSanitizing(employeeBean.getEmployeeName())
+				+ "',kana='"
+				+ c.sqlSanitizing(employeeBean.getKana())
+				+ "',departmentCode='"
+				+ c.sqlSanitizing(employeeBean.getDepartmentCode())
+				+ "',divisionCode='"
+				+ c.sqlSanitizing(employeeBean.getDivisionCode())
+				+ "',positionCode='"
+				+ c.sqlSanitizing(employeeBean.getPositionCode())
+				+ "',positionMemo='"
+				+ c.sqlSanitizing(employeeBean.getPositionMemo())
+				+ "',naisenNumber='"
+				+ c.sqlSanitizing(employeeBean.getNaisenNumber())
+				+ "',publicCellphoneNumber='"
+				+ c.sqlSanitizing(employeeBean.getPublicCellphoneNumber())
+				+ "',adminFlag='"
+				+ employeeBean.getAdminFlag()
+				+ "' WHERE employeeId = "
+				+ employeeBean.getEmployeeId();
+
+		if (Dao.updateEmployee(sql_update) > 0)
+			messageList.add("修正できました");
+		else
+			messageList.add("e015:データベースでエラーが発生しています");
+
+		return messageList;
 	}
 
+	//作成：2017/10/27 香川 雄一
+	public ArrayList<String> delete(EmployeeBean employeeBean) {
 
-	public ArrayList<String> delete(EmployeeBean EmployeeBean) {
+		ArrayList<String> messageList = new ArrayList<String>();
 
-		return null;
+		StringBuffer sql_select = new StringBuffer();
+		sql_select.append("SELECT * FROM employee WHERE employeeId = ");
+		sql_select.append(employeeBean.employeeId);
+		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
+		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
+
+		if (employeeList.size() == 0) {
+			messageList.add("e016:社員IDが存在しません");
+		}
+		else {
+
+			String sql_delete = "DELETE FROM employee WHERE employeeId = " + employeeBean.getEmployeeId();
+
+			if (Dao.updateEmployee(sql_delete) > 0)
+				messageList.add("削除できました");
+			else
+				messageList.add("e017:データベースでエラーが発生しています");
+
+		}
+
+		return messageList;
 	}
 
 	public ArrayList<String> viewUser (EmployeeBean eBean) {
@@ -100,9 +209,26 @@ public class EmployeeSystemLogic {
 		return message;
 	}
 
-	public ArrayList<String> updateUser(EmployeeBean EmployeeBean,String lastpage) {
+	//作成：2017/10/30 香川 雄一
+	ArrayList<String> updateUser(EmployeeBean employeeBean, String lastpage) {
 
-		return null;
+		EmployeeSystemDAO DAO = new EmployeeSystemDAO();
+		ArrayList<String> messageList = new ArrayList<String>();
+
+		if (lastpage == null) {
+			//			String output = "";
+			messageList.add(search(employeeBean, employeeBean.getAdminFlag()).get(0));
+		}
+		else {
+			StringBuffer sql_select = new StringBuffer();
+			sql_select.append("SELECT * FROM employee WHERE employeeId = ");
+			sql_select.append(employeeBean.employeeId);
+			EmployeeSystemDAO Dao = new EmployeeSystemDAO();
+			ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
+
+		}
+
+		return messageList;
 	}
 
 	public ArrayList<String> search(EmployeeBean eBean, byte adminFlag) {
@@ -215,19 +341,258 @@ public class EmployeeSystemLogic {
 		return message;
 	}
 
-	public ArrayList<String> confirmNewUser(EmployeeBean EmployeeBean) {
+	//作成：2017/10/30 香川 雄一
+	ArrayList<String> confirmNewUser(EmployeeBean employeeBean) {
 
-		return null;
+		String employeeId = new Integer(employeeBean.getEmployeeId()).toString();
+		String password = employeeBean.getPassword();
+		String employeeName = employeeBean.getEmployeeName();
+
+		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
+		ArrayList<String> messageList = new ArrayList<String>();
+		Pattern patternId = Pattern.compile("^[0-9]*$");
+		Pattern patternPassword = Pattern.compile("^[0-9a-zA-Z]*$");
+		Boolean errFlag = false;
+
+		// 入力チェック
+		if (employeeId.equals("")) {
+			messageList.add("社員IDを入力して下さい");
+			errFlag = true;
+		}
+
+		if (!patternId.matcher(employeeId).matches()) {
+			messageList.add("社員IDは半角数字で入力して下さい");
+			errFlag = true;
+		}
+
+		if (password.equals("")) {
+			messageList.add("パスワードを入力して下さい");
+			errFlag = true;
+		}
+
+		if (!patternPassword.matcher(password).matches()) {
+			messageList.add("パスワードは半角英数字で入力して下さい");
+			errFlag = true;
+		}
+
+		if (employeeName.equals("")) {
+			messageList.add("名前を入力して下さい");
+			errFlag = true;
+		}
+
+		if (errFlag = true) {
+			messageList.add(0, "");
+			return messageList;
+		}
+
+		StringBuffer sql_select = new StringBuffer();
+		sql_select.append("SELECT * FROM employee WHERE employeeId = ");
+		sql_select.append(employeeBean.employeeId);
+		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
+
+		if (employeeList.size() != 0) {
+			messageList.add("");
+			messageList.add("e003:社員IDが重複しています");
+		}
+		else {
+			StringBuilder output = new StringBuilder();
+			output.append("<table id=dataframe><tr>" +
+					"				<td id=rowheader>社員ＩＤ：</td><td>" + employeeBean.getEmployeeId()
+					+ "</td><td id=pictureheader>写真：</td><td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>名前：</td><td>" + employeeBean.getEmployeeName() + "</td><td rowspan=\"10\">" +
+					"					<table id=pictureframe>" +
+					"						<tr>" +
+					"							<td><img src=\"img/" + employeeBean.getEmployeeId() + ".jpg\"/></td>" +
+					"						</tr>" +
+					"					</table>" +
+					"				</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>ふりがな：</td><td>" + employeeBean.getKana() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>性別：</td><td>" + employeeBean.getGender() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>部署：</td><td>" + employeeBean.getDepartmentName() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>課：</td><td>" + employeeBean.getDivisionName() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>役職：</td><td>" + employeeBean.getPositionName() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>役職詳細：</td><td>" + employeeBean.getPositionMemo() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>内線：</td><td>" + employeeBean.getNaisenNumber() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>業務携帯番号：</td><td>" + employeeBean.getPublicCellphoneNumber() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td colspan=\"3\"><hr></td>" +
+					"			</tr>" +
+					"		</table>");
+			messageList.add(output.toString());
+
+		}
+
+		return messageList;
 	}
 
-	public ArrayList<String> confirmUpdateUser(EmployeeBean EmployeeBean) {
+	//作成：2017/10/30 香川 雄一
+	ArrayList<String> confirmUpdateUser(EmployeeBean employeeBean) {
 
-		return null;
+		String employeeId = new Integer(employeeBean.getEmployeeId()).toString();
+		String password = employeeBean.getPassword();
+		String employeeName = employeeBean.getEmployeeName();
+
+		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
+		ArrayList<String> messageList = new ArrayList<String>();
+		Pattern patternPassword = Pattern.compile("^[0-9a-zA-Z]*$");
+		Boolean errFlag = false;
+
+		// 入力チェック
+		if (password.equals("")) {
+			messageList.add("パスワードを入力して下さい");
+			errFlag = true;
+		}
+
+		if (!patternPassword.matcher(password).matches()) {
+			messageList.add("パスワードは半角英数字で入力して下さい");
+			errFlag = true;
+		}
+
+		if (employeeName.equals("")) {
+			messageList.add("名前を入力して下さい");
+			errFlag = true;
+		}
+
+		if (errFlag = true) {
+			messageList.add(0, "");
+			return messageList;
+		}
+
+		StringBuilder output = new StringBuilder();
+		output.append("<table id=dataframe><tr>" +
+				"				<td id=rowheader>社員ＩＤ：</td><td>" + employeeBean.getEmployeeId()
+				+ "</td><td id=pictureheader>写真：</td><td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td id=rowheader>名前：</td><td>" + employeeBean.getEmployeeName() + "</td><td rowspan=\"10\">" +
+				"					<table id=pictureframe>" +
+				"						<tr>" +
+				"							<td><img src=\"img/" + employeeBean.getEmployeeId() + ".jpg\"/></td>" +
+				"						</tr>" +
+				"					</table>" +
+				"				</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td id=rowheader>パスワード：</td><td>" + employeeBean.getPassword() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td id=rowheader>ふりがな：</td><td>" + employeeBean.getKana() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td id=rowheader>性別：</td><td>" + employeeBean.getGender() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td id=rowheader>部署：</td><td>" + employeeBean.getDepartmentName() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td id=rowheader>課：</td><td>" + employeeBean.getDivisionName() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td id=rowheader>役職：</td><td>" + employeeBean.getPositionName() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td id=rowheader>役職詳細：</td><td>" + employeeBean.getPositionMemo() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td id=rowheader>内線：</td><td>" + employeeBean.getNaisenNumber() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td id=rowheader>業務携帯番号：</td><td>" + employeeBean.getPublicCellphoneNumber() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td colspan=\"3\"><hr></td>" +
+				"			</tr>" +
+				"		</table>");
+		messageList.add(output.toString());
+
+		return messageList;
 	}
 
-	public ArrayList<String> confirmDeleteUser(EmployeeBean EmployeeBean) {
+	//作成：2017/10/30 香川 雄一
+	ArrayList<String> confirmDeleteUser(EmployeeBean employeeBean) {
 
-		return null;
+		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
+		ArrayList<String> messageList = new ArrayList<String>();
+
+		StringBuffer sql_select = new StringBuffer();
+		sql_select.append("SELECT * FROM employee WHERE employeeId = ");
+		sql_select.append(employeeBean.employeeId);
+		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
+
+		if (employeeList.size() <= 0) {
+			messageList.add("");
+			messageList.add("e016:社員IDが存在しません");
+		}
+		else {
+			StringBuilder output = new StringBuilder();
+			output.append("<table id=dataframe><tr>" +
+					"				<td id=rowheader>社員ＩＤ：</td><td>" + employeeBean.getEmployeeId()
+					+ "</td><td id=pictureheader>写真：</td><td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>名前：</td><td>" + employeeBean.getEmployeeName() + "</td><td rowspan=\"10\">" +
+					"					<table id=pictureframe>" +
+					"						<tr>" +
+					"							<td><img src=\"img/" + employeeBean.getEmployeeId() + ".jpg\"/></td>" +
+					"						</tr>" +
+					"					</table>" +
+					"				</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>パスワード：</td><td>" + employeeBean.getPassword() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>ふりがな：</td><td>" + employeeBean.getKana() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>性別：</td><td>" + employeeBean.getGender() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>部署：</td><td>" + employeeBean.getDepartmentName() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>課：</td><td>" + employeeBean.getDivisionName() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>役職：</td><td>" + employeeBean.getPositionName() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>役職詳細：</td><td>" + employeeBean.getPositionMemo() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>内線：</td><td>" + employeeBean.getNaisenNumber() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td id=rowheader>業務携帯番号：</td><td>" + employeeBean.getPublicCellphoneNumber() + "</td>" +
+					"			</tr>" +
+					"			<tr>" +
+					"				<td colspan=\"3\"><hr></td>" +
+					"			</tr>" +
+					"		</table>");
+			messageList.add(output.toString());
+
+		}
+
+		return messageList;
 	}
 
 
@@ -379,7 +744,84 @@ public class EmployeeSystemLogic {
 		return message;
 	}
 
+//作成：2017/10/30 香川 雄一
+	public String selectGenderBox() {
+		StringBuffer buf = new StringBuffer();
 
+		//HTML作成
+		buf.append("<select name='gender'><option value=男>男</option><option value=女>女</option></select>");
+
+		return buf.toString();
+	}
+
+	//作成：2017/10/30 香川 雄一
+	public String selectDepartmentBox() {
+		StringBuffer buf = new StringBuffer();
+
+		StringBuffer sql_select = new StringBuffer();
+		sql_select.append("SELECT * FROM department");
+		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
+		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
+
+		//HTML作成
+		buf.append("<select name='departmentName'>");
+		for (EmployeeBean e : employeeList) {
+			buf.append("<option value=");
+			buf.append(e.getDepartmentCode());
+			buf.append(">");
+			buf.append(e.getDepartmentName());
+			buf.append("</option>");
+		}
+		buf.append("</select>");
+
+		return buf.toString();
+	}
+
+	//作成：2017/10/30 香川 雄一
+	public String selectDivisionBox() {
+		StringBuffer buf = new StringBuffer();
+
+		StringBuffer sql_select = new StringBuffer();
+		sql_select.append("SELECT * FROM division");
+		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
+		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
+
+		//HTML作成
+		buf.append("<select name='divisionName'>");
+		for (EmployeeBean e : employeeList) {
+			buf.append("<option value=");
+			buf.append(e.getDivisionCode());
+			buf.append(">");
+			buf.append(e.getDivisionName());
+			buf.append("</option>");
+		}
+		buf.append("</select>");
+
+		return buf.toString();
+	}
+
+	//作成：2017/10/30 香川 雄一
+	public String selectPositionBox() {
+		StringBuffer buf = new StringBuffer();
+
+		StringBuffer sql_select = new StringBuffer();
+		sql_select.append("SELECT * FROM position");
+		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
+		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
+
+		//HTML作成
+		buf.append("<select name='positionName'>");
+		for (EmployeeBean e : employeeList) {
+			buf.append("<option value=");
+			buf.append(e.getPositionCode());
+			buf.append(">");
+			buf.append(e.getPositionName());
+			buf.append("</option>");
+		}
+		buf.append("</select>");
+
+		return buf.toString();
+	}
 
 
 

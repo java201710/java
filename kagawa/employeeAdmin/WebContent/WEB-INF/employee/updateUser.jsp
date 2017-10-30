@@ -7,50 +7,6 @@
 //messageを取得
 ArrayList<String> messageList = (ArrayList<String>) request.getAttribute("message");
 EmployeeSystemLogic logic = new EmployeeSystemLogic();
-//入力フォームに入力した項目をリクエストスコープから取得
-String employeeId = (String) request.getAttribute("employeeId");
-if(employeeId == null)
-	employeeId = "";
-
-String password = (String) request.getAttribute("password");
-if(password == null)
-	password = "";
-
-String employeeName = (String) request.getAttribute("employeeName");
-if(employeeName == null)
-	employeeName = "";
-
-String kana = (String) request.getAttribute("kana");
-if(kana == null)
-	kana = "";
-
-String gender = (String) request.getAttribute("gender");
-if(gender == null)
-	gender = "";
-
-String departmentName = (String) request.getAttribute("departmentName");
-if(departmentName == null)
-	departmentName = "";
-
-String divisionName = (String) request.getAttribute("divisionName");
-if(divisionName == null)
-	divisionName = "";
-
-String positionName = (String) request.getAttribute("positionName");
-if(positionName == null)
-	positionName = "";
-
-String positionMemo = (String) request.getAttribute("positionMemo");
-if(positionMemo == null)
-	positionMemo = "";
-
-String naisenNumber = (String) request.getAttribute("naisenNumber");
-if(naisenNumber == null)
-	naisenNumber = "";
-
-String publicCellphoneNumber = (String) request.getAttribute("publicCellphoneNumber");
-if(publicCellphoneNumber == null)
-	publicCellphoneNumber = "";
 
 
 %>
