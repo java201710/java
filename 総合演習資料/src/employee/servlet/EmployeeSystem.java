@@ -642,7 +642,7 @@ public class EmployeeSystem extends HttpServlet {
 
 			//・「EmployeeBean」をEmployeeSystemLogicの（confirmUpdateUserメソッド）に入れて、呼び出す
 			//・EmployeeSystemLogicの（confirmUpdateUserメソッド）のＨＴＭＬをもらう
-			ArrayList<String> result = logic.confirmUpdateUser(employeeBean);
+			ArrayList<String> result = logic.confirmUpdateUser(employeeBean,oldPassword);
 
 			if(result.get(0).length()==0){
 				//HTMLは空文字“”の場合（エラーあり）
