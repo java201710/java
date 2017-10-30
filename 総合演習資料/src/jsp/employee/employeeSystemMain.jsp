@@ -12,18 +12,18 @@
 
 	//引数
 	//セッションスコープの変数
-	String employeeName = (String) session.getAttribute("employeeName");
-	int employeeId = (Integer) session.getAttribute("employeeId");
+	String employeeName = (String) session.getAttribute("login_employeeName");
+	int employeeId = (Integer) session.getAttribute("login_employeeId");
 	byte login_adminFlag = (Byte) session.getAttribute("login_adminFlag");
-	
+
 	//リクエストスコープの変数
 	ArrayList<String> message = (ArrayList<String>) request.getAttribute("message");
 	String html = (String) request.getAttribute("html");
 	EmployeeBean eBean = (EmployeeBean) request.getAttribute("employeeBean"); //
-	
+
 	//変数
 	EmployeeSystemLogic eSysLogic = new EmployeeSystemLogic();
-	
+
 	if (message == null) {
 		message = new ArrayList<String>();
 	}
@@ -95,7 +95,7 @@ th#long {
 	<table id=fulltable>
 		<tr>
 			<td id=pagetitle>社員情報管理</td>
-			
+
 				<!-- リクエストスコープにメッセージがあったら、表示する -->
 				<% if (message.size() > 0) { %>
 					<td id=notificationarea><%= message.get(0) %></td>
@@ -110,11 +110,11 @@ th#long {
 			</td>
 		</tr>
 	</table>
-	
+
 	<!-- メニュー表と検索のフォーム -->
 	<table id=fulltable>
 		<tr>
-			
+
 			<!-- メニュー表 -->
 			<td><table id=menu>
 				<tr>
@@ -133,7 +133,7 @@ th#long {
 					<% } %>
 				</table>
 			</td>
-			
+
 			<!-- 検索フォーム -->
 			<td colspan="2">
 				<form action="/employeeAdmin/EmployeeSystem" method="post">
@@ -162,7 +162,7 @@ th#long {
 		</tr>
 	</table>
 	<br>
-	
+
 	<!-- 社員情報一覧・検索の結果 -->
 	<span id=summaryarea>社員情報</span>
 	<div style="height: 500px; overflow-y: auto; overflow-x: auto;">
