@@ -1,10 +1,62 @@
 
-LOAD DATA INFILE "c:/employee.csv" INTO TABLE employee FIELDS TERMINATED BY ',';
+LOAD DATA INFILE "c:/employee.csv" INTO TABLE employee FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n';
 
-LOAD DATA INFILE "c:/base.csv" INTO TABLE base FIELDS TERMINATED BY ',';
+LOAD DATA INFILE "c:/base.csv" INTO TABLE base FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n';
 
-LOAD DATA INFILE "c:/department.csv" INTO TABLE department FIELDS TERMINATED BY ',';
+LOAD DATA INFILE "c:/department.csv" INTO TABLE department FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n';
 
-LOAD DATA INFILE "c:/division.csv" INTO TABLE division FIELDS TERMINATED BY ',';
+LOAD DATA INFILE "c:/division.csv" INTO TABLE division FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n';
 
-LOAD DATA INFILE "c:/position_table.csv" INTO TABLE position_table FIELDS TERMINATED BY ',';
+LOAD DATA INFILE "c:/position_table.csv" INTO TABLE position_table FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n';
+
+
+
+drop table employee;
+drop table base;
+drop table department;
+drop table division;
+drop table position_table;
+
+
+
+CREATE TABLE employee(
+employeeId INT NOT NULL,
+password VARCHAR(20) NOT NULL,
+employeeName VARCHAR(30) NOT NULL,
+kana VARCHAR(50),
+gender VARCHAR(1) NOT NULL,
+departmentCode VARCHAR(3) NOT NULL,
+divisionCode VARCHAR(2),
+positionCode VARCHAR(1),
+positionMemo VARCHAR(20),
+naisenNumber VARCHAR(10),
+publicCellphoneNumber VARCHAR(13),
+adminFlag TINYINT(1) DEFAULT 0,
+registrationDateTime DATETIME NOT NULL,
+PRIMARY KEY(employeeId)
+);
+
+CREATE TABLE base(
+baseCode VARCHAR(1) NOT NULL,
+baseName VARCHAR(10) NOT NULL,
+PRIMARY KEY(baseCode)
+);
+
+CREATE TABLE department(
+departmentCode VARCHAR(3) NOT NULL,
+departmentName VARCHAR(20) NOT NULL,
+baseCode VARCHAR(1) NOT NULL,
+PRIMARY KEY(departmentCode)
+);
+
+CREATE TABLE division(
+divisionCode VARCHAR(2) NOT NULL,
+divisionName VARCHAR(20) NOT NULL,
+PRIMARY KEY(divisionCode)
+);
+
+CREATE TABLE position_table(
+positionCode VARCHAR(1) NOT NULL,
+positionName VARCHAR(20) NOT NULL,
+PRIMARY KEY(positionCode)
+);
