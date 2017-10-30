@@ -12,10 +12,10 @@ EmployeeSystemLogic logic = new EmployeeSystemLogic();
 <html>
 <head>
 <meta charset="UTF-8">
-<title>登録内容確認</title>
+<title>修正内容確認</title>
 </head>
 <body>
-<h1 style="text-align:left">登録内容確認</h1>
+<h1 style="text-align:left">修正内容確認</h1>
 <p>　社員ID：
 <%= employeeBean.getEmployeeId() %>
 <p>　パスワード：
@@ -24,8 +24,6 @@ EmployeeSystemLogic logic = new EmployeeSystemLogic();
 <%= employeeBean.getEmployeeName() %>
 <p>　ふりがな：
 <%= employeeBean.getKana() %>
-<p>性別：
-<%= employeeBean.getGender() %>
 <p>部署名：
 <%= employeeBean.getDepartmentName() %>
 <p>課名：
@@ -38,14 +36,16 @@ EmployeeSystemLogic logic = new EmployeeSystemLogic();
 <%= employeeBean.getNaisenNumber() %>
 <p>　業務携帯番号：
 <%= employeeBean.getPublicCellphoneNumber() %>
+<p>管理者権限：
+<%= employeeBean.getAdminFlag() %>
 <p>　写真：
 <img src=\"img/" + employeeBean.getEmployeeId() + ".jpg\"/>
 <form action="/employee/EmployeeSystem" method="get">
-<input type = "hidden" name="action" value="register">
-<p><input type="submit" value="登録">
+<input type = "hidden" name="action" value="update">
+<p><input type="submit" value="修正">
 </form>
 <form action="/employee/EmployeeSystem" method="get">
-<input type = "hidden" name="page" value="registerUser">
+<input type = "hidden" name="page" value="updateUser">
 <input type="submit" value="前画面に戻る">
 </form>
 </body>

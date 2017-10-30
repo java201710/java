@@ -223,21 +223,93 @@ public class EmployeeSystemLogic {
 	//作成：2017/10/30 香川 雄一
 	public ArrayList<String> updateUser(EmployeeBean employeeBean, String lastpage) {
 
-		EmployeeSystemDAO DAO = new EmployeeSystemDAO();
+		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
 		ArrayList<String> messageList = new ArrayList<String>();
+		ArrayList<EmployeeBean> employeeList;
 
-		if (lastpage == null) {
-			//			String output = "";
+		// エラー対応
+		if (lastpage != null) {
+
+			//SQL文の準備
+			String sql = "SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,\r\n" +
+					"B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,\r\n" +
+					"DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,\r\n" +
+					"E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime\r\n" +
+					"FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)\r\n" +
+					"INNER JOIN base B ON B.baseCode = D.baseCode)\r\n" +
+					"INNER JOIN division DI ON E.divisionCode = DI.divisionCode)\r\n" +
+					"INNER JOIN position_table P ON E.positionCode = P.positionCode\r\n" +
+					"WHERE employeeID = " + employeeBean.getEmployeeId() + ";";
+
+			//データベースからSQLのArrayListの結果をもらって、"employeeList"に入れる。結果は一つはず
+			employeeList = Dao.findEmployee(sql);
+			if (employeeList == null) {
+				messageList.add("");
+				messageList.add("データベースでエラーが発生しています");
+				return messageList;
+			} else if (employeeList.size() == 0) {
+				messageList.add("");
+				messageList.add("該当の社員IDは存在しません");
+				return messageList;
+			}
 
 		}
-		else {
-			StringBuffer sql_select = new StringBuffer();
-			sql_select.append("SELECT * FROM employee WHERE employeeId = ");
-			sql_select.append(employeeBean.employeeId);
-			EmployeeSystemDAO Dao = new EmployeeSystemDAO();
-			ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
+		StringBuilder output = new StringBuilder();
+		// 管理者の場合
+		if (employeeBean.getAdminFlag() == 1) {
+			output.append("<h1 style='text-align:left'>社員情報 修正</h1>" +
+					"<form action='/employee/EmployeeSystem' method='post'>" +
+					"<p>　社員ID：" + employeeBean.getEmployeeId() +
+					"<p>　旧パスワード：<input type='password' name='oldPassword' value=" + employeeBean.getPassword() +
+					"><p>　新パスワード：<input type='password' name='password'>" +
+					"<p>　名前：<input type='text' name='employeeName' value=" + employeeBean.getEmployeeName() +
+					"><p>　ふりがな：<input type='text' name='kana' value=" + employeeBean.getKana() +
+					"<p>部署：" +
+					"<%= logic.selectDepartmentBox() %>" +
+					"<p>課：" +
+					"<%= logic.selectDivisionBox() %>" +
+					"<p>役職：" +
+					"<%= logic.selectPositionBox() %>" +
+					"<p>　役職詳細：<input type='text' name='positionMemo' value=" + employeeBean.getPositionMemo() +
+					"><p>　内線：<input type='text' name='naisenNumber' value=" + employeeBean.getNaisenNumber() +
+					"><p>　業務携帯番号：<input type='text' name='publicCellphoneNumber' value="
+					+ employeeBean.getPublicCellphoneNumber() +
+					"><input type = 'hidden' name='action' value='confirmUpdateUser'>" +
+					"<p><input type='submit' value='修正'>" +
+					"</form>" +
+					"<form action='/employee/EmployeeSystem' method='get'>" +
+					"<input type='submit' value='戻る'>" +
+					"</form>");
 		}
+		// 一般社員の場合
+		else
+		{
+			output.append("<h1 style='text-align:left'>社員情報 修正</h1>" +
+					"<form action='/employee/EmployeeSystem' method='post'>" +
+					"<p>　社員ID：" + employeeBean.getEmployeeId() +
+					"<p>　旧パスワード：<input type='password' name='oldPassword'>" +
+					"><p>　新パスワード：<input type='password' name='password'>" +
+					"<p>　名前：" + employeeBean.getEmployeeName() +
+					"><p>　ふりがな：" + employeeBean.getKana() +
+					"<p>部署：" +
+					"<%= logic.selectDepartmentBox() %>" +
+					"<p>課：" +
+					"<%= logic.selectDivisionBox() %>" +
+					"<p>役職：" +
+					"<%= logic.selectPositionBox() %>" +
+					"<p>　役職詳細：" + employeeBean.getPositionMemo() +
+					"><p>　内線：" + employeeBean.getNaisenNumber() +
+					"><p>　業務携帯番号："
+					+ employeeBean.getPublicCellphoneNumber() +
+					"><input type = 'hidden' name='action' value='confirmUpdateUser'>" +
+					"<p><input type='submit' value='修正'>" +
+					"</form>" +
+					"<form action='/employee/EmployeeSystem' method='get'>" +
+					"<input type='submit' value='戻る'>" +
+					"</form>");
+		}
+		messageList.add(output.toString());
 
 		return messageList;
 	}
@@ -486,7 +558,7 @@ public class EmployeeSystemLogic {
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
 		// 入力チェック
-		if(!oldPassword.equals(employeeList.get(0).password)){
+		if (!oldPassword.equals(employeeList.get(0).password)) {
 			messageList.add("旧パスワードが正しくありません");
 			errFlag = true;
 		}
