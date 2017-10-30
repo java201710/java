@@ -1,0 +1,12 @@
+・セレクトボックスは、手動でOKです。
+
+・/employee/EmployeeSystem → /employeeAdmin/EmployeeSystem
+
+・registerUser.jsp 8行目
+ArrayList<String> messageList = (ArrayList<String>) request.getAttribute("message");
+中身はStringになっています。(EmployeeSystem.javaの468行、520行、524行、625行等 参照)
+
+・EmployeeSystemLogic.java 475行
+if (errFlag = true) { → if (errFlag == true) {
+
+
