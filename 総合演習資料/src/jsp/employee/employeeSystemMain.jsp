@@ -37,17 +37,27 @@
 <html>
 <head>
 <style>
+body#adminbody {
+	min-width:1000px;
+	background-color: lemonchiffon ;
+}
 table#fulltable {
 	width: 100%;
 }
 table#menu {
 	width: 100px;
 	border: 1px solid;
+	background-color: white;
 }
 table#searchform {
 	border: 1px solid;
+	background-color: white;
 }
-
+table#resultstable {
+	width: 100%;
+	border-collapse: collapse;
+	background-color: white;
+}
 td#pagetitle {
 	text-align: left;
 	font-weight: bold;
@@ -97,7 +107,12 @@ tr#nonadmin {
 <meta charset="UTF-8">
 <title>社員情報管理</title>
 </head>
-<body style="min-width:1000px;">
+<% if (login_adminFlag == 1) {%>
+	<body id=adminbody>
+<% } else { %>
+	<body style="min-width:1000px;">
+<% } %>
+
 
 	<!-- ページの先頭：ページのタイトル・メッセージエリア・ログインしたユーザーの情報 -->
 	<table id=fulltable>
@@ -174,7 +189,7 @@ tr#nonadmin {
 	<!-- 社員情報一覧・検索の結果 -->
 	<span id=summaryarea>社員情報</span>
 	<div style="height: 500px; overflow-y: auto; overflow-x: auto;">
-	<table id=fulltable>
+	<table id=resultstable>
 		<% if (login_adminFlag == 1) { %>
 			<tr id=admin>
 		<% } else { %>

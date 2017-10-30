@@ -15,7 +15,7 @@
 		<input type="hidden" name="user" value=<%= request.getAttribute("user") %>>
 		<table>
 			<tr>
-				<td align="right">社員ID：</td><td><input type="text" name="employeeId"></td>
+				<td align="right">社員ID：</td><td><input type="text" name="login_employeeId"></td>
 			</tr>
 			<tr>
 				<td align="right">パスワード：</td><td><input type="password" name="password"></td>
