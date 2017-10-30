@@ -426,6 +426,9 @@ public class EmployeeSystem extends HttpServlet {
 				request.setAttribute("message", loginResult.get(0));
 				forwardPath = "/WEB-INF/employee/login.jsp";
 			}else{
+				System.out.println("login_ employeeId:"+ loginResult.get(1));
+				System.out.println("login_ employeeName:"+ loginResult.get(2));
+				System.out.println("login_ login_adminFlag:"+ loginResult.get(3));
 				//【ログイン成功】
 				//・ログインした社員の社員ID、名前と権限をセッションスコープに入れる
 				//「login_ employeeId」, 「login_ employeeName」, 「login_adminFlag」

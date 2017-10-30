@@ -81,8 +81,8 @@ public class EmployeeSystemDAO {
 				employee.setDepartmentName(rs.getString("departmentName"));
 				employee.setDivisionName(rs.getString("divisionName"));
 				employee.setPositionName(rs.getString("positionName"));
-				employee.setFromDate(rs.getInt("fromDate"));
-				employee.setToDate(rs.getInt("toDate"));
+//				employee.setFromDate(rs.getInt("fromDate"));
+//				employee.setToDate(rs.getInt("toDate"));
 				employeeList.add(employee);
 			}
 		} catch (Exception e) {
