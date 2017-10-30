@@ -125,7 +125,7 @@ th#long {
 					<td><hr></td>
 				</tr>
 				<tr>
-					<td id=center><a href="/employeeAdmin/EmployeeSystem?lastpage&page=viewuser&selectedUser=<%= employeeId %>">個人情報</a></td>
+					<td id=center><a href="/employeeAdmin/EmployeeSystem?lastpage&page=viewUser&selectedUser=<%= employeeId %>">個人情報</a></td>
 				</tr>
 					<% if (login_adminFlag == 1) { %>
 						<tr>

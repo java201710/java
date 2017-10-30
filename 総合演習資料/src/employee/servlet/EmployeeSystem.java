@@ -71,7 +71,6 @@ public class EmployeeSystem extends HttpServlet {
 			login_adminFlag = (Byte)session.getAttribute("login_adminFlag");
 		}
 
-
 		//処理詳細：
 		//・パラメータは無しの場合（action=nullかつpage=null）
 		if(action == null && page == null){
@@ -493,22 +492,17 @@ public class EmployeeSystem extends HttpServlet {
 					//・「EmployeeBean」をEmployeeSystemLogicの（searchメソッド）に入れて、呼び出す
 					//・EmployeeSystemLogicの（searchメソッド）のＨＴＭＬをもらう
 					ArrayList<String> result = logic.search(employeeBean,login_adminFlag);
-					for(String aa:result){	//TestLogic
-						System.out.println(aa);
-					}
+
 
 					if(result.get(0).length()==0){
-						System.out.println("test01");
 						//HTMLは空文字“”の場合
 						//・エラーメッセージをリクエストスコープに入れる
 						request.setAttribute("message", result.get(1));
 					}else{
-						System.out.println("test02");
 						//HTMLは空文字“”じゃない場合
 						//・このＨＴＭＬをリクエストスコープの”html”にいれる
 						request.setAttribute("html", result.get(0));
 					}
-					System.out.println("test03");
 
 					//・employeeSystemMain.jspへフォワード転送
 					forwardPath = "/WEB-INF/employee/employeeSystemMain.jsp";
