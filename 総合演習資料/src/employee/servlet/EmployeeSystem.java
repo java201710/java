@@ -49,9 +49,28 @@ public class EmployeeSystem extends HttpServlet {
 		String forwardPath = null;
 
 		//ログイン情報取得
-		int login_employeeId = (Integer)sessin.getAttribute("login_employeeId");
-		String login_employeeName = (String)sessin.getAttribute("login_ employeeName");
-		byte login_adminFlag = (Byte)sessin.getAttribute("login_adminFlag");
+		//ログインユーザー社員ID
+		int login_employeeId;
+		if(sessin.getAttribute("login_employeeId")==null){
+			login_employeeId = 0;
+		}else{
+			login_employeeId = (Integer)sessin.getAttribute("login_employeeId");
+		}
+		//ログインユーザー社員名
+		String login_employeeName;
+		if(sessin.getAttribute("login_ employeeName")==null){
+			login_employeeName = "";
+		}else{
+			login_employeeName = (String)sessin.getAttribute("login_ employeeName");
+		}
+		//ログインユーザー管理者権限
+		byte login_adminFlag;
+		if(sessin.getAttribute("login_adminFlag")==null){
+			login_adminFlag = 0;
+		}else{
+			login_adminFlag = (Byte)sessin.getAttribute("login_adminFlag");
+		}
+
 
 
 		//処理詳細：
@@ -317,9 +336,27 @@ public class EmployeeSystem extends HttpServlet {
 		String forwardPath = null;
 
 		//ログイン情報取得
-		int login_employeeId = (Integer)sessin.getAttribute("login_employeeId");
-		String login_employeeName = (String)sessin.getAttribute("login_ employeeName");
-		byte login_adminFlag = (Byte)sessin.getAttribute("login_adminFlag");
+		//ログインユーザー社員ID
+		int login_employeeId;
+		if(sessin.getAttribute("login_employeeId")==null){
+			login_employeeId = 0;
+		}else{
+			login_employeeId = (Integer)sessin.getAttribute("login_employeeId");
+		}
+		//ログインユーザー社員名
+		String login_employeeName;
+		if(sessin.getAttribute("login_ employeeName")==null){
+			login_employeeName = "";
+		}else{
+			login_employeeName = (String)sessin.getAttribute("login_ employeeName");
+		}
+		//ログインユーザー管理者権限
+		byte login_adminFlag;
+		if(sessin.getAttribute("login_adminFlag")==null){
+			login_adminFlag = 0;
+		}else{
+			login_adminFlag = (Byte)sessin.getAttribute("login_adminFlag");
+		}
 
 		//処理詳細：
 		//・ログインフォームのPOSTでの呼び出しに対応
