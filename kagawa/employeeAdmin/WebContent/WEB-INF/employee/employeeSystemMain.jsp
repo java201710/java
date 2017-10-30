@@ -13,8 +13,9 @@
 	//引数
 	//セッションスコープの変数
 	String employeeName = (String) session.getAttribute("login_employeeName");
-	int employeeId = (Integer) session.getAttribute("login_employeeId");
+	Integer employeeId = (Integer) session.getAttribute("login_employeeId");
 	byte login_adminFlag = (Byte) session.getAttribute("login_adminFlag");
+
 
 	//リクエストスコープの変数
 	ArrayList<String> message = (ArrayList<String>) request.getAttribute("message");
@@ -124,7 +125,7 @@ th#long {
 					<td><hr></td>
 				</tr>
 				<tr>
-					<td id=center><a href="/employeeAdmin/EmployeeSystem?lastpage&page=viewuser&selectedUser=<%= employeeId %>">個人情報</a></td>
+					<td id=center><a href="/employeeAdmin/EmployeeSystem?lastpage&page=viewUser&selectedUser=<%= employeeId %>">個人情報</a></td>
 				</tr>
 					<% if (login_adminFlag == 1) { %>
 						<tr>
