@@ -4,7 +4,13 @@
 <%@ page import="employee.model.EmployeeSystemLogic"%>
 <%@ page import="java.util.ArrayList"%>
 <%
-int user = (Integer)request.getAttribute("user");
+int user;
+if(request.getAttribute("user")==null){
+	user = 0;
+}else{
+	user = (Integer)request.getAttribute("user");
+}
+
 String message = (String)request.getAttribute("message");
 if(message==null){
 	message = "";

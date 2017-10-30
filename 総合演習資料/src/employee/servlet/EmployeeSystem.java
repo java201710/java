@@ -182,8 +182,9 @@ public class EmployeeSystem extends HttpServlet {
 		}else{
 			//action=nullの場合
 			//pageのパラメータによって異なる処理を行う
+			if(page == null){
 
-			if(page.equals("registerUser")){
+			}else if(page.equals("registerUser")){
 				//【新規登録機能】
 				//【他画面→新規入力(registerUser.jsp)】
 				//page=registerUserの場合
@@ -205,7 +206,7 @@ public class EmployeeSystem extends HttpServlet {
 					employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
 
 					//・「EmployeeBean」をEmployeeSystemLogicの（viewUserメソッド）に入れて、呼び出す
-					ArrayList<String> result = logic.viewUser((EmployeeBean)sessin.getAttribute("EmployeeBean"));
+					ArrayList<String> result = logic.viewUser(employeeBean);
 
 					//・EmployeeSystemLogicの（viewUserメソッド）のＨＴＭＬをもらう
 					//HTMLは空文字“”の場合
@@ -216,6 +217,8 @@ public class EmployeeSystem extends HttpServlet {
 						forwardPath = "/WEB-INF/employee/employeeSystemMain.jsp";
 					}else{
 						//ＨＴＭＬは空文字“”じゃない場合
+						//・「EmployeeBean」をセッションスコープの” EmployeeBean”にセットする。
+						sessin.setAttribute("EmployeeBean", employeeBean);
 						//・このＨＴＭＬをリクエストスコープの”html”にいれる
 						request.setAttribute("html", result.get(0));
 						//・employeeViewer.jspへフォワード転送
