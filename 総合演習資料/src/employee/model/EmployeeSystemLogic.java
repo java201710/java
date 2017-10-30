@@ -1,7 +1,11 @@
 ﻿package employee.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.regex.Pattern;
 
+import model.Common;
 import dao.employee.EmployeeSystemDAO;
 
 public class EmployeeSystemLogic {
@@ -210,7 +214,7 @@ public class EmployeeSystemLogic {
 	}
 
 	//作成：2017/10/30 香川 雄一
-	ArrayList<String> updateUser(EmployeeBean employeeBean, String lastpage) {
+	public ArrayList<String> updateUser(EmployeeBean employeeBean, String lastpage) {
 
 		EmployeeSystemDAO DAO = new EmployeeSystemDAO();
 		ArrayList<String> messageList = new ArrayList<String>();
@@ -342,7 +346,7 @@ public class EmployeeSystemLogic {
 	}
 
 	//作成：2017/10/30 香川 雄一
-	ArrayList<String> confirmNewUser(EmployeeBean employeeBean) {
+	public ArrayList<String> confirmNewUser(EmployeeBean employeeBean) {
 
 		String employeeId = new Integer(employeeBean.getEmployeeId()).toString();
 		String password = employeeBean.getPassword();
@@ -445,7 +449,7 @@ public class EmployeeSystemLogic {
 	}
 
 	//作成：2017/10/30 香川 雄一
-	ArrayList<String> confirmUpdateUser(EmployeeBean employeeBean) {
+	public ArrayList<String> confirmUpdateUser(EmployeeBean employeeBean) {
 
 		String employeeId = new Integer(employeeBean.getEmployeeId()).toString();
 		String password = employeeBean.getPassword();
