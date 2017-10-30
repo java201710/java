@@ -149,3 +149,12 @@ INNER JOIN base B ON B.baseCode = D.baseCode)
 INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
 INNER JOIN position_table P ON E.positionCode = P.positionCode
 WHERE employeeID > 199104*1000 AND employeeID < 199204*1000+999;
+
+<<-- Admin Flag -->>
+SELECT E.employeeId, E.adminFlag
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode;
+
+SELECT * FROM employee_view WHERE employeeId =

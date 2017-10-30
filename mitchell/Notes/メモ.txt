@@ -48,3 +48,15 @@ CONFRIM
 ===================
 -------------------
 1. EmployeeView does not need to import a message, right?
+
+10/30.
+Notes about the final project
+1. DAO: Trimmed DOA results (baseName, departmentName, divisionName, positionName)
+----- 
+2. DAO: Removed fromDate and toDate from the results.
+-----]
+3. ViewUser: Updated View to only show update option on one`s own page.
+	--> Check the variable name of the Bean being set to the session.
+
+Admin 199804101
+Non-Admin 199804102
