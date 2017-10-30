@@ -334,7 +334,7 @@ public class EmployeeSystemLogic {
 							+ "    <td><a href=\"/employeeAdmin/EmployeeSystem?page=deleteUser&lastpage&selectedUser=" + b.getEmployeeId() + "\">削除</a></td>");
 				}
 				tableBuilder.append("<td>" + b.getEmployeeId() + "</td>"
-								+ "				<td><a href=\"/employeeAdmin/EmployeeSystem?page=viewuser&selectedUser=" + b.getEmployeeId() + "\">" + b.getEmployeeName() + " </a></td>"
+								+ "				<td><a href=\"/employeeAdmin/EmployeeSystem?page=viewUser&selectedUser=" + b.getEmployeeId() + "\">" + b.getEmployeeName() + " </a></td>"
 								+ "<td>" + b.getBaseName() + " </td>"
 						+ "			<td>" + b.getDepartmentName() + " </td><td>" + b.getDivisionName() + " </td><td>" + b.getPositionName() + " </td>"
 						+ "			<td>" + b.getNaisenNumber() + " </td><td>" + b.getPublicCellphoneNumber() + " </td>"
@@ -532,7 +532,7 @@ public class EmployeeSystemLogic {
 	}
 
 	//作成：2017/10/30 香川 雄一
-	ArrayList<String> confirmDeleteUser(EmployeeBean employeeBean) {
+	public ArrayList<String> confirmDeleteUser(EmployeeBean employeeBean) {
 
 		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
 		ArrayList<String> messageList = new ArrayList<String>();

@@ -71,7 +71,6 @@ public class EmployeeSystem extends HttpServlet {
 			login_adminFlag = (Byte)session.getAttribute("login_adminFlag");
 		}
 
-
 		//処理詳細：
 		//・パラメータは無しの場合（action=nullかつpage=null）
 		if(action == null && page == null){
@@ -387,12 +386,13 @@ public class EmployeeSystem extends HttpServlet {
 		//一般用フォームから下記のパラメータを受け取る
 		//String oldPassword, newPassword, action
 
-		//null許可（処理でnull判断で分岐）
 		String action = request.getParameter("action");
 		String page = request.getParameter("page");
 
-		//null不可
 		String employeeId = request.getParameter("employeeId");
+		if(employeeId==null || employeeId.equals("")){
+			employeeId = "0";
+		}
 		String password = request.getParameter("password");
 
 		String user = request.getParameter("user");
@@ -402,7 +402,13 @@ public class EmployeeSystem extends HttpServlet {
 		String divisionName = request.getParameter("divisionName");
 		String positionName = request.getParameter("positionName");
 		String fromDate = request.getParameter("fromDate");
+		if(fromDate==null || fromDate.equals("")){
+			fromDate = "0";
+		}
 		String toDate = request.getParameter("toDate");
+		if(toDate==null || toDate.equals("")){
+			toDate = "999999";
+		}
 		String employeeName = request.getParameter("employeeName");
 		String kana = request.getParameter("kana");
 		String gender = request.getParameter("gender");
@@ -412,6 +418,9 @@ public class EmployeeSystem extends HttpServlet {
 		String oldPassword = request.getParameter("oldPassword");
 		String newPassword = request.getParameter("newPassword");
 		String adminFlag = request.getParameter("adminFlag");
+		if(adminFlag==null || adminFlag.equals("")){
+			adminFlag = "0";
+		}
 
 		//・actionのパラメータによって異なる処理を行う
 
@@ -483,22 +492,17 @@ public class EmployeeSystem extends HttpServlet {
 					//・「EmployeeBean」をEmployeeSystemLogicの（searchメソッド）に入れて、呼び出す
 					//・EmployeeSystemLogicの（searchメソッド）のＨＴＭＬをもらう
 					ArrayList<String> result = logic.search(employeeBean,login_adminFlag);
-					for(String aa:result){	//TestLogic
-						System.out.println(aa);
-					}
+
 
 					if(result.get(0).length()==0){
-						System.out.println("test01");
 						//HTMLは空文字“”の場合
 						//・エラーメッセージをリクエストスコープに入れる
 						request.setAttribute("message", result.get(1));
 					}else{
-						System.out.println("test02");
 						//HTMLは空文字“”じゃない場合
 						//・このＨＴＭＬをリクエストスコープの”html”にいれる
 						request.setAttribute("html", result.get(0));
 					}
-					System.out.println("test03");
 
 					//・employeeSystemMain.jspへフォワード転送
 					forwardPath = "/WEB-INF/employee/employeeSystemMain.jsp";
@@ -632,6 +636,7 @@ public class EmployeeSystem extends HttpServlet {
 				employeeBean.setPositionMemo(positionMemo);
 				employeeBean.setNaisenNumber(naisenNumber);
 				employeeBean.setPublicCellphoneNumber(publicCellphoneNumber);
+				employeeBean.setAdminFlag(Byte.parseByte(adminFlag));
 			}
 
 			//・「EmployeeBean」をEmployeeSystemLogicの（confirmUpdateUserメソッド）に入れて、呼び出す
