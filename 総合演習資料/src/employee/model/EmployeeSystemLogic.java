@@ -261,10 +261,10 @@ public class EmployeeSystemLogic {
 		// 管理者の場合
 		if (login_adminFlag == 1) {
 			output.append("<h1 style='text-align:left'>社員情報 修正</h1>" +
-					"<form action='/employee/EmployeeSystem' method='post'>" +
+					"<form action='/employeeAdmin/EmployeeSystem' method='post'>" +
 					"<p>　社員ID：" + employeeBean.getEmployeeId() +
 					"<p>　旧パスワード：<input type='password' name='oldPassword' value=" + employeeBean.getPassword() +
-					"><p>　新パスワード：<input type='password' name='password'>" +
+					"><p>　新パスワード：<input type='password' name='newPassword'>" +
 					"<p>　名前：<input type='text' name='employeeName' value=" + employeeBean.getEmployeeName() +
 					"><p>　ふりがな：<input type='text' name='kana' value=" + employeeBean.getKana() +
 					"><p>部署：" +
@@ -278,9 +278,10 @@ public class EmployeeSystemLogic {
 					"><p>　業務携帯番号：<input type='text' name='publicCellphoneNumber' value="
 					+ employeeBean.getPublicCellphoneNumber() +
 					"><input type = 'hidden' name='action' value='confirmUpdateUser'>" +
-					"<p><input type='submit' value='修正'>" +
+					"<input type = 'hidden' name='employeeId' value=" + employeeBean.getEmployeeId() +
+					"><p><input type='submit' value='修正'>" +
 					"</form>" +
-					"<form action='/employee/EmployeeSystem' method='get'>" +
+					"<form action='/employeeAdmin/EmployeeSystem' method='get'>" +
 					"<input type='submit' value='戻る'>" +
 					"</form>");
 		}
@@ -288,10 +289,10 @@ public class EmployeeSystemLogic {
 		else
 		{
 			output.append("<h1 style='text-align:left'>社員情報 修正</h1>" +
-					"<form action='/employee/EmployeeSystem' method='post'>" +
+					"<form action='/employeeAdmin/EmployeeSystem' method='post'>" +
 					"<p>　社員ID：" + employeeBean.getEmployeeId() +
 					"<p>　旧パスワード：<input type='password' name='oldPassword'>" +
-					"<p>　新パスワード：<input type='password' name='password'>" +
+					"<p>　新パスワード：<input type='password' name='newPassword'>" +
 					"<p>　名前：" + employeeBean.getEmployeeName() +
 					"<p>　ふりがな：" + employeeBean.getKana() +
 					"<p>部署：" +
@@ -305,9 +306,10 @@ public class EmployeeSystemLogic {
 					"<p>　業務携帯番号："
 					+ employeeBean.getPublicCellphoneNumber() +
 					"<input type = 'hidden' name='action' value='confirmUpdateUser'>" +
-					"<p><input type='submit' value='修正'>" +
+					"<input type = 'hidden' name='employeeId' value=" + employeeBean.getEmployeeId() +
+					"><p><input type='submit' value='修正'>" +
 					"</form>" +
-					"<form action='/employee/EmployeeSystem' method='get'>" +
+					"<form action='/employeeAdmin/EmployeeSystem' method='get'>" +
 					"<input type='submit' value='戻る'>" +
 					"</form>");
 		}
