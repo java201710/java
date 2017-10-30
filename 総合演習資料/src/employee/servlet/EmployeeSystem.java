@@ -70,7 +70,7 @@ public class EmployeeSystem extends HttpServlet {
 
 				//・「EmployeeBean」をEmployeeSystemLogicの（searchメソッド）に入れて、呼び出す
 				//・EmployeeSystemLogicの（searchメソッド）のＨＴＭＬをもらう
-				ArrayList<String>result = logic.search(employeeBean);
+				ArrayList<String>result = logic.search(employeeBean,login_adminFlag);
 				if(result.get(0).equals("")){
 					//HTMLは空文字“”の場合
 					//・エラーメッセージをリクエストスコープに入れる
@@ -451,7 +451,7 @@ public class EmployeeSystem extends HttpServlet {
 
 			//・「EmployeeBean」をEmployeeSystemLogicの（searchメソッド）に入れて、呼び出す
 			//・EmployeeSystemLogicの（searchメソッド）のＨＴＭＬをもらう
-			ArrayList<String> result = logic.search(employeeBean);
+			ArrayList<String> result = logic.search(employeeBean,login_adminFlag);
 
 			if(result.get(0).length()==0){
 				//HTMLは空文字“”の場合
