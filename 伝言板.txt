@@ -15,3 +15,4 @@
 向山：10/30 09:30・EmployeeSystemLogic.java（ミッチェルさん作業分とマージ済み）、EmployeeSystem.java、login.jspをアップしました
 
 香川：10/30 18:15・サーブレット更新しました。
+香川：10/30　20：05　ロジック更新しました。
