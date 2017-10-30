@@ -1,4 +1,12 @@
 下山：10/27 17:00・伝言板です。活用してください
-下山：10/27 17:13・CSVデータができたらこちらに連絡します。
+下山：10/27 17:13・CSVデータができたらこちらに連絡します。連絡済み！
 香川：10/27 19:16・BeanとDao（一部自信なし）が完了しましたのでsrcフォルダにあげておきます。
 向山：10/27 20:31・サーブレット（暫定版）とLogic（loginメソッド追加）がアップしました。どちらも未完成です。
+ミッチェル：10/28 13:00・employeeViewer.jspとemployeeSystemMain.jspとEmployeeSystemLogic.java「viewUser・searchメソッド」
+       メモ：全ファイルのコメント未入力。employSystemMain.jspのログアウトリンクが空文字“”。employSystemMain.jspの検索フォームがまで完了しない。EmployeeSystemLogic.javaのsearchメソッドが検索じゃなくて、一覧（全部）を表示する。
+
+下山：10/28 21:12・内部設計仕様書のインデントをそろえてみやすくしました。
+下山：10/29 0:47・内部設計仕様書にビュー表の仕様を加えました。
+下山：10/29 16:20・運用テスト仕様書を作成しました。
+
+ミッチェル：10/29 11:58・employeeViewer.jspとemployeeSystemMain.jspとEmployeeSystemLogic.java「viewUser・search・createSelectBoxメソッド」が完了しましたのでsrcフォルダにあげておきます。
