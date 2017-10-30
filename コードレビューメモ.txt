@@ -9,4 +9,9 @@ ArrayList<String> messageList = (ArrayList<String>) request.getAttribute("messag
 ・EmployeeSystemLogic.java 475行
 if (errFlag = true) { → if (errFlag == true) {
 
+・EmployeeSystem.java 323行等
+request.setAttribute("message", result.get(1)); → request.setAttribute("message", result);
+
+・EmployeeSystem.java 330行等
+request.setAttribute("lastpage", lastpage); //追加
 
