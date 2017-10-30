@@ -244,10 +244,12 @@ public class EmployeeSystemLogic {
 				+ " FROM employee AS T1 "
 					+ " INNER JOIN department AS T2 ON T1.departmentCode = T2.departmentCode"
 					+ " INNER JOIN division AS T3 ON T1.divisionCode = T3.divisionCode"
-					+ " INNER JOIN position AS T4 ON T1.positionCode = T4.positionCode"
+					+ " INNER JOIN position_table AS T4 ON T1.positionCode = T4.positionCode"
 					+ " INNER JOIN base AS T5 ON T2.baseCode = T5.baseCode"
-				+ " WHERE T1.employeeId = %d",
-				EmployeeBean.getEmployeeId());
+				+ " WHERE T1.employeeId = %d"
+				+ " AND T1.password = '%s'",
+				EmployeeBean.getEmployeeId(),
+				EmployeeBean.getPassword());
 		ArrayList<EmployeeBean> employeeBeans = dao.findEmployee(sql);
 		if(employeeBeans == null){
 			//例外エラー
