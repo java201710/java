@@ -99,13 +99,14 @@ public class EmployeeSystem extends HttpServlet {
 				if(result.get(0).equals("")){
 					//HTMLは空文字“”の場合
 					//・エラーメッセージをリクエストスコープに入れる
+					request.setAttribute("message", result.get(1));
 				}else{
 					//HTMLは空文字“”じゃない場合
 					//・このＨＴＭＬをリクエストスコープの”html”にいれる
-					request.setAttribute("html", result.get(1));
+					request.setAttribute("html", result.get(0));
 					//・employeeSystemMain.jspへフォワード転送
-					forwardPath = "/WEB-INF/employee/employeeSystemMain.jsp";
 				}
+				forwardPath = "/WEB-INF/employee/employeeSystemMain.jsp";
 
 			}else{
 				//【ログイン機能】
