@@ -6,7 +6,6 @@
 <%
 //messageを取得
 String html = (String) request.getAttribute("html");
-EmployeeSystemLogic logic = new EmployeeSystemLogic();
 %>
 <!DOCTYPE html>
 <html>
