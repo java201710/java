@@ -35,14 +35,7 @@ public class EmployeeSystemLogic {
 		ArrayList<String> message = new ArrayList<String>();
 
 		//SQL文の準備
-		String sql = "SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,\r\n" +
-				"B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,\r\n" +
-				"DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,\r\n" +
-				"E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime\r\n" +
-				"FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)\r\n" +
-				"INNER JOIN base B ON B.baseCode = D.baseCode)\r\n" +
-				"INNER JOIN division DI ON E.divisionCode = DI.divisionCode)\r\n" +
-				"INNER JOIN position_table P ON E.positionCode = P.positionCode\r\n" +
+		String sql = "SELECT * FROM employee_view\r\n" +
 				"WHERE employeeID = " + eBean.getEmployeeId() + ";";
 
 		//データベースからSQLのArrayListの結果をもらって、"employeeList"に入れる。結果は一つはず
@@ -171,14 +164,7 @@ public class EmployeeSystemLogic {
 		}
 
 		//SQL文の準備
-		sqlBuilder.append("SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,\r\n" +
-				"B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,\r\n" +
-				"DI.divisionName ,P.positionCode ,P.positionName , E.positionMemo ,\r\n" +
-				"E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime\r\n" +
-				"FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)\r\n" +
-				"INNER JOIN base B ON B.baseCode = D.baseCode)\r\n" +
-				"INNER JOIN division DI ON E.divisionCode = DI.divisionCode)\r\n" +
-				"INNER JOIN position_table P ON E.positionCode = P.positionCode\r\n");
+		sqlBuilder.append("SELECT * FROM employee_view\r\n");
 
 		//SQL文に検索フォームで選んだパラメータの値を加える
 		if (!selectedValues.isEmpty()) {
@@ -324,14 +310,7 @@ public class EmployeeSystemLogic {
 		}
 
 		//SQL文の準備
-		String sql = "SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,\r\n" +
-				"B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,\r\n" +
-				"DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,\r\n" +
-				"E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime\r\n" +
-				"FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)\r\n" +
-				"INNER JOIN base B ON B.baseCode = D.baseCode)\r\n" +
-				"INNER JOIN division DI ON E.divisionCode = DI.divisionCode)\r\n" +
-				"INNER JOIN position_table P ON E.positionCode = P.positionCode\r\n" +
+		String sql = "SELECT * FROM employee_view\r\n" +
 				"ORDER BY " + orderBy + " ASC;";
 
 		//データベースからSQLのArrayListの結果をもらって、"employeeList"に入れる
