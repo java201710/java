@@ -387,12 +387,13 @@ public class EmployeeSystem extends HttpServlet {
 		//一般用フォームから下記のパラメータを受け取る
 		//String oldPassword, newPassword, action
 
-		//null許可（処理でnull判断で分岐）
 		String action = request.getParameter("action");
 		String page = request.getParameter("page");
 
-		//null不可
 		String employeeId = request.getParameter("employeeId");
+		if(employeeId.equals("")){
+			employeeId = "0";
+		}
 		String password = request.getParameter("password");
 
 		String user = request.getParameter("user");
@@ -418,6 +419,9 @@ public class EmployeeSystem extends HttpServlet {
 		String oldPassword = request.getParameter("oldPassword");
 		String newPassword = request.getParameter("newPassword");
 		String adminFlag = request.getParameter("adminFlag");
+		if(adminFlag.equals("")){
+			adminFlag = "0";
+		}
 
 		//・actionのパラメータによって異なる処理を行う
 
@@ -638,6 +642,7 @@ public class EmployeeSystem extends HttpServlet {
 				employeeBean.setPositionMemo(positionMemo);
 				employeeBean.setNaisenNumber(naisenNumber);
 				employeeBean.setPublicCellphoneNumber(publicCellphoneNumber);
+				employeeBean.setAdminFlag(Byte.parseByte(adminFlag));
 			}
 
 			//・「EmployeeBean」をEmployeeSystemLogicの（confirmUpdateUserメソッド）に入れて、呼び出す
