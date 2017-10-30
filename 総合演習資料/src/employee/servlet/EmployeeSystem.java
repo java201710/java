@@ -294,7 +294,7 @@ public class EmployeeSystem extends HttpServlet {
 				employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
 
 				//・「EmployeeBean」をEmployeeSystemLogicの（deleteメソッド）に入れて、呼び出す
-				ArrayList<String> result = logic.delete(employeeBean);
+				ArrayList<String> result = logic.confirmDeleteUser(employeeBean);
 
 				//・EmployeeSystemLogicの（deleteUserメソッド）のＨＴＭＬをもらう
 				if(result.get(0).length()==0){
@@ -387,11 +387,16 @@ public class EmployeeSystem extends HttpServlet {
 		//一般用フォームから下記のパラメータを受け取る
 		//String oldPassword, newPassword, action
 
+		//null許可（処理でnull判断で分岐）
+		String action = request.getParameter("action");
+		String page = request.getParameter("page");
+
+		//null不可
 		String employeeId = request.getParameter("employeeId");
 		String password = request.getParameter("password");
-		String action = request.getParameter("action");
+
 		String user = request.getParameter("user");
-		String page = request.getParameter("page");
+
 		String baseName = request.getParameter("baseName");
 		String departmentName = request.getParameter("departmentName");
 		String divisionName = request.getParameter("divisionName");
