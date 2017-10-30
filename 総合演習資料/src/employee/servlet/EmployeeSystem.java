@@ -266,7 +266,7 @@ public class EmployeeSystem extends HttpServlet {
 //				employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
 
 				//・「EmployeeBean」「lastpage」をEmployeeSystemLogicの（updateUserメソッド）に入れて、呼び出す
-				ArrayList<String> result = logic.updateUser(employeeBean,lastpage);
+				ArrayList<String> result = logic.updateUser(employeeBean,lastpage,login_adminFlag);
 
 				//・EmployeeSystemLogicの（updateUserメソッド）のＨＴＭＬをもらう
 				if(result.get(0).length()==0){
