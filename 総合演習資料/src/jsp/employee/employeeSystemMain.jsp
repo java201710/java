@@ -107,7 +107,7 @@ th#long {
 				<% } else { %>
 						<%= employeeName %>
 				<% } %>さん<br>
-				<a href="">ログアウト</a>
+				<a href="/employeeAdmin/EmployeeSystem?page=login">ログアウト</a>
 			</td>
 		</tr>
 	</table>
