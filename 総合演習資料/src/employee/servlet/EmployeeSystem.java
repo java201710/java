@@ -391,7 +391,7 @@ public class EmployeeSystem extends HttpServlet {
 		String page = request.getParameter("page");
 
 		String employeeId = request.getParameter("employeeId");
-		if(employeeId.equals("")){
+		if(employeeId==null || employeeId.equals("")){
 			employeeId = "0";
 		}
 		String password = request.getParameter("password");
@@ -403,11 +403,11 @@ public class EmployeeSystem extends HttpServlet {
 		String divisionName = request.getParameter("divisionName");
 		String positionName = request.getParameter("positionName");
 		String fromDate = request.getParameter("fromDate");
-		if(fromDate.equals("")){
+		if(fromDate==null || fromDate.equals("")){
 			fromDate = "0";
 		}
 		String toDate = request.getParameter("toDate");
-		if(toDate.equals("")){
+		if(toDate==null || toDate.equals("")){
 			toDate = "999999";
 		}
 		String employeeName = request.getParameter("employeeName");
@@ -419,7 +419,7 @@ public class EmployeeSystem extends HttpServlet {
 		String oldPassword = request.getParameter("oldPassword");
 		String newPassword = request.getParameter("newPassword");
 		String adminFlag = request.getParameter("adminFlag");
-		if(adminFlag.equals("")){
+		if(adminFlag==null || adminFlag.equals("")){
 			adminFlag = "0";
 		}
 
