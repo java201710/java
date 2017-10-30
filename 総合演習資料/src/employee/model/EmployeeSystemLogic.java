@@ -532,7 +532,7 @@ public class EmployeeSystemLogic {
 	}
 
 	//作成：2017/10/30 香川 雄一
-	ArrayList<String> confirmDeleteUser(EmployeeBean employeeBean) {
+	public ArrayList<String> confirmDeleteUser(EmployeeBean employeeBean) {
 
 		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
 		ArrayList<String> messageList = new ArrayList<String>();

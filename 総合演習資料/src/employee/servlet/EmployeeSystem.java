@@ -402,7 +402,13 @@ public class EmployeeSystem extends HttpServlet {
 		String divisionName = request.getParameter("divisionName");
 		String positionName = request.getParameter("positionName");
 		String fromDate = request.getParameter("fromDate");
+		if(fromDate.equals("")){
+			fromDate = "0";
+		}
 		String toDate = request.getParameter("toDate");
+		if(toDate.equals("")){
+			toDate = "999999";
+		}
 		String employeeName = request.getParameter("employeeName");
 		String kana = request.getParameter("kana");
 		String gender = request.getParameter("gender");
