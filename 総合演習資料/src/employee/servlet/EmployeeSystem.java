@@ -226,7 +226,6 @@ public class EmployeeSystem extends HttpServlet {
 						//ＨＴＭＬは空文字“”じゃない場合
 						//・「EmployeeBean」をセッションスコープの” EmployeeBean”にセットする。
 						session.setAttribute("EmployeeBean", employeeBean);
-						session.setAttribute("selectedUser", Integer.toString(employeeBean.getEmployeeId()));
 						//・このＨＴＭＬをリクエストスコープの”html”にいれる
 						request.setAttribute("html", result.get(0));
 						//・employeeViewer.jspへフォワード転送
@@ -239,24 +238,32 @@ public class EmployeeSystem extends HttpServlet {
 				//【他画面→修正入力(updateUser.jsp)】
 				//page=updateUserの場合
 
-				//・「lastpage」のパラメータはnullの場合
-
-				if(lastpage!=null && lastpage.length()>0){
-					//・「lastpage」のパラメータはある場合
-					//・「lastpage」の値をセッションスコープの” lastpage”に入れる
-					session.setAttribute("lastpage", lastpage);
-					selectedUser = (String) session.getAttribute("selectedUser");
-				}
-
-				//・「lastpage」のパラメータは空文字“”の場合
-
-				//・共通処理
 				//・「EmployeeBean」のインスタンスを宣言する
 				EmployeeBean employeeBean = new EmployeeBean();
 
-				//・「selecteduser」の値を「EmployeeBean」に入れる
 
-				employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
+				//・「lastpage」のパラメータはnullの場合
+
+				if(lastpage!=null && lastpage.length()>0){
+					//※詳細画面からの遷移
+					//・「lastpage」のパラメータはある場合
+					//・「lastpage」の値をセッションスコープの” lastpage”に入れる
+					session.setAttribute("lastpage", lastpage);
+					employeeBean = (EmployeeBean)session.getAttribute("EmployeeBean");
+				}
+				if(lastpage!=null && lastpage.equals("")){
+					//※メイン画面からの遷移
+					//・「lastpage」のパラメータは空文字“”の場合
+					//・「selecteduser」の値を「EmployeeBean」に入れる
+					employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
+				}
+
+				//・共通処理
+//				//・「EmployeeBean」のインスタンスを宣言する
+//				EmployeeBean employeeBean = new EmployeeBean();
+//
+//				//・「selecteduser」の値を「EmployeeBean」に入れる
+//				employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
 
 				//・「EmployeeBean」「lastpage」をEmployeeSystemLogicの（updateUserメソッド）に入れて、呼び出す
 				ArrayList<String> result = logic.updateUser(employeeBean,lastpage);
@@ -281,20 +288,29 @@ public class EmployeeSystem extends HttpServlet {
 				//【他画面→削除確認(confirmDeleteUser.jsp)】
 				//page=deleteUserの場合
 
-				if(lastpage!=null && lastpage.length()>0){
-					//・「lastpage」のパラメータはある場合
-					//・「lastpage」の値をセッションスコープの”lastpage”に入れる
-					session.setAttribute("lastpage", lastpage);
-				}
-
-				//・「lastpage」のパラメータは空文字“”の場合
-
-				//・共通処理
 				//・「EmployeeBean」のインスタンスを宣言する
 				EmployeeBean employeeBean = new EmployeeBean();
 
-				//・「selecteduser」の値を「EmployeeBean」に入れる
-				employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
+				if(lastpage!=null && lastpage.length()>0){
+					//※詳細画面からの遷移
+					//・「lastpage」のパラメータはある場合
+					//・「lastpage」の値をセッションスコープの”lastpage”に入れる
+					session.setAttribute("lastpage", lastpage);
+					employeeBean = (EmployeeBean)session.getAttribute("EmployeeBean");
+				}
+				if(lastpage!=null && lastpage.equals("")){
+					//※メイン画面からの遷移
+					//・「lastpage」のパラメータは空文字“”の場合
+					//・「selecteduser」の値を「EmployeeBean」に入れる
+					employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
+				}
+
+				//・共通処理
+//				//・「EmployeeBean」のインスタンスを宣言する
+//				EmployeeBean employeeBean = new EmployeeBean();
+//
+//				//・「selecteduser」の値を「EmployeeBean」に入れる
+//				employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
 
 				//・「EmployeeBean」をEmployeeSystemLogicの（deleteメソッド）に入れて、呼び出す
 				ArrayList<String> result = logic.confirmDeleteUser(employeeBean);
