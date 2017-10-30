@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.employee.EmployeeSystemDAO;
 import employee.model.EmployeeBean;
 import employee.model.EmployeeSystemLogic;
 
@@ -28,7 +27,7 @@ public class EmployeeSystem extends HttpServlet {
 		String message = "";
 		String forward = "";
 
-		if (session.getAttribute("employeeId") == null) {
+		if (session.getAttribute("login_employeeId") == null) {
 			forward = "/WEB-INF/employee/login.jsp";
 		} else {
 
@@ -39,19 +38,53 @@ public class EmployeeSystem extends HttpServlet {
 			}
 
 			if (((String) request.getParameter("action")) != null) {
-				// TODO:
+				if (((String) request.getParameter("action")).equals("delete")) {
+
+					request.setAttribute("message", eSysLogic.delete((EmployeeBean) session.getAttribute("EmployeeBean")));
+					session.removeAttribute("selectedUser");
+					session.removeAttribute("EmployeeBean");
+
+					EmployeeBean eBean = new EmployeeBean();
+					request.setAttribute("employeeBean", eBean);
+					ArrayList<String> result = eSysLogic.search(eBean, (Byte) session.getAttribute("login_adminFlag"));
+
+					if (result.get(0).equals("")) {
+						request.setAttribute("html", result.get(1));
+					} else {
+						request.setAttribute("html", result.get(0));
+					}
+
+				}
 				forward = "/WEB-INF/employee/employeeSystemMain.jsp";
 			} else {
 				if ((String) request.getParameter("page") != null) {
-					if (((String) request.getParameter("page")).equals("viewuser")) {
-						
-						// TODO: there is no error check here
+					if (((String) request.getParameter("page")).equals("viewUser")) {
 						EmployeeBean eBean = new EmployeeBean();
-						eBean.setEmployeeId((Integer.parseInt((String) request.getParameter("selectedUser"))));
+						if ((String) request.getParameter("selectedUser") == null) {
+							eBean = (EmployeeBean) session.getAttribute("EmployeeBean");
+						} else {
+							eBean.setEmployeeId((Integer.parseInt((String) request.getParameter("selectedUser"))));
+						}
 						message = eSysLogic.viewUser(eBean).get(0);
-						
+
+						setSessionAttribute(session,"EmployeeBean", eBean);
+
 						request.setAttribute("html", message);
 						forward = "/WEB-INF/employee/employeeViewer.jsp";
+					} else if (((String) request.getParameter("page")).equals("deleteUser")) {
+						EmployeeBean eBean = new EmployeeBean();
+						if (((String) request.getParameter("lastpage")).equals("viewUser")) {
+							eBean = (EmployeeBean) session.getAttribute("EmployeeBean");
+						} else {
+							eBean.setEmployeeId(Integer.parseInt((String) request.getParameter("selectedUser")));
+						}
+
+						message = eSysLogic.confirmDeleteUser(eBean).get(0);
+
+						setSessionAttribute(session,"EmployeeBean", eBean);
+						request.setAttribute("html", message);
+						request.setAttribute("lastpage", request.getParameter("lastpage"));
+						forward = "/WEB-INF/employee/confirmDeleteUser.jsp";
 					} else {
 						// TODO:
 						forward = "/WEB-INF/employee/employeeSystemMain.jsp";
@@ -67,7 +100,7 @@ public class EmployeeSystem extends HttpServlet {
 					} else {
 						request.setAttribute("html", result.get(0));
 					}
-					
+
 					forward = "/WEB-INF/employee/employeeSystemMain.jsp";
 				}
 
@@ -87,15 +120,15 @@ public class EmployeeSystem extends HttpServlet {
 		if (request.getParameter("action").equals("login")) {
 			EmployeeSystemLogic eSysLogic = new EmployeeSystemLogic();
 			EmployeeBean eBean = new EmployeeBean();
-			eBean.setEmployeeId((Integer.parseInt((String) request.getParameter("employeeId"))));
-			
-			eBean = eSysLogic.findEmployee(eBean);
-			eBean.setAdminFlag((byte) 1);
+			eBean.setEmployeeId((Integer.parseInt((String) request.getParameter("login_employeeId"))));
 
-			setSessionAttribute(session, "employeeId", eBean.getEmployeeId());
-			setSessionAttribute(session, "employeeName", eBean.getEmployeeName());
+			eBean = eSysLogic.findEmployee(eBean);
+			//eBean.setAdminFlag((byte) 1);
+
+			setSessionAttribute(session, "login_employeeId", eBean.getEmployeeId());
+			setSessionAttribute(session, "login_employeeName", eBean.getEmployeeName());
 			setSessionAttribute(session, "login_adminFlag", eBean.getAdminFlag());
-			
+
 			ArrayList<String> result = eSysLogic.search(new EmployeeBean(), (Byte) session.getAttribute("login_adminFlag"));
 
 			if (result.get(0).equals("")) {
@@ -110,13 +143,13 @@ public class EmployeeSystem extends HttpServlet {
 			String positionName = request.getParameter("positionName");
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
-						
+
 			EmployeeBean eBean = new EmployeeBean();
 			eBean.setBaseName(baseName);
 			eBean.setDepartmentName(departmentName);
 			eBean.setDivisionName(divisionName);
 			eBean.setPositionName(positionName);
-			
+
 			if (fromDate.equals("")) {
 				eBean.setFromDate(0);
 			} else {
@@ -128,16 +161,16 @@ public class EmployeeSystem extends HttpServlet {
 				eBean.setToDate(Integer.parseInt(toDate));
 			}
 			request.setAttribute("employeeBean", eBean);
-			
+
 			EmployeeSystemLogic eSysLogic = new EmployeeSystemLogic();
 			ArrayList<String> result = eSysLogic.search(eBean, (Byte) session.getAttribute("login_adminFlag"));
-			
+
 			if (result.get(0).equals("") && result.size() > 1) {
 				request.setAttribute("message", result.get(1));
 			} else {
 				request.setAttribute("html", result.get(0));
 			}
-			
+
 		}
 		request.getRequestDispatcher("/WEB-INF/employee/employeeSystemMain.jsp").forward(request, response);
 	}
