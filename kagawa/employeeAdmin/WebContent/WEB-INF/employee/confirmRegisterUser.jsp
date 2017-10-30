@@ -4,9 +4,7 @@
 <%@ page import="employee.model.EmployeeSystemLogic"%>
 <%@ page import="java.util.ArrayList" %>
 <%
-//入力した情報を取得
-EmployeeBean employeeBean = (EmployeeBean) request.getAttribute("EmployeeBean");
-EmployeeSystemLogic logic = new EmployeeSystemLogic();
+String html = (String) request.getAttribute("html");
 %>
 <!DOCTYPE html>
 <html>
@@ -16,30 +14,7 @@ EmployeeSystemLogic logic = new EmployeeSystemLogic();
 </head>
 <body>
 <h1 style="text-align:left">登録内容確認</h1>
-<p>　社員ID：
-<%= employeeBean.getEmployeeId() %>
-<p>　パスワード：
-<%= employeeBean.getPassword() %>
-<p>　名前：
-<%= employeeBean.getEmployeeName() %>
-<p>　ふりがな：
-<%= employeeBean.getKana() %>
-<p>性別：
-<%= employeeBean.getGender() %>
-<p>部署名：
-<%= employeeBean.getDepartmentName() %>
-<p>課名：
-<%= employeeBean.getDivisionName() %>
-<p>役職名：
-<%= employeeBean.getPositionName() %>
-<p>　役職詳細：
-<%= employeeBean.getPositionMemo() %>
-<p>　内線：
-<%= employeeBean.getNaisenNumber() %>
-<p>　業務携帯番号：
-<%= employeeBean.getPublicCellphoneNumber() %>
-<p>　写真：
-<img src=\"img/" + employeeBean.getEmployeeId() + ".jpg\"/>
+<%= html%>
 <form action="/employee/EmployeeSystem" method="get">
 <input type = "hidden" name="action" value="register">
 <p><input type="submit" value="登録">

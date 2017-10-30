@@ -4,11 +4,11 @@
 <%@ page import="employee.model.EmployeeSystemLogic"%>
 <%@ page import="java.util.ArrayList"%>
 <%
-int user;
+String user;
 if(request.getAttribute("user")==null){
-	user = 0;
+	user = "";
 }else{
-	user = (Integer)request.getAttribute("user");
+	user = (String)request.getAttribute("user");
 }
 
 String message = (String)request.getAttribute("message");
