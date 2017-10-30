@@ -400,7 +400,11 @@ public class EmployeeSystemLogic {
 			StringBuilder tableBuilder = new StringBuilder();
 
 			for (EmployeeBean b : employeeList) {
-				tableBuilder.append("<tr align=\"center\">");
+				if (b.getAdminFlag() == 1) {
+					tableBuilder.append("<tr id=admin>");
+				} else {
+					tableBuilder.append("<tr id=nonadmin>");
+				}
 				if (adminFlag == 1) {
 					tableBuilder.append("<td><a href=\"/employeeAdmin/EmployeeSystem?page=updateUser&lastpage&selectedUser=" + b.getEmployeeId() + "\">修正</a></td>"
 							+ "    <td><a href=\"/employeeAdmin/EmployeeSystem?page=deleteUser&lastpage&selectedUser=" + b.getEmployeeId() + "\">削除</a></td>");

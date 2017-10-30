@@ -80,11 +80,18 @@ th {
 }
 th#short {
 	border: 1px solid;
-	width: 3%;
+	width: 5%;
 }
 th#long {
 	border: 1px solid;
-	width: 12%
+	width: 12%;
+}
+tr#admin {
+	background-color: lightblue;
+	text-align: center;
+}
+tr#nonadmin {
+	text-align: center;
 }
 </style>
 <meta charset="UTF-8">
@@ -169,7 +176,12 @@ th#long {
 	<div style="height: 500px; overflow-y: auto; overflow-x: auto;">
 	<table id=fulltable>
 		<% if (login_adminFlag == 1) { %>
-			<tr><th id=short></th><th id=short></th>
+			<tr id=admin>
+		<% } else { %>
+			<tr>
+		<% } %>
+		<% if (login_adminFlag == 1) { %>
+			<th id=short></th><th id=short></th>
 		<% } %>
 		<th id=short>社員ＩＤ</th><th>名前</th><th>拠点</th><th id=long>部署</th><th>課</th><th>役職</th><th>内線</th><th>携帯番号</th></tr>
 	<%= html %>
