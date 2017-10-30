@@ -221,14 +221,14 @@ public class EmployeeSystemLogic {
 	}
 
 	//作成：2017/10/30 香川 雄一
-	ArrayList<String> updateUser(EmployeeBean employeeBean, String lastpage) {
+	public ArrayList<String> updateUser(EmployeeBean employeeBean, String lastpage) {
 
 		EmployeeSystemDAO DAO = new EmployeeSystemDAO();
 		ArrayList<String> messageList = new ArrayList<String>();
 
 		if (lastpage == null) {
 			//			String output = "";
-			messageList.add(search(employeeBean, employeeBean.getAdminFlag()).get(0));
+
 		}
 		else {
 			StringBuffer sql_select = new StringBuffer();
@@ -469,7 +469,7 @@ public class EmployeeSystemLogic {
 	}
 
 	//作成：2017/10/30 香川 雄一
-	ArrayList<String> confirmUpdateUser(EmployeeBean employeeBean) {
+	ArrayList<String> confirmUpdateUser(EmployeeBean employeeBean, String oldPassword) {
 
 		String employeeId = new Integer(employeeBean.getEmployeeId()).toString();
 		String password = employeeBean.getPassword();
@@ -480,14 +480,34 @@ public class EmployeeSystemLogic {
 		Pattern patternPassword = Pattern.compile("^[0-9a-zA-Z]*$");
 		Boolean errFlag = false;
 
+		StringBuffer sql_select = new StringBuffer();
+		sql_select.append("SELECT password FROM employee WHERE employeeId = ");
+		sql_select.append(employeeBean.employeeId);
+		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
+
 		// 入力チェック
+		if(!oldPassword.equals(employeeList.get(0).password)){
+			messageList.add("旧パスワードが正しくありません");
+			errFlag = true;
+		}
+
+		if (oldPassword.equals("")) {
+			messageList.add("旧パスワードを入力して下さい");
+			errFlag = true;
+		}
+
+		if (!patternPassword.matcher(oldPassword).matches()) {
+			messageList.add("旧パスワードは半角英数字で入力して下さい");
+			errFlag = true;
+		}
+
 		if (password.equals("")) {
-			messageList.add("パスワードを入力して下さい");
+			messageList.add("新パスワードを入力して下さい");
 			errFlag = true;
 		}
 
 		if (!patternPassword.matcher(password).matches()) {
-			messageList.add("パスワードは半角英数字で入力して下さい");
+			messageList.add("新パスワードは半角英数字で入力して下さい");
 			errFlag = true;
 		}
 

@@ -294,7 +294,7 @@ public class EmployeeSystem extends HttpServlet {
 				employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
 
 				//・「EmployeeBean」をEmployeeSystemLogicの（deleteメソッド）に入れて、呼び出す
-				ArrayList<String> result = logic.delete(employeeBean);
+				ArrayList<String> result = logic.confirmDeleteUser(employeeBean);
 
 				//・EmployeeSystemLogicの（deleteUserメソッド）のＨＴＭＬをもらう
 				if(result.get(0).length()==0){
@@ -387,17 +387,29 @@ public class EmployeeSystem extends HttpServlet {
 		//一般用フォームから下記のパラメータを受け取る
 		//String oldPassword, newPassword, action
 
-		String employeeId = request.getParameter("employeeId");
-		String password = request.getParameter("password");
 		String action = request.getParameter("action");
-		String user = request.getParameter("user");
 		String page = request.getParameter("page");
+
+		String employeeId = request.getParameter("employeeId");
+		if(employeeId==null || employeeId.equals("")){
+			employeeId = "0";
+		}
+		String password = request.getParameter("password");
+
+		String user = request.getParameter("user");
+
 		String baseName = request.getParameter("baseName");
 		String departmentName = request.getParameter("departmentName");
 		String divisionName = request.getParameter("divisionName");
 		String positionName = request.getParameter("positionName");
 		String fromDate = request.getParameter("fromDate");
+		if(fromDate==null || fromDate.equals("")){
+			fromDate = "0";
+		}
 		String toDate = request.getParameter("toDate");
+		if(toDate==null || toDate.equals("")){
+			toDate = "999999";
+		}
 		String employeeName = request.getParameter("employeeName");
 		String kana = request.getParameter("kana");
 		String gender = request.getParameter("gender");
@@ -407,6 +419,9 @@ public class EmployeeSystem extends HttpServlet {
 		String oldPassword = request.getParameter("oldPassword");
 		String newPassword = request.getParameter("newPassword");
 		String adminFlag = request.getParameter("adminFlag");
+		if(adminFlag==null || adminFlag.equals("")){
+			adminFlag = "0";
+		}
 
 		//・actionのパラメータによって異なる処理を行う
 
@@ -627,6 +642,7 @@ public class EmployeeSystem extends HttpServlet {
 				employeeBean.setPositionMemo(positionMemo);
 				employeeBean.setNaisenNumber(naisenNumber);
 				employeeBean.setPublicCellphoneNumber(publicCellphoneNumber);
+				employeeBean.setAdminFlag(Byte.parseByte(adminFlag));
 			}
 
 			//・「EmployeeBean」をEmployeeSystemLogicの（confirmUpdateUserメソッド）に入れて、呼び出す
