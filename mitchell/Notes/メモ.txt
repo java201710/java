@@ -38,7 +38,7 @@ WHERE baseName = "本社";
 ---------------------
 7. What happens when the image is not on the file server.
 ---------------------
-8. Current logic of action in servlet is broke... what is the result is "" but it was no error.
+8. Current logic of action in servlet is broke... what is the result is "" but it was no error. (10/30 
 ---------------------
 9. Commented out database draw fromDate and toDate. Do not use
 ---------------------
