@@ -5,19 +5,18 @@ import java.util.ArrayList;
 import dao.employee.EmployeeSystemDAO;
 
 public class EmployeeSystemLogic {
-	EmployeeSystemDAO dao = new EmployeeSystemDAO();
 
 	ArrayList<String> register(EmployeeBean EmployeeBean) {
 
 		return null;
 	}
-	
+
 	ArrayList<String> update(EmployeeBean EmployeeBean) {
 
 		return null;
 	}
 
-	
+
 	ArrayList<String> delete(EmployeeBean EmployeeBean) {
 
 		return null;
@@ -29,23 +28,23 @@ public class EmployeeSystemLogic {
 		*	<-- メイズ・ミッチェル -->
 		*	社員情報管理の社員情報詳細画面の為に社員情報の表を準備する
 		*/
-		
+
 		//変数
 		ArrayList<EmployeeBean> employeeList;
 		EmployeeSystemDAO eSysDAO = new EmployeeSystemDAO();
 		ArrayList<String> message = new ArrayList<String>();
-		
+
 		//SQL文の準備
-		String sql = "SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,\r\n" + 
-				"B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,\r\n" + 
-				"DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,\r\n" + 
-				"E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime\r\n" + 
-				"FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)\r\n" + 
-				"INNER JOIN base B ON B.baseCode = D.baseCode)\r\n" + 
-				"INNER JOIN division DI ON E.divisionCode = DI.divisionCode)\r\n" + 
-				"INNER JOIN position_table P ON E.positionCode = P.positionCode\r\n" + 
+		String sql = "SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,\r\n" +
+				"B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,\r\n" +
+				"DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,\r\n" +
+				"E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime\r\n" +
+				"FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)\r\n" +
+				"INNER JOIN base B ON B.baseCode = D.baseCode)\r\n" +
+				"INNER JOIN division DI ON E.divisionCode = DI.divisionCode)\r\n" +
+				"INNER JOIN position_table P ON E.positionCode = P.positionCode\r\n" +
 				"WHERE employeeID = " + eBean.getEmployeeId() + ";";
-		
+
 		//データベースからSQLのArrayListの結果をもらって、"employeeList"に入れる。結果は一つはず
 		employeeList = eSysDAO.findEmployee(sql);
 		if (employeeList == null) {
@@ -57,7 +56,7 @@ public class EmployeeSystemLogic {
 		} else {
 			//一つのEmployeeBeanから表を準備する
 			eBean = employeeList.get(0);
-			
+
 			StringBuilder output = new StringBuilder();
 			output.append("<table id=dataframe><tr>" +
 					"				<td id=rowheader>社員ＩＤ：</td><td>" + eBean.getEmployeeId() + "</td><td id=pictureheader>写真：</td><td>" +
@@ -107,28 +106,28 @@ public class EmployeeSystemLogic {
 
 		return message;
 	}
-	
+
 	ArrayList<String> updateUser(EmployeeBean EmployeeBean,String lastpage) {
 
 		return null;
 	}
-	
+
 	public ArrayList<String> search(EmployeeBean eBean, byte adminFlag) {
 		/*
 		*	（更新日時：２０１７年１０月２９日）
 		*	<-- メイズ・ミッチェル -->
 		*	社員情報管理のメインページの検索フォーム処理
 		*/
-		
+
 		//変数
 		EmployeeSystemDAO eSysDAO = new EmployeeSystemDAO();
 		ArrayList<EmployeeBean> employeeList;
-		
+
 		ArrayList<String> selectedValues = new ArrayList<String>();
 		ArrayList<String> message = new ArrayList<String>();
 		StringBuilder sqlBuilder = new StringBuilder();
 		String sql = "";
-		
+
 		//引数EmployeeBeanからデータを引く
 		String baseName = eBean.getBaseName();
 		String departmentName = eBean.getDepartmentName();
@@ -136,7 +135,7 @@ public class EmployeeSystemLogic {
 		String positionName = eBean.getPositionName();
 		int fromDate = eBean.getFromDate();
 		int toDate = eBean.getToDate();
-		
+
 		//検索フォームに選んだパラメータを決める
 		if (!(baseName == null)) {
 			if (!baseName.equals("")){
@@ -170,17 +169,17 @@ public class EmployeeSystemLogic {
 			selectedValues.add("toDate");
 			selectedValues.add(Integer.toString(toDate*1000+999));
 		}
-		
+
 		//SQL文の準備
-		sqlBuilder.append("SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,\r\n" + 
-				"B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,\r\n" + 
-				"DI.divisionName ,P.positionCode ,P.positionName , E.positionMemo ,\r\n" + 
-				"E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime\r\n" + 
-				"FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)\r\n" + 
-				"INNER JOIN base B ON B.baseCode = D.baseCode)\r\n" + 
-				"INNER JOIN division DI ON E.divisionCode = DI.divisionCode)\r\n" + 
+		sqlBuilder.append("SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,\r\n" +
+				"B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,\r\n" +
+				"DI.divisionName ,P.positionCode ,P.positionName , E.positionMemo ,\r\n" +
+				"E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime\r\n" +
+				"FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)\r\n" +
+				"INNER JOIN base B ON B.baseCode = D.baseCode)\r\n" +
+				"INNER JOIN division DI ON E.divisionCode = DI.divisionCode)\r\n" +
 				"INNER JOIN position_table P ON E.positionCode = P.positionCode\r\n");
-		
+
 		//SQL文に検索フォームで選んだパラメータの値を加える
 		if (!selectedValues.isEmpty()) {
 			sqlBuilder.append("WHERE ");
@@ -202,7 +201,7 @@ public class EmployeeSystemLogic {
 		}
 		sqlBuilder.append(";");
 		sql = sqlBuilder.toString();
-		
+
 		//データベースからSQLのArrayListの結果をもらって、"employeeList"に入れる
 		employeeList = eSysDAO.findEmployee(sql);
 		if (employeeList == null) {
@@ -229,22 +228,21 @@ public class EmployeeSystemLogic {
 		}
 		return message;
 	}
-	
+
 	ArrayList<String> confirmNewUser(EmployeeBean EmployeeBean) {
 
 		return null;
 	}
-	
+
 	ArrayList<String> confirmUpdateUser(EmployeeBean EmployeeBean) {
 
 		return null;
 	}
-	
+
 	ArrayList<String> confirmDeleteUser(EmployeeBean EmployeeBean) {
 
 		return null;
 	}
-<<<<<<< HEAD
 
 
     //メソッド名：login
@@ -252,6 +250,7 @@ public class EmployeeSystemLogic {
     //戻り値：ArrayList<String>
     //修正履歴：
 	public ArrayList<String> login(EmployeeBean EmployeeBean){
+		EmployeeSystemDAO dao = new EmployeeSystemDAO();
 		ArrayList<String> result = new ArrayList<String>();
 		//入力された社員ID＋パスワードで社員情報テーブルを検索
 		//%d･･･数値, %s･･･文字, %s･･･実数
@@ -282,8 +281,9 @@ public class EmployeeSystemLogic {
 		}
 
 		return result;
-=======
-	
+	}
+
+
 	public ArrayList<String> createSelectBox(String selectCategory, EmployeeBean eBean) {
 		/*
 		*	（更新日時：２０１７年１０月２９日）
@@ -291,14 +291,14 @@ public class EmployeeSystemLogic {
 		*	それぞれのページの選択リストが必要があるなら、このメソッドを呼ぶ.
 		*	リスト：「拠点」・「拠点：」・「課」・「役職」・「入社年月」
 		*/
-		
+
 		//変数
 		EmployeeSystemDAO eSysDAO = new EmployeeSystemDAO();
 		ArrayList<EmployeeBean> employeeList;
 		ArrayList<String> message = new ArrayList<String>();
 		ArrayList<String> selectValues = new ArrayList<String>();
-		StringBuilder output = new StringBuilder();	
-		
+		StringBuilder output = new StringBuilder();
+
 		if (eBean == null) {
 			eBean = new EmployeeBean();
 			eBean.setBaseName("");
@@ -308,7 +308,7 @@ public class EmployeeSystemLogic {
 			eBean.setFromDate(0);
 			eBean.setToDate(0);
 		}
-		
+
 		//SQL文の為、引数"selectCategory"でSQLの結果の並び替えを定める
 		String orderBy = "";
 		if (selectCategory.equals("baseName")) {
@@ -322,21 +322,21 @@ public class EmployeeSystemLogic {
 		} else if (selectCategory.equals("fromDate") || selectCategory.equals("toDate")) {
 			orderBy = "registrationDateTime";
 		}
-		
+
 		//SQL文の準備
-		String sql = "SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,\r\n" + 
-				"B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,\r\n" + 
-				"DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,\r\n" + 
-				"E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime\r\n" + 
-				"FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)\r\n" + 
-				"INNER JOIN base B ON B.baseCode = D.baseCode)\r\n" + 
-				"INNER JOIN division DI ON E.divisionCode = DI.divisionCode)\r\n" + 
+		String sql = "SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,\r\n" +
+				"B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,\r\n" +
+				"DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,\r\n" +
+				"E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime\r\n" +
+				"FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)\r\n" +
+				"INNER JOIN base B ON B.baseCode = D.baseCode)\r\n" +
+				"INNER JOIN division DI ON E.divisionCode = DI.divisionCode)\r\n" +
 				"INNER JOIN position_table P ON E.positionCode = P.positionCode\r\n" +
 				"ORDER BY " + orderBy + " ASC;";
-		
+
 		//データベースからSQLのArrayListの結果をもらって、"employeeList"に入れる
 		employeeList = eSysDAO.findEmployee(sql);
-		
+
 		//引数"selectCategory"によると格EmployeeBeanから、データを引く
 		if (employeeList != null) {
 			String item = "";
@@ -352,18 +352,18 @@ public class EmployeeSystemLogic {
 				} else if (selectCategory.equals("fromDate") ||selectCategory.equals("toDate")) {
 					item = Integer.toString(e.getEmployeeId()/1000);
 				}
-				
+
 				//複合のオブジェクトを削除
 				if (!selectValues.contains(item)) {
 					selectValues.add(item);
 				}
 			}
 		}
-		
+
 		//選択リスト文を準備する
 		output.append("<select name=\"" + selectCategory + "\">");
 		output.append("<option value=\"\">---未入力---</option>");
-		
+
 		//年月リストの処理
 		if (selectCategory.equals("fromDate") || selectCategory.equals("toDate")) {
 			for (int i = Integer.parseInt(selectValues.get(0)); i <= Integer.parseInt(selectValues.get(selectValues.size()-1)); i++) {
@@ -393,17 +393,16 @@ public class EmployeeSystemLogic {
 			}
 		}
 		output.append("</select>");
-		
+
 		message.add(output.toString());
 		return message;
->>>>>>> a61fafeb09a9fcffd790857113bdc0200ec2d639
 	}
-	
-	
-		
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 }
