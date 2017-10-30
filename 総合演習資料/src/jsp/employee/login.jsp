@@ -24,7 +24,7 @@ if(message==null){
 </head>
 <body>
 <P><%=message %>
-<FORM name="body" ACTION="/employeeAdmin/EmployeeSystem">
+<FORM name="body" ACTION="/employeeAdmin/EmployeeSystem" method="post">
 <INPUT TYPE="hidden" NAME="action" value="login" >
 <INPUT TYPE="hidden" NAME="user" value=<%= user %> >
 <P>社員ID：

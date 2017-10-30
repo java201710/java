@@ -72,7 +72,6 @@ public class EmployeeSystem extends HttpServlet {
 		}
 
 
-
 		//処理詳細：
 		//・パラメータは無しの場合（action=nullかつpage=null）
 		if(action == null && page == null){
