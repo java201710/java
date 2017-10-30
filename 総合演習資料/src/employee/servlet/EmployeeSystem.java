@@ -579,7 +579,7 @@ public class EmployeeSystem extends HttpServlet {
 			//・EmployeeSystemLogicの（searchメソッド）のＨＴＭＬをもらう
 			ArrayList<String> result = logic.search(employeeBean,login_adminFlag);
 
-			if(result.get(0).length()==0){
+			if (result.get(0).equals("") && result.size() > 1) {
 				//HTMLは空文字“”の場合
 				//・エラーメッセージをリクエストスコープに入れる
 				request.setAttribute("message", result.get(1));
