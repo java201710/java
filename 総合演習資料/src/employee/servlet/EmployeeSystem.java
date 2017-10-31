@@ -295,7 +295,7 @@ public class EmployeeSystem extends HttpServlet {
 					//※詳細画面からの遷移
 					//・「lastpage」のパラメータはある場合
 					//・「lastpage」の値をセッションスコープの”lastpage”に入れる
-					session.setAttribute("lastpage", lastpage);
+					request.setAttribute("lastpage", lastpage);
 					employeeBean = (EmployeeBean)session.getAttribute("EmployeeBean");
 				}
 				if(lastpage!=null && lastpage.equals("")){
