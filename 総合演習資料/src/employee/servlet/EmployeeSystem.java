@@ -170,6 +170,7 @@ public class EmployeeSystem extends HttpServlet {
 
 				//・セッションスコープにある「selectedUser」をEmployeeSystemLogicの（deleteメソッド）に入れて、呼び出す
 				//・EmployeeSystemLogicの（deleteメソッド）のメッセージをもらう
+
 				ArrayList<String> result = logic.delete((EmployeeBean)session.getAttribute("EmployeeBean"));
 
 				//・このメッセージをリクエストスコープの”message”にいれる
@@ -180,6 +181,24 @@ public class EmployeeSystem extends HttpServlet {
 				//・「selectedUser」
 				session.removeAttribute("EmployeeBean");
 				session.removeAttribute("selectedUser");
+
+				EmployeeBean employeeBean = new EmployeeBean();
+
+				//・「EmployeeBean」のオブジェックトをリクエストスコープの”employeeBean”に入れる
+				request.setAttribute("employeeBean", employeeBean);
+
+				//・「EmployeeBean」をEmployeeSystemLogicの（searchメソッド）に入れて、呼び出す
+				//・EmployeeSystemLogicの（searchメソッド）のＨＴＭＬをもらう
+				result = logic.search(employeeBean,login_adminFlag);
+
+				//if (result.get(0).equals("") && result.size() > 1) {
+				//	//HTMLは空文字“”の場合
+				//	//・エラーメッセージをリクエストスコープに入れる
+				//	request.setAttribute("message", result.get(1));
+				//}else{
+					//HTMLは空文字“”じゃない場合
+					//・このＨＴＭＬをリクエストスコープの”html”にいれる
+					request.setAttribute("html", result.get(0));
 			}
 
 			//上記の各プロセスが終了後
@@ -327,6 +346,7 @@ public class EmployeeSystem extends HttpServlet {
 					//・「lastpage」のパラメータは空文字“”の場合
 					//・「selecteduser」の値を「EmployeeBean」に入れる
 					employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
+					session.setAttribute("EmployeeBean", employeeBean);
 				}
 
 				//・共通処理
@@ -681,7 +701,7 @@ public class EmployeeSystem extends HttpServlet {
 			}else{
 				//ログインユーザーに管理者権限あり
 				//管理用→String　oldPassword, newPassword, employeeName, kana, departmentName, divisionName, positionName, positionMemo, naisenNumber, publicCellphoneNumber, adminFlag, action
-				employeeBean.setEmployeeId(Integer.parseInt(employeeId));
+				employeeBean.setEmployeeId(201710000);
 				employeeBean.setPassword(newPassword);
 				employeeBean.setEmployeeName(employeeName);
 				employeeBean.setKana(kana);
@@ -693,6 +713,20 @@ public class EmployeeSystem extends HttpServlet {
 				employeeBean.setNaisenNumber(naisenNumber);
 				employeeBean.setPublicCellphoneNumber(publicCellphoneNumber);
 				employeeBean.setAdminFlag(Byte.parseByte(adminFlag));
+
+
+//				employeeBean.setEmployeeId(Integer.parseInt(employeeId));
+//				employeeBean.setPassword(newPassword);
+//				employeeBean.setEmployeeName(employeeName);
+//				employeeBean.setKana(kana);
+//				employeeBean.setGender(gender);
+//				employeeBean.setDepartmentName(departmentName);
+//				employeeBean.setDivisionName(divisionName);
+//				employeeBean.setPositionName(positionName);
+//				employeeBean.setPositionMemo(positionMemo);
+//				employeeBean.setNaisenNumber(naisenNumber);
+//				employeeBean.setPublicCellphoneNumber(publicCellphoneNumber);
+//				employeeBean.setAdminFlag(Byte.parseByte(adminFlag));
 			}
 
 			//・「EmployeeBean」をEmployeeSystemLogicの（confirmUpdateUserメソッド）に入れて、呼び出す

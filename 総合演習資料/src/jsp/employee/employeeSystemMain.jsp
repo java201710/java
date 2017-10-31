@@ -18,7 +18,7 @@
 
 
 	//リクエストスコープの変数
-	ArrayList<String> message = (ArrayList<String>) request.getAttribute("message");
+	String message = (String) request.getAttribute("message");
 	String html = (String) request.getAttribute("html");
 	EmployeeBean eBean = (EmployeeBean) request.getAttribute("employeeBean"); //
 
@@ -26,7 +26,7 @@
 	EmployeeSystemLogic eSysLogic = new EmployeeSystemLogic();
 
 	if (message == null) {
-		message = new ArrayList<String>();
+		message = "";
 	}
 	if (html == null) {
 		html = "";
@@ -120,10 +120,8 @@ tr#nonadmin {
 			<td id=pagetitle>社員情報管理</td>
 
 				<!-- リクエストスコープにメッセージがあったら、表示する -->
-				<% if (message.size() > 0) { %>
-					<td id=notificationarea><%= message.get(0) %></td>
-				<% } %>
-			<td id=userinformation>ユーザー：
+				<td id=notificationarea><%= message %></td>
+				<td id=userinformation>ユーザー：
 				<% if (login_adminFlag == 1) { %>
 					<font color="blue"><%= employeeName %></font>
 				<% } else { %>
@@ -163,7 +161,7 @@ tr#nonadmin {
 					<input type="hidden" name="action" value="search">
 					<table id=searchform>
 						<tr>
-							<td colspan="8" align="left">検索するには</td>
+							<td colspan="8" align="left">検索するには!</td>
 						</tr>
 						<tr>
 							<td>拠点：</td><td><%= eSysLogic.createSelectBox("baseName", eBean).get(0) %></td>
