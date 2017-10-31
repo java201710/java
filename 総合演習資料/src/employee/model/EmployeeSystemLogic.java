@@ -16,7 +16,7 @@ public class EmployeeSystemLogic {
 		Common c = new Common();
 
 		StringBuffer sql_select = new StringBuffer();
-		sql_select.append("SELECT * FROM employee WHERE employeeId = ");
+		sql_select.append("SELECT * FROM employee_view WHERE employeeId = ");
 		sql_select.append(employeeBean.employeeId);
 		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
@@ -445,39 +445,47 @@ public class EmployeeSystemLogic {
 		Pattern patternPassword = Pattern.compile("^[0-9a-zA-Z]*$");
 		Boolean errFlag = false;
 
+		StringBuilder errBuild = new StringBuilder();
+
 		// 入力チェック
-		if (employeeId.equals("")) {
-			messageList.add("社員IDを入力して下さい");
+		if (employeeId.equals("0")) {
+//			messageList.add("社員IDを入力して下さい");
+			errBuild.append("社員IDを入力して下さい<br>");
 			errFlag = true;
 		}
 
 		if (!patternId.matcher(employeeId).matches()) {
-			messageList.add("社員IDは半角数字で入力して下さい");
+//			messageList.add("社員IDは半角数字で入力して下さい");
+			errBuild.append("社員IDは半角数字で入力して下さい<br>");
 			errFlag = true;
 		}
 
 		if (password.equals("")) {
-			messageList.add("パスワードを入力して下さい");
+//			messageList.add("パスワードを入力して下さい");
+			errBuild.append("パスワードを入力して下さい<br>");
 			errFlag = true;
 		}
 
 		if (!patternPassword.matcher(password).matches()) {
-			messageList.add("パスワードは半角英数字で入力して下さい");
+//			messageList.add("パスワードは半角英数字で入力して下さい");
+			errBuild.append("パスワードは半角英数字で入力して下さい<br>");
 			errFlag = true;
 		}
 
 		if (employeeName.equals("")) {
-			messageList.add("名前を入力して下さい");
+//			messageList.add("名前を入力して下さい");
+			errBuild.append("名前を入力して下さい<br>");
 			errFlag = true;
 		}
 
-		if (errFlag = true) {
+		if (errFlag == true) {
 			messageList.add(0, "");
+			messageList.add(errBuild.toString());
 			return messageList;
 		}
 
 		StringBuffer sql_select = new StringBuffer();
-		sql_select.append("SELECT * FROM employee WHERE employeeId = ");
+		sql_select.append("SELECT * FROM employee_view WHERE employeeId = ");
 		sql_select.append(employeeBean.employeeId);
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
