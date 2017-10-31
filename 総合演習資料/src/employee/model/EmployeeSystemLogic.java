@@ -16,7 +16,7 @@ public class EmployeeSystemLogic {
 		Common c = new Common();
 
 		StringBuffer sql_select = new StringBuffer();
-
+		sql_select.append("SELECT * FROM employee_view WHERE employeeId = ");
 		System.out.println(employeeBean.getEmployeeId());
 		sql_select.append(employeeBean.getEmployeeId());
 
@@ -487,7 +487,7 @@ System.out.println(sql_insert);
 		}
 
 		StringBuffer sql_select = new StringBuffer();
-		sql_select.append("SELECT * FROM employee WHERE employeeId = ");
+		sql_select.append("SELECT * FROM employee_view WHERE employeeId = ");
 		sql_select.append(employeeBean.employeeId);
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
