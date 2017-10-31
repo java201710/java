@@ -1,4 +1,4 @@
-package employee.servlet;
+﻿package employee.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -692,13 +692,23 @@ public class EmployeeSystem extends HttpServlet {
 			if(result.get(0).length()==0){
 				//HTMLは空文字“”の場合（エラーあり）
 				//・エラーメッセージをリクエストスコープに入れる
-				request.setAttribute("message", result.get(1));
+				request.setAttribute("message", result);
+
+				// 2017年10月31日　香川修正
+				result = logic.updateUser(employeeBean,"",login_adminFlag);
+				request.setAttribute("html", result.get(0));
+
 				//・updateUser.jspへフォワード転送
 				forwardPath = "/WEB-INF/employee/updateUser.jsp";
 			}else{
 				//HTMLは空文字“”じゃない場合（エラーなし）
 				//・このＨＴＭＬをリクエストスコープの”html”にいれる
 				request.setAttribute("html", result.get(0));
+
+				// 2017年10月31日　香川修正
+				System.out.println("パスワードは"+employeeBean.getPassword()+"です");
+				session.setAttribute("EmployeeBean", employeeBean);
+
 				//・confirmUpdateUser.jspへフォワード転送
 				forwardPath = "/WEB-INF/employee/confirmUpdateUser.jsp";
 			}

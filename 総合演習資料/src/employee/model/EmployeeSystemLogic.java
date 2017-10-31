@@ -556,7 +556,7 @@ public class EmployeeSystemLogic {
 		Boolean errFlag = false;
 
 		StringBuffer sql_select = new StringBuffer();
-		sql_select.append("SELECT password FROM employee WHERE employeeId = ");
+		sql_select.append("SELECT * FROM employee_view WHERE employeeId = ");
 		sql_select.append(employeeBean.employeeId);
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
@@ -591,7 +591,7 @@ public class EmployeeSystemLogic {
 			errFlag = true;
 		}
 
-		if (errFlag = true) {
+		if (errFlag == true) {
 			messageList.add(0, "");
 			return messageList;
 		}
@@ -615,9 +615,6 @@ public class EmployeeSystemLogic {
 				"			</tr>" +
 				"			<tr>" +
 				"				<td id=rowheader>ふりがな：</td><td>" + employeeBean.getKana() + "</td>" +
-				"			</tr>" +
-				"			<tr>" +
-				"				<td id=rowheader>性別：</td><td>" + employeeBean.getGender() + "</td>" +
 				"			</tr>" +
 				"			<tr>" +
 				"				<td id=rowheader>部署：</td><td>" + employeeBean.getDepartmentName() + "</td>" +
