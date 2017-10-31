@@ -50,11 +50,11 @@ td#pictureheader {
 <%=html %>
 <table>
 		<tr>
-			<td><a href="/EmployeeControl/EmployeeSystem?action=delete">削除</a></td>
+			<td><a href="/employeeAdmin/EmployeeSystem?action=delete">削除</a></td>
 			<td><% if (lastpage == null) { %>
-				<a href="/EmployeeControl/EmployeeSystem">前画面に戻る</a>
+				<a href="/employeeAdmin/EmployeeSystem">前画面に戻る</a>
 			<% } else { %>
-				<a href="/EmployeeControl/EmployeeSystem?page=<%= lastpage %>">前画面に戻る</a>
+				<a href="/employeeAdmin/EmployeeSystem?page=<%= lastpage %>">前画面に戻る</a>
 			<% } %>
 			</td>
 		</tr>
