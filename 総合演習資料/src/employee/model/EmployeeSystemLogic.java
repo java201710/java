@@ -17,7 +17,10 @@ public class EmployeeSystemLogic {
 
 		StringBuffer sql_select = new StringBuffer();
 		sql_select.append("SELECT * FROM employee_view WHERE employeeId = ");
-		sql_select.append(employeeBean.employeeId);
+//		sql_select.append(employeeBean.employeeId);
+		System.out.println(employeeBean.getEmployeeId());
+		sql_select.append(employeeBean.getEmployeeId());
+		System.out.println(sql_select);
 		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
@@ -25,13 +28,13 @@ public class EmployeeSystemLogic {
 			messageList.add("e008:社員IDが重複しています");
 		}
 		else {
-
+System.out.println("test");
 			Date now = new Date();
 			SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 			String sql_insert = "INSERT INTO employee(employeeId,password,employeeName,kana,gender,departmentCode,"
-					+ ",divisionCode,positionCode,positionMemo,naisenNumber,publicCellphoneNumber,adminFlag,"
-					+ "registrationDateTime values('" +
+					+ "divisionCode,positionCode,positionMemo,naisenNumber,publicCellphoneNumber,adminFlag,"
+					+ "registrationDateTime) values('" +
 					+employeeBean.getEmployeeId()
 					+ "','"
 					+ c.sqlSanitizing(employeeBean.getPassword())
@@ -58,7 +61,7 @@ public class EmployeeSystemLogic {
 					+ "','"
 					+ f.format(now)
 					+ "')";
-
+System.out.println(sql_insert);
 			if (Dao.updateEmployee(sql_insert) > 0)
 				messageList.add("登録できました");
 			else
@@ -494,6 +497,32 @@ public class EmployeeSystemLogic {
 			messageList.add("e003:社員IDが重複しています");
 		}
 		else {
+			//部署コードから名称を取得
+			sql_select = new StringBuffer();
+			sql_select.append("SELECT * FROM employee_view WHERE departmentCode = ");
+			sql_select.append(employeeBean.getDepartmentCode());
+			employeeList = Dao.findEmployee(sql_select.toString());
+			if(employeeList!=null && employeeList.size() != 0){
+				employeeBean.setDepartmentName(employeeList.get(0).getDepartmentName());
+			}
+			//課コードから名称を取得
+			sql_select = new StringBuffer();
+			sql_select.append("SELECT * FROM employee_view WHERE divisionCode = ");
+			sql_select.append(employeeBean.getDivisionCode());
+			employeeList = Dao.findEmployee(sql_select.toString());
+			if(employeeList!=null && employeeList.size() != 0){
+				employeeBean.setDivisionName(employeeList.get(0).getDivisionName());
+			}
+			//役職コードから名称を取得
+			sql_select = new StringBuffer();
+			sql_select.append("SELECT * FROM employee_view WHERE positionCode = ");
+			sql_select.append(employeeBean.getPositionCode());
+			employeeList = Dao.findEmployee(sql_select.toString());
+			if(employeeList!=null && employeeList.size() != 0){
+				employeeBean.setPositionName(employeeList.get(0).getPositionName());
+			}
+
+
 			StringBuilder output = new StringBuilder();
 			output.append("<table id=dataframe><tr>" +
 					"				<td id=rowheader>社員ＩＤ：</td><td>" + employeeBean.getEmployeeId()
@@ -556,7 +585,7 @@ public class EmployeeSystemLogic {
 		Boolean errFlag = false;
 
 		StringBuffer sql_select = new StringBuffer();
-		sql_select.append("SELECT * FROM employee_view WHERE employeeId = ");
+		sql_select.append("SELECT password FROM employee WHERE employeeId = ");
 		sql_select.append(employeeBean.employeeId);
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
@@ -591,7 +620,7 @@ public class EmployeeSystemLogic {
 			errFlag = true;
 		}
 
-		if (errFlag == true) {
+		if (errFlag = true) {
 			messageList.add(0, "");
 			return messageList;
 		}
@@ -615,6 +644,9 @@ public class EmployeeSystemLogic {
 				"			</tr>" +
 				"			<tr>" +
 				"				<td id=rowheader>ふりがな：</td><td>" + employeeBean.getKana() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td id=rowheader>性別：</td><td>" + employeeBean.getGender() + "</td>" +
 				"			</tr>" +
 				"			<tr>" +
 				"				<td id=rowheader>部署：</td><td>" + employeeBean.getDepartmentName() + "</td>" +
