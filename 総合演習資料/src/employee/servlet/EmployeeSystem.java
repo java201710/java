@@ -232,6 +232,30 @@ public class EmployeeSystem extends HttpServlet {
 						forwardPath = "/WEB-INF/employee/employeeViewer.jsp";
 					}
 
+				} else if (selectedUser == null) {
+					//・「EmployeeBean」のインスタンスを宣言する
+					EmployeeBean employeeBean = new EmployeeBean();
+					employeeBean = (EmployeeBean) session.getAttribute("EmployeeBean");
+
+					//・「EmployeeBean」をEmployeeSystemLogicの（viewUserメソッド）に入れて、呼び出す
+					ArrayList<String> result = logic.viewUser(employeeBean);
+
+					//・EmployeeSystemLogicの（viewUserメソッド）のＨＴＭＬをもらう
+					//HTMLは空文字“”の場合
+					if(result.get(0).length()==0){
+						//・エラーメッセージをリクエストスコープに入れる
+						request.setAttribute("message", result.get(1));
+						//・employeeSystemMain.jspへフォワード転送
+						forwardPath = "/WEB-INF/employee/employeeSystemMain.jsp";
+					}else{
+						//ＨＴＭＬは空文字“”じゃない場合
+						//・「EmployeeBean」をセッションスコープの” EmployeeBean”にセットする。
+						session.setAttribute("EmployeeBean", employeeBean);
+						//・このＨＴＭＬをリクエストスコープの”html”にいれる
+						request.setAttribute("html", result.get(0));
+						//・employeeViewer.jspへフォワード転送
+						forwardPath = "/WEB-INF/employee/employeeViewer.jsp";
+					}
 				}
 			}else if(page.equals("updateUser")){
 				//【修正機能】
