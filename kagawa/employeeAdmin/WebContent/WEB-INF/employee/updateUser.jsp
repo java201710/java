@@ -5,6 +5,11 @@
 <%@ page import="java.util.ArrayList" %>
 <%
 //messageを取得
+ArrayList<String> messageList = (ArrayList<String>) request.getAttribute("message");
+if(messageList == null){
+	messageList = new ArrayList<String>();
+}
+
 String html = (String) request.getAttribute("html");
 %>
 <!DOCTYPE html>
@@ -14,6 +19,13 @@ String html = (String) request.getAttribute("html");
 <title>修正</title>
 </head>
 <body>
+<%
+for(int i = 1;i<messageList.size();i++){
+%>
+<%= messageList.get(i) %>
+<%
+}
+%>
 <%= html%>
 </body>
 </html>
