@@ -144,6 +144,20 @@ public class EmployeeSystem extends HttpServlet {
 				//・「EmployeeBean」
 				session.removeAttribute("EmployeeBean");
 
+// 2017年10月31日　香川修正
+				EmployeeBean employeeBean = new EmployeeBean();
+
+				//・「EmployeeBean」のオブジェックトをリクエストスコープの”employeeBean”に入れる
+				request.setAttribute("employeeBean", employeeBean);
+
+				//・「EmployeeBean」をEmployeeSystemLogicの（searchメソッド）に入れて、呼び出す
+				//・EmployeeSystemLogicの（searchメソッド）のＨＴＭＬをもらう
+				result = logic.search(employeeBean, login_adminFlag);
+
+				//HTMLは空文字“”じゃない場合
+				//・このＨＴＭＬをリクエストスコープの”html”にいれる
+				request.setAttribute("html", result.get(0));
+
 			} else if (action.equals("update")) {
 				//【修正機能】
 				//【修正確認(confirmUpdateUser.jsp)→メイン画面(employeeSystemMain.jsp)】
@@ -161,7 +175,7 @@ public class EmployeeSystem extends HttpServlet {
 
 				//・このメッセージをリクエストスコープの”message”にいれる
 				// 2017年10月31日　香川修正
-				request.setAttribute("message", result);
+				request.setAttribute("message", result.get(0));
 
 				//・セッションスコープのアトリビュートを削除：
 				//・「EmployeeBean」
