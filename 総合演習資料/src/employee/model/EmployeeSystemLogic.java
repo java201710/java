@@ -76,18 +76,20 @@ public class EmployeeSystemLogic {
 		Common c = new Common();
 		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
 
+		System.out.println(employeeBean);
+
 		String sql_update = "UPDATE employee SET password='"
-				+ c.sqlSanitizing(employeeBean.getPassword())
+				+ employeeBean.getPassword()
 				+ "',employeeName='"
 				+ c.sqlSanitizing(employeeBean.getEmployeeName())
 				+ "',kana='"
 				+ c.sqlSanitizing(employeeBean.getKana())
 				+ "',departmentCode='"
-				+ c.sqlSanitizing(employeeBean.getDepartmentCode())
+				+ employeeBean.getDepartmentCode()
 				+ "',divisionCode='"
-				+ c.sqlSanitizing(employeeBean.getDivisionCode())
+				+ employeeBean.getDivisionCode()
 				+ "',positionCode='"
-				+ c.sqlSanitizing(employeeBean.getPositionCode())
+				+ employeeBean.getPositionCode()
 				+ "',positionMemo='"
 				+ c.sqlSanitizing(employeeBean.getPositionMemo())
 				+ "',naisenNumber='"
@@ -98,6 +100,7 @@ public class EmployeeSystemLogic {
 				+ employeeBean.getAdminFlag()
 				+ "' WHERE employeeId = "
 				+ employeeBean.getEmployeeId();
+		System.out.println(sql_update);
 
 		if (Dao.updateEmployee(sql_update) > 0)
 			messageList.add("修正できました");
@@ -263,8 +266,8 @@ public class EmployeeSystemLogic {
 			output.append("<h1 style='text-align:left'>社員情報 修正</h1>" +
 					"<form action='/employeeAdmin/EmployeeSystem' method='post'>" +
 					"<p>　社員ID：" + employeeBean.getEmployeeId() +
-					"<p>　旧パスワード：<input type='password' name='oldPassword' value=" + employeeBean.getPassword() +
-					"><p>　新パスワード：<input type='password' name='newPassword'>" +
+					"<p>　旧パスワード：<input type='text' name='oldPassword' value=" + employeeBean.getPassword() +
+					"><p>　新パスワード：<input type='text' name='newPassword'>" +
 					"<p>　名前：<input type='text' name='employeeName' value=" + employeeBean.getEmployeeName() +
 					"><p>　ふりがな：<input type='text' name='kana' value=" + employeeBean.getKana() +
 					"><p>部署：" +
@@ -277,6 +280,8 @@ public class EmployeeSystemLogic {
 					"><p>　内線：<input type='text' name='naisenNumber' value=" + employeeBean.getNaisenNumber() +
 					"><p>　業務携帯番号：<input type='text' name='publicCellphoneNumber' value="
 					+ employeeBean.getPublicCellphoneNumber() +
+					"><p>　管理者権限：<input type='text' name='adminFlag' value="
+					+ employeeBean.getAdminFlag() +
 					"><input type = 'hidden' name='action' value='confirmUpdateUser'>" +
 					"<input type = 'hidden' name='employeeId' value=" + employeeBean.getEmployeeId() +
 					"><p><input type='submit' value='修正'>" +
@@ -291,8 +296,8 @@ public class EmployeeSystemLogic {
 			output.append("<h1 style='text-align:left'>社員情報 修正</h1>" +
 					"<form action='/employeeAdmin/EmployeeSystem' method='post'>" +
 					"<p>　社員ID：" + employeeBean.getEmployeeId() +
-					"<p>　旧パスワード：<input type='password' name='oldPassword'>" +
-					"<p>　新パスワード：<input type='password' name='newPassword'>" +
+					"<p>　旧パスワード：<input type='text' name='oldPassword'>" +
+					"<p>　新パスワード：<input type='text' name='newPassword'>" +
 					"<p>　名前：" + employeeBean.getEmployeeName() +
 					"<p>　ふりがな：" + employeeBean.getKana() +
 					"<p>部署：" +
@@ -635,13 +640,23 @@ public class EmployeeSystemLogic {
 				"				<td id=rowheader>業務携帯番号：</td><td>" + employeeBean.getPublicCellphoneNumber() + "</td>" +
 				"			</tr>" +
 				"			<tr>" +
+				"				<td id=rowheader>管理者権限：</td><td>" + employeeBean.getAdminFlag() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
 				"				<td colspan=\"3\"><hr></td>" +
 				"			</tr>" +
-				"		</table>");
+				"		</table>" +
+				"<form action=\"/employeeAdmin/EmployeeSystem\" method=\"get\">" +
+				"<input type = \"hidden\" name=\"action\" value=\"update\"><p>" +
+				"<input type = \"hidden\" name=\"departmentCode\" value=" + employeeList.get(0).getDepartmentCode() + "><p>" +
+				"<input type = \"hidden\" name=\"divisionCode\" value=" + employeeList.get(0).getDivisionCode() + "><p>" +
+				"<input type = \"hidden\" name=\"positionCode\" value=" + employeeList.get(0).getPositionCode() + "><p>" +
+				"<input type=\"submit\" value=\"修正\"></form>");
 		messageList.add(output.toString());
 
 		return messageList;
 	}
+
 
 	//作成：2017/10/30 香川 雄一
 	public ArrayList<String> confirmDeleteUser(EmployeeBean employeeBean) {
