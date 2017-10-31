@@ -1,4 +1,4 @@
-package employee.servlet;
+﻿package employee.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -144,23 +144,44 @@ public class EmployeeSystem extends HttpServlet {
 				//・「EmployeeBean」
 				session.removeAttribute("EmployeeBean");
 
-			}else if(action.equals("update")){
+			} else if (action.equals("update")) {
 				//【修正機能】
 				//【修正確認(confirmUpdateUser.jsp)→メイン画面(employeeSystemMain.jsp)】
 				//action=updateの場合
 
 				//・セッションスコープにある「EmployeeBean」をEmployeeSystemLogicの（updateメソッド）に入れて、呼び出す
 				//・EmployeeSystemLogicの（updateメソッド）のメッセージをもらう
-				ArrayList<String> result = logic.update((EmployeeBean)session.getAttribute("EmployeeBean"));
+
+				// 2017年10月31日　香川修正
+				EmployeeBean employeebean = (EmployeeBean) session.getAttribute("EmployeeBean");
+				employeebean.setDepartmentCode(request.getParameter("departmentCode"));
+				employeebean.setDivisionCode(request.getParameter("divisionCode"));
+				employeebean.setPositionCode(request.getParameter("positionCode"));
+				ArrayList<String> result = logic.update(employeebean);
 
 				//・このメッセージをリクエストスコープの”message”にいれる
-				request.setAttribute("message", result.get(0));
+				// 2017年10月31日　香川修正
+				request.setAttribute("message", result);
 
 				//・セッションスコープのアトリビュートを削除：
 				//・「EmployeeBean」
 				//・「selectedUser」
 				session.removeAttribute("EmployeeBean");
 				session.removeAttribute("selectedUser");
+
+				// 2017年10月31日　香川修正
+				EmployeeBean employeeBean = new EmployeeBean();
+
+				//・「EmployeeBean」のオブジェックトをリクエストスコープの”employeeBean”に入れる
+				request.setAttribute("employeeBean", employeeBean);
+
+				//・「EmployeeBean」をEmployeeSystemLogicの（searchメソッド）に入れて、呼び出す
+				//・EmployeeSystemLogicの（searchメソッド）のＨＴＭＬをもらう
+				result = logic.search(employeeBean, login_adminFlag);
+
+				//HTMLは空文字“”じゃない場合
+				//・このＨＴＭＬをリクエストスコープの”html”にいれる
+				request.setAttribute("html", result.get(0));
 
 
 			}else if(action.equals("delete")){
@@ -276,7 +297,7 @@ public class EmployeeSystem extends HttpServlet {
 						forwardPath = "/WEB-INF/employee/employeeViewer.jsp";
 					}
 				}
-			}else if(page.equals("updateUser")){
+			} else if (page.equals("updateUser")) {
 				//【修正機能】
 				//【他画面→修正入力(updateUser.jsp)】
 				//page=updateUserの場合
@@ -284,17 +305,16 @@ public class EmployeeSystem extends HttpServlet {
 				//・「EmployeeBean」のインスタンスを宣言する
 				EmployeeBean employeeBean = new EmployeeBean();
 
-
 				//・「lastpage」のパラメータはnullの場合
 
-				if(lastpage!=null && lastpage.length()>0){
+				if (lastpage != null && lastpage.length() > 0) {
 					//※詳細画面からの遷移
 					//・「lastpage」のパラメータはある場合
 					//・「lastpage」の値をセッションスコープの” lastpage”に入れる
 					session.setAttribute("lastpage", lastpage);
-					employeeBean = (EmployeeBean)session.getAttribute("EmployeeBean");
+					employeeBean = (EmployeeBean) session.getAttribute("EmployeeBean");
 				}
-				if(lastpage!=null && lastpage.equals("")){
+				if (lastpage != null && lastpage.equals("")) {
 					//※メイン画面からの遷移
 					//・「lastpage」のパラメータは空文字“”の場合
 					//・「selecteduser」の値を「EmployeeBean」に入れる
@@ -302,23 +322,23 @@ public class EmployeeSystem extends HttpServlet {
 				}
 
 				//・共通処理
-//				//・「EmployeeBean」のインスタンスを宣言する
-//				EmployeeBean employeeBean = new EmployeeBean();
-//
-//				//・「selecteduser」の値を「EmployeeBean」に入れる
-//				employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
+				//				//・「EmployeeBean」のインスタンスを宣言する
+				//				EmployeeBean employeeBean = new EmployeeBean();
+				//
+				//				//・「selecteduser」の値を「EmployeeBean」に入れる
+				//				employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
 
 				//・「EmployeeBean」「lastpage」をEmployeeSystemLogicの（updateUserメソッド）に入れて、呼び出す
-				ArrayList<String> result = logic.updateUser(employeeBean,lastpage,login_adminFlag);
+				ArrayList<String> result = logic.updateUser(employeeBean, lastpage, login_adminFlag);
 
 				//・EmployeeSystemLogicの（updateUserメソッド）のＨＴＭＬをもらう
-				if(result.get(0).length()==0){
+				if (result.get(0).length() == 0) {
 					//HTMLは空文字“”の場合
 					//・エラーメッセージをリクエストスコープに入れる
 					request.setAttribute("message", result.get(1));
 					//・employeeSystemMain.jspへフォワード転送
 					forwardPath = "/WEB-INF/employee/employeeSystemMain.jsp";
-				}else{
+				} else {
 					//ＨＴＭＬは空文字“”じゃない場合
 					//・このＨＴＭＬをリクエストスコープの”html”にいれる
 					request.setAttribute("html", result.get(0));
@@ -685,7 +705,7 @@ public class EmployeeSystem extends HttpServlet {
 				forwardPath = "/WEB-INF/employee/confirmRegisterUser.jsp";
 			}
 
-		}else if(action.equals("confirmUpdateUser")){
+		} else if (action.equals("confirmUpdateUser")) {
 			//【修正機能】
 			//【修正入力(updateUser.jsp)→修正確認(confirmUpdateUser.jsp)】
 			//・action=confirmUpdateUserの場合
@@ -693,15 +713,15 @@ public class EmployeeSystem extends HttpServlet {
 			//・修正フォームのパラメータを受け取る
 			//・「EmployeeBean」のインスタンスを作って、受け取ったパラメータをインスタンスに入れる
 			EmployeeBean employeeBean = new EmployeeBean();
-			if(login_adminFlag==0){
+			if (login_adminFlag == 0) {
 				//ログインユーザーに管理者権限なし
 				//一般用→String oldPassword, newPassword, action
 				employeeBean.setEmployeeId(Integer.parseInt(employeeId));
 				employeeBean.setPassword(newPassword);
-			}else{
+			} else {
 				//ログインユーザーに管理者権限あり
 				//管理用→String　oldPassword, newPassword, employeeName, kana, departmentName, divisionName, positionName, positionMemo, naisenNumber, publicCellphoneNumber, adminFlag, action
-				employeeBean.setEmployeeId(201710000);
+				employeeBean.setEmployeeId(Integer.parseInt(employeeId));
 				employeeBean.setPassword(newPassword);
 				employeeBean.setEmployeeName(employeeName);
 				employeeBean.setKana(kana);
@@ -713,36 +733,32 @@ public class EmployeeSystem extends HttpServlet {
 				employeeBean.setNaisenNumber(naisenNumber);
 				employeeBean.setPublicCellphoneNumber(publicCellphoneNumber);
 				employeeBean.setAdminFlag(Byte.parseByte(adminFlag));
-
-
-//				employeeBean.setEmployeeId(Integer.parseInt(employeeId));
-//				employeeBean.setPassword(newPassword);
-//				employeeBean.setEmployeeName(employeeName);
-//				employeeBean.setKana(kana);
-//				employeeBean.setGender(gender);
-//				employeeBean.setDepartmentName(departmentName);
-//				employeeBean.setDivisionName(divisionName);
-//				employeeBean.setPositionName(positionName);
-//				employeeBean.setPositionMemo(positionMemo);
-//				employeeBean.setNaisenNumber(naisenNumber);
-//				employeeBean.setPublicCellphoneNumber(publicCellphoneNumber);
-//				employeeBean.setAdminFlag(Byte.parseByte(adminFlag));
 			}
 
 			//・「EmployeeBean」をEmployeeSystemLogicの（confirmUpdateUserメソッド）に入れて、呼び出す
 			//・EmployeeSystemLogicの（confirmUpdateUserメソッド）のＨＴＭＬをもらう
-			ArrayList<String> result = logic.confirmUpdateUser(employeeBean,oldPassword);
+			ArrayList<String> result = logic.confirmUpdateUser(employeeBean, oldPassword);
 			System.out.println(result);
-			if(result.get(0).length()==0){
+			if (result.get(0).length() == 0) {
 				//HTMLは空文字“”の場合（エラーあり）
 				//・エラーメッセージをリクエストスコープに入れる
-				request.setAttribute("message", result.get(1));
+				request.setAttribute("message", result);
+
+				// 2017年10月31日　香川修正
+				result = logic.updateUser(employeeBean, "", login_adminFlag);
+				request.setAttribute("html", result.get(0));
+
 				//・updateUser.jspへフォワード転送
 				forwardPath = "/WEB-INF/employee/updateUser.jsp";
-			}else{
+			} else {
 				//HTMLは空文字“”じゃない場合（エラーなし）
 				//・このＨＴＭＬをリクエストスコープの”html”にいれる
 				request.setAttribute("html", result.get(0));
+
+				// 2017年10月31日　香川修正
+				System.out.println("パスワードは" + employeeBean.getPassword() + "です");
+				session.setAttribute("EmployeeBean", employeeBean);
+
 				//・confirmUpdateUser.jspへフォワード転送
 				forwardPath = "/WEB-INF/employee/confirmUpdateUser.jsp";
 			}
