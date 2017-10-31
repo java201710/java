@@ -47,6 +47,7 @@ td#pictureheader {
 <title>削除内容確認</title>
 </head>
 <body>
+<h1 style="text-align:left">削除内容確認</h1>
 <%=html %>
 <table>
 		<tr>

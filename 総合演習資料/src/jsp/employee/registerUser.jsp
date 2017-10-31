@@ -75,7 +75,7 @@ if(publicCellphoneNumber == null)
 		<p>性別：
 			<%= logic.selectGenderBox() %>
 		<p>部署名：
-			<select name='departmentName'>
+			<select name='departmentCode'>
 				<option value="101">本社経営企画部</option>
 				<option value="102">本社経理部</option>
 				<option value="103">本社人事部</option>
@@ -91,7 +91,7 @@ if(publicCellphoneNumber == null)
 				<option value="406">仙台支店営業部</option>
 			</select>
 		<p>課名：
-			<select name='divisionName'>
+			<select name='divisionCode'>
 				<option value="00">なし</option>
 				<option value="11">推進企画課</option>
 				<option value="12">事業企画課</option>
@@ -104,7 +104,7 @@ if(publicCellphoneNumber == null)
 				<option value="63">営業3課</option>
 			</select>
 		<p>役職名：
-			<select name='positionName'>
+			<select name='positionCode'>
 				<option value="6">役員</option>
 				<option value="5">部長</option>
 				<option value="4">課長</option>

@@ -16,8 +16,10 @@ public class EmployeeSystemLogic {
 		Common c = new Common();
 
 		StringBuffer sql_select = new StringBuffer();
-		sql_select.append("SELECT * FROM employee_view WHERE employeeId = ");
-		sql_select.append(employeeBean.employeeId);
+
+		System.out.println(employeeBean.getEmployeeId());
+		sql_select.append(employeeBean.getEmployeeId());
+
 		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
@@ -25,13 +27,13 @@ public class EmployeeSystemLogic {
 			messageList.add("e008:社員IDが重複しています");
 		}
 		else {
-
+System.out.println("test");
 			Date now = new Date();
 			SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 			String sql_insert = "INSERT INTO employee(employeeId,password,employeeName,kana,gender,departmentCode,"
-					+ ",divisionCode,positionCode,positionMemo,naisenNumber,publicCellphoneNumber,adminFlag,"
-					+ "registrationDateTime values('" +
+					+ "divisionCode,positionCode,positionMemo,naisenNumber,publicCellphoneNumber,adminFlag,"
+					+ "registrationDateTime) values('" +
 					+employeeBean.getEmployeeId()
 					+ "','"
 					+ c.sqlSanitizing(employeeBean.getPassword())
@@ -58,7 +60,7 @@ public class EmployeeSystemLogic {
 					+ "','"
 					+ f.format(now)
 					+ "')";
-
+System.out.println(sql_insert);
 			if (Dao.updateEmployee(sql_insert) > 0)
 				messageList.add("登録できました");
 			else
@@ -113,12 +115,12 @@ public class EmployeeSystemLogic {
 	//作成：2017/10/27 香川 雄一
 	public ArrayList<String> delete(EmployeeBean employeeBean) {
 
+		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
 		ArrayList<String> messageList = new ArrayList<String>();
 
 		StringBuffer sql_select = new StringBuffer();
-		sql_select.append("SELECT * FROM employee WHERE employeeId = ");
-		sql_select.append(employeeBean.employeeId);
-		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
+		sql_select.append("SELECT * FROM employee_view\r\n" +
+				"WHERE employeeID = " + employeeBean.getEmployeeId() + ";");
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
 		if (employeeList.size() == 0) {
@@ -450,47 +452,39 @@ public class EmployeeSystemLogic {
 		Pattern patternPassword = Pattern.compile("^[0-9a-zA-Z]*$");
 		Boolean errFlag = false;
 
-		StringBuilder errBuild = new StringBuilder();
-
 		// 入力チェック
-		if (employeeId.equals("0")) {
-//			messageList.add("社員IDを入力して下さい");
-			errBuild.append("社員IDを入力して下さい<br>");
+		if (employeeId.equals("")) {
+			messageList.add("社員IDを入力して下さい");
 			errFlag = true;
 		}
 
 		if (!patternId.matcher(employeeId).matches()) {
-//			messageList.add("社員IDは半角数字で入力して下さい");
-			errBuild.append("社員IDは半角数字で入力して下さい<br>");
+			messageList.add("社員IDは半角数字で入力して下さい");
 			errFlag = true;
 		}
 
 		if (password.equals("")) {
-//			messageList.add("パスワードを入力して下さい");
-			errBuild.append("パスワードを入力して下さい<br>");
+			messageList.add("パスワードを入力して下さい");
 			errFlag = true;
 		}
 
 		if (!patternPassword.matcher(password).matches()) {
-//			messageList.add("パスワードは半角英数字で入力して下さい");
-			errBuild.append("パスワードは半角英数字で入力して下さい<br>");
+			messageList.add("パスワードは半角英数字で入力して下さい");
 			errFlag = true;
 		}
 
 		if (employeeName.equals("")) {
-//			messageList.add("名前を入力して下さい");
-			errBuild.append("名前を入力して下さい<br>");
+			messageList.add("名前を入力して下さい");
 			errFlag = true;
 		}
 
-		if (errFlag == true) {
+		if (errFlag = true) {
 			messageList.add(0, "");
-			messageList.add(errBuild.toString());
 			return messageList;
 		}
 
 		StringBuffer sql_select = new StringBuffer();
-		sql_select.append("SELECT * FROM employee_view WHERE employeeId = ");
+		sql_select.append("SELECT * FROM employee WHERE employeeId = ");
 		sql_select.append(employeeBean.employeeId);
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
@@ -499,6 +493,32 @@ public class EmployeeSystemLogic {
 			messageList.add("e003:社員IDが重複しています");
 		}
 		else {
+			//部署コードから名称を取得
+			sql_select = new StringBuffer();
+			sql_select.append("SELECT * FROM employee_view WHERE departmentCode = ");
+			sql_select.append(employeeBean.getDepartmentCode());
+			employeeList = Dao.findEmployee(sql_select.toString());
+			if(employeeList!=null && employeeList.size() != 0){
+				employeeBean.setDepartmentName(employeeList.get(0).getDepartmentName());
+			}
+			//課コードから名称を取得
+			sql_select = new StringBuffer();
+			sql_select.append("SELECT * FROM employee_view WHERE divisionCode = ");
+			sql_select.append(employeeBean.getDivisionCode());
+			employeeList = Dao.findEmployee(sql_select.toString());
+			if(employeeList!=null && employeeList.size() != 0){
+				employeeBean.setDivisionName(employeeList.get(0).getDivisionName());
+			}
+			//役職コードから名称を取得
+			sql_select = new StringBuffer();
+			sql_select.append("SELECT * FROM employee_view WHERE positionCode = ");
+			sql_select.append(employeeBean.getPositionCode());
+			employeeList = Dao.findEmployee(sql_select.toString());
+			if(employeeList!=null && employeeList.size() != 0){
+				employeeBean.setPositionName(employeeList.get(0).getPositionName());
+			}
+
+
 			StringBuilder output = new StringBuilder();
 			output.append("<table id=dataframe><tr>" +
 					"				<td id=rowheader>社員ＩＤ：</td><td>" + employeeBean.getEmployeeId()
@@ -561,7 +581,7 @@ public class EmployeeSystemLogic {
 		Boolean errFlag = false;
 
 		StringBuffer sql_select = new StringBuffer();
-		sql_select.append("SELECT * FROM employee_view WHERE employeeId = ");
+		sql_select.append("SELECT password FROM employee WHERE employeeId = ");
 		sql_select.append(employeeBean.employeeId);
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
@@ -596,7 +616,7 @@ public class EmployeeSystemLogic {
 			errFlag = true;
 		}
 
-		if (errFlag == true) {
+		if (errFlag = true) {
 			messageList.add(0, "");
 			return messageList;
 		}
@@ -620,6 +640,9 @@ public class EmployeeSystemLogic {
 				"			</tr>" +
 				"			<tr>" +
 				"				<td id=rowheader>ふりがな：</td><td>" + employeeBean.getKana() + "</td>" +
+				"			</tr>" +
+				"			<tr>" +
+				"				<td id=rowheader>性別：</td><td>" + employeeBean.getGender() + "</td>" +
 				"			</tr>" +
 				"			<tr>" +
 				"				<td id=rowheader>部署：</td><td>" + employeeBean.getDepartmentName() + "</td>" +
