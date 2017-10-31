@@ -17,7 +17,6 @@ public class EmployeeSystemLogic {
 
 		StringBuffer sql_select = new StringBuffer();
 		sql_select.append("SELECT * FROM employee_view WHERE employeeId = ");
-		System.out.println(employeeBean.getEmployeeId());
 		sql_select.append(employeeBean.getEmployeeId());
 
 		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
@@ -27,7 +26,6 @@ public class EmployeeSystemLogic {
 			messageList.add("e008:社員IDが重複しています");
 		}
 		else {
-System.out.println("test");
 			Date now = new Date();
 			SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -60,7 +58,6 @@ System.out.println("test");
 					+ "','"
 					+ f.format(now)
 					+ "')";
-System.out.println(sql_insert);
 			if (Dao.updateEmployee(sql_insert) > 0)
 				messageList.add("登録できました");
 			else
@@ -77,8 +74,6 @@ System.out.println(sql_insert);
 		ArrayList<String> messageList = new ArrayList<String>();
 		Common c = new Common();
 		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
-
-		System.out.println(employeeBean);
 
 		String sql_update = "UPDATE employee SET password='"
 				+ employeeBean.getPassword()
@@ -102,7 +97,6 @@ System.out.println(sql_insert);
 				+ employeeBean.getAdminFlag()
 				+ "' WHERE employeeId = "
 				+ employeeBean.getEmployeeId();
-		System.out.println(sql_update);
 
 		if (Dao.updateEmployee(sql_update) > 0)
 			messageList.add("修正できました");
@@ -868,39 +862,47 @@ System.out.println(sql_insert);
 			}
 		}
 
-		//選択リスト文を準備する
-		output.append("<select name=\"" + selectCategory + "\">");
-		output.append("<option value=\"\">---未入力---</option>");
+		if (employeeList == null) {
+			//選択リスト文を準備する
+			output.append("<select name=\"" + selectCategory + "\">");
+			output.append("<option value=\"\">---未入力---</option>");
+			output.append("</select>");
+		} else {
 
-		//年月リストの処理
-		if (selectCategory.equals("fromDate") || selectCategory.equals("toDate")) {
-			for (int i = Integer.parseInt(selectValues.get(0)); i <= Integer.parseInt(selectValues.get(selectValues.size()-1)); i++) {
-				if (Integer.toString(i).substring(4).equals("13")) {
-					i += 87;
-				} else {
-					String s = Integer.toString(i);
-					//検索したパラメータをまた表示する
-					if (selectCategory.equals("fromDate") && i ==eBean.getFromDate()) {
-						output.append("<option selected=\"selected\" value=\"" + s + "\">" + s.substring(0, 4) + "年" + s.substring(4) + "月</option>");
-					} else if (selectCategory.equals("toDate") && i ==eBean.getToDate()) {
-						output.append("<option selected=\"selected\" value=\"" + s + "\">" + s.substring(0, 4) + "年" + s.substring(4) + "月</option>");
+			//選択リスト文を準備する
+			output.append("<select name=\"" + selectCategory + "\">");
+			output.append("<option value=\"\">---未入力---</option>");
+
+			//年月リストの処理
+			if (selectCategory.equals("fromDate") || selectCategory.equals("toDate")) {
+				for (int i = Integer.parseInt(selectValues.get(0)); i <= Integer.parseInt(selectValues.get(selectValues.size()-1)); i++) {
+					if (Integer.toString(i).substring(4).equals("13")) {
+						i += 87;
 					} else {
-						output.append("<option value=\"" + s + "\">" + s.substring(0, 4) + "年" + s.substring(4) + "月</option>");
+						String s = Integer.toString(i);
+						//検索したパラメータをまた表示する
+						if (selectCategory.equals("fromDate") && i ==eBean.getFromDate()) {
+							output.append("<option selected=\"selected\" value=\"" + s + "\">" + s.substring(0, 4) + "年" + s.substring(4) + "月</option>");
+						} else if (selectCategory.equals("toDate") && i ==eBean.getToDate()) {
+							output.append("<option selected=\"selected\" value=\"" + s + "\">" + s.substring(0, 4) + "年" + s.substring(4) + "月</option>");
+						} else {
+							output.append("<option value=\"" + s + "\">" + s.substring(0, 4) + "年" + s.substring(4) + "月</option>");
+						}
+					}
+				}
+			//他のリスト処理
+			} else {
+				for (String s : selectValues) {
+					//検索したパラメータをまた表示する
+					if ((s.equals(eBean.getBaseName())) || (s.equals(eBean.getDepartmentName())) || (s.equals(eBean.getDivisionName())) || (s.equals(eBean.getPositionName()))) {
+						output.append("<option selected=\"selected\" value=\"" + s + "\">" + s + "</option>");
+					} else {
+						output.append("<option value=\"" + s + "\">" + s + "</option>");
 					}
 				}
 			}
-		//他のリスト処理
-		} else {
-			for (String s : selectValues) {
-				//検索したパラメータをまた表示する
-				if ((s.equals(eBean.getBaseName())) || (s.equals(eBean.getDepartmentName())) || (s.equals(eBean.getDivisionName())) || (s.equals(eBean.getPositionName()))) {
-					output.append("<option selected=\"selected\" value=\"" + s + "\">" + s + "</option>");
-				} else {
-					output.append("<option value=\"" + s + "\">" + s + "</option>");
-				}
-			}
+			output.append("</select>");
 		}
-		output.append("</select>");
 
 		message.add(output.toString());
 		return message;
