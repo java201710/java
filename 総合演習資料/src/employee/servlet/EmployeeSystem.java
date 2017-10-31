@@ -637,6 +637,8 @@ public class EmployeeSystem extends HttpServlet {
 			employeeBean.setNaisenNumber(naisenNumber);
 			employeeBean.setPublicCellphoneNumber(publicCellphoneNumber);
 
+			session.setAttribute("EmployeeBean", employeeBean);
+
 			//・「EmployeeBean」をEmployeeSystemLogicの（confirmNewUserメソッド）に入れて、呼び出す
 			//・EmployeeSystemLogicの（confirmNewUserメソッド）のＨＴＭＬをもらう
 			ArrayList<String> result = logic.confirmNewUser(employeeBean);
