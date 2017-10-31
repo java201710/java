@@ -320,6 +320,10 @@ public class EmployeeSystem extends HttpServlet {
 					//・「selecteduser」の値を「EmployeeBean」に入れる
 					employeeBean.setEmployeeId(Integer.parseInt(selectedUser));
 				}
+if (lastpage == null) {
+					//※修正内容確認画面からの遷移
+					employeeBean = (EmployeeBean) session.getAttribute("EmployeeBean");
+				}
 
 				//・共通処理
 				//				//・「EmployeeBean」のインスタンスを宣言する
