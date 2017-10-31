@@ -653,15 +653,18 @@ public class EmployeeSystemLogic {
 		ArrayList<String> messageList = new ArrayList<String>();
 
 		StringBuffer sql_select = new StringBuffer();
-		sql_select.append("SELECT * FROM employee WHERE employeeId = ");
-		sql_select.append(employeeBean.employeeId);
+		sql_select.append("SELECT * FROM employee_view\r\n" +
+				"WHERE employeeID = " + employeeBean.getEmployeeId() + ";");
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
-		if (employeeList.size() <= 0) {
+		//if (employeeList.size() <= 0) {
+		if (employeeList == null) {
 			messageList.add("");
 			messageList.add("e016:社員IDが存在しません");
 		}
 		else {
+			employeeBean = employeeList.get(0);
+
 			StringBuilder output = new StringBuilder();
 			output.append("<table id=dataframe><tr>" +
 					"				<td id=rowheader>社員ＩＤ：</td><td>" + employeeBean.getEmployeeId()
