@@ -76,18 +76,20 @@ public class EmployeeSystemLogic {
 		Common c = new Common();
 		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
 
+		System.out.println(employeeBean);
+
 		String sql_update = "UPDATE employee SET password='"
-				+ c.sqlSanitizing(employeeBean.getPassword())
+				+ employeeBean.getPassword()
 				+ "',employeeName='"
 				+ c.sqlSanitizing(employeeBean.getEmployeeName())
 				+ "',kana='"
 				+ c.sqlSanitizing(employeeBean.getKana())
 				+ "',departmentCode='"
-				+ c.sqlSanitizing(employeeBean.getDepartmentCode())
+				+ employeeBean.getDepartmentCode()
 				+ "',divisionCode='"
-				+ c.sqlSanitizing(employeeBean.getDivisionCode())
+				+ employeeBean.getDivisionCode()
 				+ "',positionCode='"
-				+ c.sqlSanitizing(employeeBean.getPositionCode())
+				+ employeeBean.getPositionCode()
 				+ "',positionMemo='"
 				+ c.sqlSanitizing(employeeBean.getPositionMemo())
 				+ "',naisenNumber='"
@@ -98,6 +100,7 @@ public class EmployeeSystemLogic {
 				+ employeeBean.getAdminFlag()
 				+ "' WHERE employeeId = "
 				+ employeeBean.getEmployeeId();
+		System.out.println(sql_update);
 
 		if (Dao.updateEmployee(sql_update) > 0)
 			messageList.add("修正できました");
@@ -214,28 +217,27 @@ public class EmployeeSystemLogic {
 	}
 
 	//作成：2017/10/30 香川 雄一
-	public ArrayList<String> updateUser(EmployeeBean employeeBean, String lastpage) {
+	public ArrayList<String> updateUser(EmployeeBean employeeBean, String lastpage, Byte login_adminFlag) {
 
 		EmployeeSystemDAO Dao = new EmployeeSystemDAO();
 		ArrayList<String> messageList = new ArrayList<String>();
 		ArrayList<EmployeeBean> employeeList;
 
+		//SQL文の準備
+		String sql = "SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,\r\n" +
+				"B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,\r\n" +
+				"DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,\r\n" +
+				"E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime\r\n" +
+				"FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)\r\n" +
+				"INNER JOIN base B ON B.baseCode = D.baseCode)\r\n" +
+				"INNER JOIN division DI ON E.divisionCode = DI.divisionCode)\r\n" +
+				"INNER JOIN position_table P ON E.positionCode = P.positionCode\r\n" +
+				"WHERE employeeID = " + employeeBean.getEmployeeId() + ";";
+
+		//データベースからSQLのArrayListの結果をもらって、"employeeList"に入れる。結果は一つはず
+		employeeList = Dao.findEmployee(sql);
 		// エラー対応
 		if (lastpage != null) {
-
-			//SQL文の準備
-			String sql = "SELECT E.employeeId ,E.password ,E.employeeName ,E.kana ,E.gender ,\r\n" +
-					"B.baseCode ,B.baseName ,D.departmentCode ,D.departmentName ,DI.divisionCode ,\r\n" +
-					"DI.divisionName ,P.positionCode ,P.positionName ,E.positionMemo ,\r\n" +
-					"E.naisenNumber ,E.publicCellphoneNumber ,E.adminFlag ,E.registrationDateTime\r\n" +
-					"FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)\r\n" +
-					"INNER JOIN base B ON B.baseCode = D.baseCode)\r\n" +
-					"INNER JOIN division DI ON E.divisionCode = DI.divisionCode)\r\n" +
-					"INNER JOIN position_table P ON E.positionCode = P.positionCode\r\n" +
-					"WHERE employeeID = " + employeeBean.getEmployeeId() + ";";
-
-			//データベースからSQLのArrayListの結果をもらって、"employeeList"に入れる。結果は一つはず
-			employeeList = Dao.findEmployee(sql);
 			if (employeeList == null) {
 				messageList.add("");
 				messageList.add("データベースでエラーが発生しています");
@@ -245,33 +247,44 @@ public class EmployeeSystemLogic {
 				messageList.add("該当の社員IDは存在しません");
 				return messageList;
 			}
-
 		}
+
+		employeeBean.setPassword(employeeList.get(0).password);
+		employeeBean.setEmployeeName(employeeList.get(0).employeeName);
+		employeeBean.setKana(employeeList.get(0).kana);
+		employeeBean.setDepartmentName(employeeList.get(0).departmentName);
+		employeeBean.setDivisionName(employeeList.get(0).divisionName);
+		employeeBean.setPositionName(employeeList.get(0).positionName);
+		employeeBean.setPositionMemo(employeeList.get(0).positionMemo);
+		employeeBean.setNaisenNumber(employeeList.get(0).naisenNumber);
+		employeeBean.setPublicCellphoneNumber(employeeList.get(0).publicCellphoneNumber);
+		employeeBean.setAdminFlag(employeeList.get(0).adminFlag);
 
 		StringBuilder output = new StringBuilder();
 		// 管理者の場合
-		if (employeeBean.getAdminFlag() == 1) {
+		if (login_adminFlag == 1) {
 			output.append("<h1 style='text-align:left'>社員情報 修正</h1>" +
-					"<form action='/employee/EmployeeSystem' method='post'>" +
+					"<form action='/employeeAdmin/EmployeeSystem' method='post'>" +
 					"<p>　社員ID：" + employeeBean.getEmployeeId() +
 					"<p>　旧パスワード：<input type='password' name='oldPassword' value=" + employeeBean.getPassword() +
-					"><p>　新パスワード：<input type='password' name='password'>" +
+					"><p>　新パスワード：<input type='password' name='newPassword'>" +
 					"<p>　名前：<input type='text' name='employeeName' value=" + employeeBean.getEmployeeName() +
 					"><p>　ふりがな：<input type='text' name='kana' value=" + employeeBean.getKana() +
-					"<p>部署：" +
-					"<%= logic.selectDepartmentBox() %>" +
+					"><p>部署：" +
+					createSelectBox("departmentName", employeeBean).get(0) +
 					"<p>課：" +
-					"<%= logic.selectDivisionBox() %>" +
+					createSelectBox("divisionName", employeeBean).get(0) +
 					"<p>役職：" +
-					"<%= logic.selectPositionBox() %>" +
+					createSelectBox("positionName", employeeBean).get(0) +
 					"<p>　役職詳細：<input type='text' name='positionMemo' value=" + employeeBean.getPositionMemo() +
 					"><p>　内線：<input type='text' name='naisenNumber' value=" + employeeBean.getNaisenNumber() +
 					"><p>　業務携帯番号：<input type='text' name='publicCellphoneNumber' value="
 					+ employeeBean.getPublicCellphoneNumber() +
 					"><input type = 'hidden' name='action' value='confirmUpdateUser'>" +
-					"<p><input type='submit' value='修正'>" +
+					"<input type = 'hidden' name='employeeId' value=" + employeeBean.getEmployeeId() +
+					"><p><input type='submit' value='修正'>" +
 					"</form>" +
-					"<form action='/employee/EmployeeSystem' method='get'>" +
+					"<form action='/employeeAdmin/EmployeeSystem' method='get'>" +
 					"<input type='submit' value='戻る'>" +
 					"</form>");
 		}
@@ -279,26 +292,27 @@ public class EmployeeSystemLogic {
 		else
 		{
 			output.append("<h1 style='text-align:left'>社員情報 修正</h1>" +
-					"<form action='/employee/EmployeeSystem' method='post'>" +
+					"<form action='/employeeAdmin/EmployeeSystem' method='post'>" +
 					"<p>　社員ID：" + employeeBean.getEmployeeId() +
 					"<p>　旧パスワード：<input type='password' name='oldPassword'>" +
-					"><p>　新パスワード：<input type='password' name='password'>" +
+					"<p>　新パスワード：<input type='password' name='newPassword'>" +
 					"<p>　名前：" + employeeBean.getEmployeeName() +
-					"><p>　ふりがな：" + employeeBean.getKana() +
+					"<p>　ふりがな：" + employeeBean.getKana() +
 					"<p>部署：" +
-					"<%= logic.selectDepartmentBox() %>" +
+					employeeBean.getDepartmentName() +
 					"<p>課：" +
-					"<%= logic.selectDivisionBox() %>" +
+					employeeBean.getDivisionName() +
 					"<p>役職：" +
-					"<%= logic.selectPositionBox() %>" +
+					employeeBean.getPositionName() +
 					"<p>　役職詳細：" + employeeBean.getPositionMemo() +
-					"><p>　内線：" + employeeBean.getNaisenNumber() +
-					"><p>　業務携帯番号："
+					"<p>　内線：" + employeeBean.getNaisenNumber() +
+					"<p>　業務携帯番号："
 					+ employeeBean.getPublicCellphoneNumber() +
-					"><input type = 'hidden' name='action' value='confirmUpdateUser'>" +
-					"<p><input type='submit' value='修正'>" +
+					"<input type = 'hidden' name='action' value='confirmUpdateUser'>" +
+					"<input type = 'hidden' name='employeeId' value=" + employeeBean.getEmployeeId() +
+					"><p><input type='submit' value='修正'>" +
 					"</form>" +
-					"<form action='/employee/EmployeeSystem' method='get'>" +
+					"<form action='/employeeAdmin/EmployeeSystem' method='get'>" +
 					"<input type='submit' value='戻る'>" +
 					"</form>");
 		}
@@ -400,7 +414,11 @@ public class EmployeeSystemLogic {
 			StringBuilder tableBuilder = new StringBuilder();
 
 			for (EmployeeBean b : employeeList) {
-				tableBuilder.append("<tr align=\"center\">");
+				if (b.getAdminFlag() == 1) {
+					tableBuilder.append("<tr id=admin>");
+				} else {
+					tableBuilder.append("<tr id=nonadmin>");
+				}
 				if (adminFlag == 1) {
 					tableBuilder.append("<td><a href=\"/employeeAdmin/EmployeeSystem?page=updateUser&lastpage&selectedUser=" + b.getEmployeeId() + "\">修正</a></td>"
 							+ "    <td><a href=\"/employeeAdmin/EmployeeSystem?page=deleteUser&lastpage&selectedUser=" + b.getEmployeeId() + "\">削除</a></td>");
@@ -456,7 +474,7 @@ public class EmployeeSystemLogic {
 			errFlag = true;
 		}
 
-		if (errFlag = true) {
+		if (errFlag == true) {
 			messageList.add(0, "");
 			return messageList;
 		}
@@ -533,7 +551,7 @@ public class EmployeeSystemLogic {
 		Boolean errFlag = false;
 
 		StringBuffer sql_select = new StringBuffer();
-		sql_select.append("SELECT password FROM employee WHERE employeeId = ");
+		sql_select.append("SELECT * FROM employee_view WHERE employeeId = ");
 		sql_select.append(employeeBean.employeeId);
 		ArrayList<EmployeeBean> employeeList = Dao.findEmployee(sql_select.toString());
 
@@ -568,7 +586,7 @@ public class EmployeeSystemLogic {
 			errFlag = true;
 		}
 
-		if (errFlag = true) {
+		if (errFlag == true) {
 			messageList.add(0, "");
 			return messageList;
 		}
@@ -592,9 +610,6 @@ public class EmployeeSystemLogic {
 				"			</tr>" +
 				"			<tr>" +
 				"				<td id=rowheader>ふりがな：</td><td>" + employeeBean.getKana() + "</td>" +
-				"			</tr>" +
-				"			<tr>" +
-				"				<td id=rowheader>性別：</td><td>" + employeeBean.getGender() + "</td>" +
 				"			</tr>" +
 				"			<tr>" +
 				"				<td id=rowheader>部署：</td><td>" + employeeBean.getDepartmentName() + "</td>" +

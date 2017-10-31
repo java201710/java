@@ -15,11 +15,11 @@ String html = (String) request.getAttribute("html");
 <body>
 <h1 style="text-align:left">修正内容確認</h1>
 <%= html%>
-<form action="/employee/EmployeeSystem" method="get">
+<form action="/employeeAdmin/EmployeeSystem" method="get">
 <input type = "hidden" name="action" value="update">
 <p><input type="submit" value="修正">
 </form>
-<form action="/employee/EmployeeSystem" method="get">
+<form action="/employeeAdmin/EmployeeSystem" method="get">
 <input type = "hidden" name="page" value="updateUser">
 <input type="submit" value="前画面に戻る">
 </form>
