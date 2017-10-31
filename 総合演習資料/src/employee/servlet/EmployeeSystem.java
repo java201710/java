@@ -642,10 +642,12 @@ public class EmployeeSystem extends HttpServlet {
 			if(login_adminFlag==0){
 				//ログインユーザーに管理者権限なし
 				//一般用→String oldPassword, newPassword, action
+				employeeBean.setEmployeeId(Integer.parseInt(employeeId));
 				employeeBean.setPassword(newPassword);
 			}else{
 				//ログインユーザーに管理者権限あり
 				//管理用→String　oldPassword, newPassword, employeeName, kana, departmentName, divisionName, positionName, positionMemo, naisenNumber, publicCellphoneNumber, adminFlag, action
+				employeeBean.setEmployeeId(Integer.parseInt(employeeId));
 				employeeBean.setPassword(newPassword);
 				employeeBean.setEmployeeName(employeeName);
 				employeeBean.setKana(kana);
@@ -662,7 +664,7 @@ public class EmployeeSystem extends HttpServlet {
 			//・「EmployeeBean」をEmployeeSystemLogicの（confirmUpdateUserメソッド）に入れて、呼び出す
 			//・EmployeeSystemLogicの（confirmUpdateUserメソッド）のＨＴＭＬをもらう
 			ArrayList<String> result = logic.confirmUpdateUser(employeeBean,oldPassword);
-
+			System.out.println(result);
 			if(result.get(0).length()==0){
 				//HTMLは空文字“”の場合（エラーあり）
 				//・エラーメッセージをリクエストスコープに入れる
