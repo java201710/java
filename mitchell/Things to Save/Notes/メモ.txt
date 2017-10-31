@@ -1,0 +1,62 @@
+﻿===================
+QUESTIONS
+===================
+-------------------
+1.Data base returns with a newline at the end of every item. weird....
+I am currently trimming base, department, division, and postion
+-------------------
+--->System.out.println(eBean.getBaseName());
+--->System.out.println(eBean.getBaseName());
+		VS
+--->System.out.println(eBean.getBaseName().trim());
+--->System.out.println(eBean.getBaseName().trim());
+
+For Example...
+SELECT E.employeeId ,B.baseName
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode
+WHERE baseName = "本社\r";
+--->Result is 23 rows
+SELECT E.employeeId ,B.baseName
+FROM ((( employee E INNER JOIN department D ON E.departmentCode = D.departmentCode)
+INNER JOIN base B ON B.baseCode = D.baseCode)
+INNER JOIN division DI ON E.divisionCode = DI.divisionCode)
+INNER JOIN position_table P ON E.positionCode = P.positionCode
+WHERE baseName = "本社";
+--->Result is 0 rows
++++++++++++++++++++++
+---------------------
+2.should nashi be its own selection? also should nashi members appear is no selection is made?
+---------------------
+3. Only orderby Position Code makes the list change randomly on multiple searches.... Is this okay?
+---------------------
+5. The size of drop down menu of fromDate/toDate is not editable. It is determined by the browser.
+---------------------
+6. Setting the fromDate and toDate as an int was a mistake... String is better
+---------------------
+7. What happens when the image is not on the file server.
+---------------------
+8. Current logic of action in servlet is broke... what is the result is "" but it was no error. (10/30 
+---------------------
+9. Commented out database draw fromDate and toDate. Do not use
+---------------------
+10. Id field collapses when no results are posted.
+===================
+CONFRIM
+===================
+-------------------
+1. EmployeeView does not need to import a message, right?
+
+10/30.
+Notes about the final project
+1. DAO: Trimmed DOA results (baseName, departmentName, divisionName, positionName)
+----- 
+2. DAO: Removed fromDate and toDate from the results.
+-----]
+3. ViewUser: Updated View to only show update option on one`s own page.
+	--> Check the variable name of the Bean being set to the session.
+
+Admin 199804101
+Non-Admin 199804102
