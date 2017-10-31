@@ -631,6 +631,21 @@ if (lastpage == null) {
 						//HTMLは空文字“”の場合
 						//・エラーメッセージをリクエストスコープに入れる
 						request.setAttribute("message", result.get(1));
+
+						// 2017年10月31日　香川修正
+						employeeBean = new EmployeeBean();
+
+						//・「EmployeeBean」のオブジェックトをリクエストスコープの”employeeBean”に入れる
+						request.setAttribute("employeeBean", employeeBean);
+
+						//・「EmployeeBean」をEmployeeSystemLogicの（searchメソッド）に入れて、呼び出す
+						//・EmployeeSystemLogicの（searchメソッド）のＨＴＭＬをもらう
+						result = logic.search(employeeBean, login_adminFlag);
+
+						//HTMLは空文字“”じゃない場合
+						//・このＨＴＭＬをリクエストスコープの”html”にいれる
+						request.setAttribute("html", result.get(0));
+
 						//・employeeSystemMain.jspへフォワード転送
 						forwardPath = "/WEB-INF/employee/employeeSystemMain.jsp";
 					}else{
